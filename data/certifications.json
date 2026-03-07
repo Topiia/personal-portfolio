@@ -1,0 +1,44 @@
+{
+    "certifications": [
+        {
+            "id": "python-cert",
+            "name": "Python Programming Certificate",
+            "issuer": "",
+            "date": "",
+            "credentialUrl": "",
+            "icon": "python"
+        },
+        {
+            "id": "java-cert",
+            "name": "Java Programming Certificate",
+            "issuer": "",
+            "date": "",
+            "credentialUrl": "",
+            "icon": "java"
+        },
+        {
+            "id": "django-cert",
+            "name": "Django Certificate",
+            "issuer": "",
+            "date": "",
+            "credentialUrl": "",
+            "icon": "django"
+        },
+        {
+            "id": "ml-cert",
+            "name": "Machine Learning Certificate",
+            "issuer": "",
+            "date": "",
+            "credentialUrl": "",
+            "icon": "brain"
+        },
+        {
+            "id": "nlp-cert",
+            "name": "Natural Language Processing (NLP) Certificate",
+            "issuer": "",
+            "date": "",
+            "credentialUrl": "",
+            "icon": "message-square"
+        }
+    ]
+}

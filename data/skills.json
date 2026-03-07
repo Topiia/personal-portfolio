@@ -1,0 +1,87 @@
+{
+    "categories": [
+        {
+            "name": "AI & Intelligent Systems",
+            "icon": "brain",
+            "skills": [
+                "Machine Learning",
+                "Natural Language Processing (NLP)",
+                "OpenTelemetry",
+                "Prometheus",
+                "Observability Stack",
+                "Distributed Tracing"
+            ]
+        },
+        {
+            "name": "Frontend Development",
+            "icon": "layout",
+            "skills": [
+                "React 18/19",
+                "Next.js 14",
+                "TypeScript",
+                "Redux Toolkit",
+                "TanStack Query",
+                "Tailwind CSS",
+                "Framer Motion",
+                "React Hook Form",
+                "Vite",
+                "Recharts"
+            ]
+        },
+        {
+            "name": "Backend Development",
+            "icon": "server",
+            "skills": [
+                "Python",
+                "Django",
+                "Django REST Framework",
+                "Node.js",
+                "Express.js",
+                "FastAPI",
+                "RESTful API Design",
+                "JWT Authentication",
+                "bcrypt"
+            ]
+        },
+        {
+            "name": "Real-Time & Distributed Systems",
+            "icon": "zap",
+            "skills": [
+                "WebSockets",
+                "Socket.IO",
+                "AsyncIO",
+                "Celery",
+                "Redis",
+                "Bull Queues",
+                "Event-Driven Architecture",
+                "Microservices"
+            ]
+        },
+        {
+            "name": "Databases",
+            "icon": "database",
+            "skills": [
+                "PostgreSQL",
+                "MongoDB",
+                "Mongoose ODM",
+                "Redis",
+                "Database Indexing",
+                "Query Optimization"
+            ]
+        },
+        {
+            "name": "DevOps & Tools",
+            "icon": "tool",
+            "skills": [
+                "Docker",
+                "Git",
+                "ESLint",
+                "Jest",
+                "Supertest",
+                "Multer",
+                "Cloudinary",
+                "Winston Logging"
+            ]
+        }
+    ]
+}

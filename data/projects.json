@@ -1,0 +1,143 @@
+{
+    "projects": [
+        {
+            "id": "cryptodash",
+            "title": "CryptoDash - Real-Time Cryptocurrency Tracker",
+            "impactStatement": "Production-grade distributed streaming system with Redis-backed state synchronization and async WebSocket broadcasting",
+            "description": "Distributed streaming system with Redis-backed state synchronization and async WebSocket broadcasting.",
+            "problemSolved": "Maintaining price continuity across distributed processes (HTTP server for historical data, WebSocket server for live streaming) without state divergence. The challenge was implementing zombie-safe WebSocket connection management, exponential backoff reconnection, and graceful frontend degradation during backend failures.",
+            "architecture": "Distributed stateful streaming system with shared persistence layer. Redis as single source of truth for price data between HTTP and WebSocket servers. Python AsyncIO for concurrent WebSocket broadcasting. React frontend with custom hooks managing dual-protocol data fetching and auto-reconnection logic.",
+            "techStack": [
+                "React",
+                "Vite",
+                "Python",
+                "WebSockets",
+                "AsyncIO",
+                "Redis",
+                "Recharts"
+            ],
+            "tags": [
+                "Real-Time",
+                "Distributed",
+                "WebSocket",
+                "State Management"
+            ],
+            "githubUrl": "",
+            "liveUrl": "",
+            "demoVideoUrl": "",
+            "images": [],
+            "featured": false,
+            "complexityLevel": "Mid-Senior",
+            "status": "Live",
+            "orderIndex": 1,
+            "media": {
+                "thumbnail": ""
+            }
+        },
+        {
+            "id": "system-pulse",
+            "title": "System Pulse - Real-Time Hardware Monitoring Dashboard",
+            "impactStatement": "Real-time system monitoring dashboard streaming CPU, RAM, disk, network, and process metrics with sub-second latency",
+            "description": "Real-time system monitoring dashboard streaming hardware and network metrics with sub-second latency.",
+            "problemSolved": "Building a production-quality system monitoring tool that provides instant feedback on hardware performance without overwhelming the UI or backend. Challenges included efficient polling intervals, WebSocket connection resilience, and rendering high-frequency data updates smoothly.",
+            "architecture": "Event-driven architecture with AsyncIO backend. Python psutil for hardware metrics collection. WebSocket server broadcasts metrics at configurable intervals. React frontend with optimized re-rendering for live charts. Threshold-based alerting system with visual and notification indicators.",
+            "techStack": [
+                "React",
+                "Tailwind CSS",
+                "Python",
+                "WebSockets",
+                "AsyncIO",
+                "psutil"
+            ],
+            "tags": [
+                "Real-Time",
+                "Monitoring",
+                "WebSocket",
+                "System Performance"
+            ],
+            "githubUrl": "",
+            "liveUrl": "",
+            "demoVideoUrl": "",
+            "images": [],
+            "featured": false,
+            "complexityLevel": "Mid",
+            "status": "Live",
+            "orderIndex": 2,
+            "media": {
+                "thumbnail": ""
+            }
+        },
+        {
+            "id": "sky-link",
+            "title": "Sky-Link - Virtual Drone Telemetry Simulator",
+            "impactStatement": "Physics-based drone telemetry simulation engine with real-time WebSocket data streaming and interactive GPS tracking",
+            "description": "Physics-based drone telemetry simulation engine with 10Hz real-time WebSocket data streaming.",
+            "problemSolved": "Creating a server-authoritative physics simulation that accurately models drone flight behavior (battery drain, altitude stability, circular patrol paths) while streaming continuous telemetry to web clients with minimal latency. Challenges included delta-time tick loops, state machine design, and connection resilience patterns.",
+            "architecture": "Server-authoritative simulation with client-side state synchronization. FastAPI backend with WebSocket endpoint. Physics engine using trigonometric circular paths, delta-time scaling, and state machine for flight modes. Next.js 14 frontend with TypeScript, React-Leaflet for mapping, and custom reconnection logic with exponential backoff.",
+            "techStack": [
+                "Next.js 14",
+                "TypeScript",
+                "FastAPI",
+                "WebSockets",
+                "React-Leaflet",
+                "Framer Motion"
+            ],
+            "tags": [
+                "Real-Time",
+                "Physics",
+                "WebSocket",
+                "TypeScript",
+                "Simulation"
+            ],
+            "githubUrl": "",
+            "liveUrl": "",
+            "demoVideoUrl": "",
+            "images": [],
+            "featured": false,
+            "complexityLevel": "Mid-Senior",
+            "status": "Live",
+            "orderIndex": 3,
+            "media": {
+                "thumbnail": ""
+            }
+        },
+        {
+            "id": "agile-almanac",
+            "title": "Agile Almanac - Collaborative Task Management System",
+            "impactStatement": "TypeScript full-stack MERN application with real-time multi-user collaboration and comprehensive property-based testing",
+            "description": "Full-stack MERN application with real-time multi-user collaboration and property-based testing.",
+            "problemSolved": "Building a multi-tenant collaborative task management system where multiple users can work concurrently in shared workspaces with instant updates, while maintaining data integrity, authentication security, and protection against abuse. Challenges included real-time state synchronization across distributed clients and implementing workspace-scoped Socket.IO rooms.",
+            "architecture": "Three-tier layered architecture with real-time event-driven components. Express backend with Zod schema validation at API boundaries. Mongoose ODM with typed schemas and indexes. Socket.IO service layer for real-time broadcasts. Redux Toolkit frontend with Socket.IO client synchronized state. JWT-based stateless authentication with token verification middleware.",
+            "techStack": [
+                "MongoDB",
+                "Express.js",
+                "React",
+                "Node.js",
+                "TypeScript",
+                "Socket.IO",
+                "JWT",
+                "Redux Toolkit",
+                "Zod",
+                "Jest"
+            ],
+            "tags": [
+                "Real-Time",
+                "Collaboration",
+                "TypeScript",
+                "Full-Stack",
+                "MERN"
+            ],
+            "githubUrl": "",
+            "liveUrl": "",
+            "demoVideoUrl": "",
+            "images": [],
+            "featured": false,
+            "complexityLevel": "Mid-Senior",
+            "status": "Completed",
+            "orderIndex": 4,
+            "media": {
+                "thumbnail": ""
+            }
+        }
+    ]
+}

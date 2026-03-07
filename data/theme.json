@@ -1,0 +1,41 @@
+{
+    "default": "dark",
+    "themes": {
+        "light": {
+            "background": "#F7F8FA",
+            "surface": "#FFFFFF",
+            "card": "#FFFFFF",
+            "border": "#E6E8EC",
+            "primary": "#111827",
+            "secondary": "#4B5563",
+            "accent": "#6366F1",
+            "textPrimary": "#0F172A",
+            "textMuted": "#6B7280",
+            "glow": "rgba(99,102,241,0.15)"
+        },
+        "dark": {
+            "background": "#0B0F19",
+            "surface": "#111827",
+            "card": "#0F172A",
+            "border": "#1F2937",
+            "primary": "#E5E7EB",
+            "secondary": "#9CA3AF",
+            "accent": "#22D3EE",
+            "textPrimary": "#F9FAFB",
+            "textMuted": "#94A3B8",
+            "glow": "rgba(34,211,238,0.18)"
+        },
+        "girlish": {
+            "background": "#FFF1F6",
+            "surface": "#FFFFFF",
+            "card": "#FFE4EC",
+            "border": "#FBCFE8",
+            "primary": "#BE185D",
+            "secondary": "#9D174D",
+            "accent": "#F472B6",
+            "textPrimary": "#831843",
+            "textMuted": "#9D174D",
+            "glow": "rgba(244,114,182,0.20)"
+        }
+    }
+}

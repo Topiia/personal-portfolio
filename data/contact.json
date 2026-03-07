@@ -1,0 +1,30 @@
+{
+    "email": "ankitsinghak3028@gmail.com",
+    "phone": "",
+    "location": "India",
+    "socialLinks": [
+        {
+            "platform": "LinkedIn",
+            "url": "https://www.linkedin.com/in/ankit-singh-b7227928a/",
+            "icon": "linkedin",
+            "label": "Connect on LinkedIn"
+        },
+        {
+            "platform": "GitHub",
+            "url": "https://github.com/Topiia",
+            "icon": "github",
+            "label": "View GitHub Profile"
+        },
+        {
+            "platform": "YouTube",
+            "url": "https://www.youtube.com/@stackfloowhub",
+            "icon": "youtube",
+            "label": "Watch YouTube Channel"
+        }
+    ],
+    "availability": {
+        "status": "Open to opportunities",
+        "message": "Available for freelance projects and full-time opportunities in AI/ML and Full-Stack Development",
+        "calendarUrl": "#"
+    }
+}

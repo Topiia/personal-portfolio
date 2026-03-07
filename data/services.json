@@ -1,0 +1,48 @@
+{
+    "services": [
+        {
+            "id": "ai-web-apps",
+            "title": "Intelligent Systems",
+            "description": "Production-grade AI integration, NLP capabilities, and autonomous workflows.",
+            "icon": "brain",
+            "features": [
+                "LLM Orchestration",
+                "Autonomous Agents",
+                "Intelligent Automation"
+            ]
+        },
+        {
+            "id": "realtime-dashboards",
+            "title": "Real-Time Streaming",
+            "description": "High-performance WebSocket systems for live data and sub-second monitoring.",
+            "icon": "activity",
+            "features": [
+                "WebSocket Architecture",
+                "Live Data Viz",
+                "System Observability"
+            ]
+        },
+        {
+            "id": "distributed-systems",
+            "title": "Distributed Architecture",
+            "description": "Scalable microservices and event-driven systems for high-load environments.",
+            "icon": "network",
+            "features": [
+                "Microservice Design",
+                "Async Processing",
+                "System Reliability"
+            ]
+        },
+        {
+            "id": "fullstack-typescript",
+            "title": "Full-Stack Engineering",
+            "description": "End-to-end TypeScript systems with production-grade security and testing.",
+            "icon": "code",
+            "features": [
+                "Type-Safe Backends",
+                "Modern API Design",
+                "CI/CD Integration"
+            ]
+        }
+    ]
+}

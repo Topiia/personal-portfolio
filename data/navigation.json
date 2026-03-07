@@ -1,0 +1,59 @@
+{
+    "logo": {
+        "text": "AS",
+        "full": "ANKIT SINGH"
+    },
+    "mainMenu": [
+        {
+            "label": "Home",
+            "href": "#hero",
+            "type": "scroll"
+        },
+        {
+            "label": "Projects",
+            "href": "#projects",
+            "type": "scroll"
+        },
+        {
+            "label": "Skills",
+            "href": "#skills",
+            "type": "scroll"
+        },
+        {
+            "label": "Experience",
+            "href": "#experience",
+            "type": "scroll"
+        },
+        {
+            "label": "Services",
+            "href": "#services",
+            "type": "scroll"
+        },
+        {
+            "label": "Contact",
+            "href": "#contact",
+            "type": "scroll"
+        }
+    ],
+    "ctaButtons": [
+        {
+            "label": "Resume",
+            "href": "/resume.pdf",
+            "type": "download",
+            "variant": "outline"
+        },
+        {
+            "label": "GitHub",
+            "href": "https://github.com/Topiia",
+            "type": "link",
+            "variant": "icon",
+            "icon": "github"
+        },
+        {
+            "label": "Let's Talk",
+            "href": "#contact",
+            "type": "scroll",
+            "variant": "primary"
+        }
+    ]
+}

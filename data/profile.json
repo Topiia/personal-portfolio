@@ -1,0 +1,36 @@
+{
+    "name": "ANKIT SINGH",
+    "title": "AI & Backend Systems Engineer",
+    "tagline": "Security-First • Distributed • Production Systems",
+    "summary": "Backend-focused engineer building production-grade platforms with stateless authentication, async worker pipelines, caching strategies, and AI-powered services. Experienced in designing scalable Node.js systems with Redis queues, observability tooling, and secure API architectures.",
+    "email": "ankitsinghak3028@gmail.com",
+    "location": "India",
+    "focusAreas": [
+        "AI Application Engineering",
+        "Distributed Backend Systems",
+        "Async Worker & Queue Architectures",
+        "Security-First API Design",
+        "Redis Caching Strategies",
+        "Production Observability"
+    ],
+    "ctaButtons": [
+        {
+            "label": "Download Resume",
+            "type": "primary",
+            "action": "download",
+            "link": "/resume.pdf"
+        },
+        {
+            "label": "View GitHub",
+            "type": "secondary",
+            "action": "link",
+            "link": "https://github.com/Topiia"
+        },
+        {
+            "label": "Contact Me",
+            "type": "accent",
+            "action": "scroll",
+            "link": "#contact"
+        }
+    ]
+}

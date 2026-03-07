@@ -1,0 +1,168 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root[data-theme="light"] {
+    --color-background: #F7F8FA;
+    --color-surface: #FFFFFF;
+    --color-card: #FFFFFF;
+    --color-border: #E6E8EC;
+    --color-primary: #111827;
+    --color-secondary: #4B5563;
+    --color-accent: #6366F1;
+    --color-textPrimary: #0F172A;
+    --color-textMuted: #6B7280;
+    --color-glow: rgba(99, 102, 241, 0.15);
+    --color-button-text: #FFFFFF;
+  }
+
+  :root[data-theme="dark"] {
+    --color-background: #0B0F19;
+    --color-surface: #111827;
+    --color-card: #0F172A;
+    --color-border: #1F2937;
+    --color-primary: #E5E7EB;
+    --color-secondary: #9CA3AF;
+    --color-accent: #22D3EE;
+    --color-textPrimary: #F9FAFB;
+    --color-textMuted: #94A3B8;
+    --color-glow: rgba(34, 211, 238, 0.18);
+    --color-button-text: #0F172A;
+  }
+
+  :root[data-theme="girlish"] {
+    --color-background: #FFF1F6;
+    --color-surface: #FFFFFF;
+    --color-card: #FFE4EC;
+    --color-border: #FBCFE8;
+    --color-primary: #BE185D;
+    --color-secondary: #9D174D;
+    --color-accent: #F472B6;
+    --color-textPrimary: #831843;
+    --color-textMuted: #9D174D;
+    --color-glow: rgba(244, 114, 182, 0.20);
+    --color-button-text: #FFFFFF;
+  }
+
+  /* Background depth layers */
+  :root {
+    --bg-layer-1: var(--color-background);
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-textMuted);
+    font-family: var(--font-inter), sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+    @apply antialiased selection:bg-accent transition-colors duration-300;
+  }
+  
+  /* Hide cursor on desktop */
+  @media (min-width: 768px) {
+    * {
+      cursor: none !important;
+    }
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    color: var(--color-textPrimary);
+    font-family: var(--font-outfit), sans-serif;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+    @apply transition-colors duration-300;
+  }
+
+  h1 {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+  }
+
+  h2 {
+    font-size: clamp(1.75rem, 3vw, 2.125rem);
+  }
+
+  h3 {
+    font-size: clamp(1.25rem, 2vw, 1.5rem);
+  }
+
+  code, pre {
+    font-family: var(--font-mono), monospace;
+  }
+}
+
+@layer utilities {
+  .glass-effect {
+    @apply backdrop-blur-xl shadow-2xl;
+    background-color: color-mix(in srgb, var(--color-surface), transparent 70%);
+    border: 1px solid color-mix(in srgb, var(--color-border), transparent 50%);
+    box-shadow: 0 8px 32px 0 var(--color-glow);
+  }
+
+  .text-gradient {
+    background: linear-gradient(to right, var(--color-accent), var(--color-primary));
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .premium-border {
+    border: 1px solid var(--color-border);
+    transition: all 0.3s ease;
+  }
+
+  .premium-border:hover {
+    border-color: var(--color-accent);
+  }
+
+  .bg-gradient-radial {
+    background-image: radial-gradient(circle, var(--tw-gradient-stops));
+  }
+
+  /* Technical Arsenal Carousel */
+  @keyframes arsenal-scroll {
+    0% {
+      transform: translate3d(0, 0, 0);
+    }
+    100% {
+      transform: translate3d(-50%, 0, 0);
+    }
+  }
+
+  .arsenal-slider-wrapper {
+    mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+    -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+  }
+
+  .arsenal-slider-track {
+    display: flex;
+    gap: 1.5rem;
+    width: max-content;
+    will-change: transform;
+    animation: arsenal-scroll 40s linear infinite;
+  }
+  
+  @media (max-width: 768px) {
+    .arsenal-slider-track {
+        gap: 1rem;
+        animation-duration: 25s;
+    }
+  }
+
+  .arsenal-slider-wrapper:hover .arsenal-slider-track {
+    animation-play-state: paused;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .arsenal-slider-track {
+      animation: none;
+      transform: none;
+      flex-wrap: wrap;
+    }
+  }
+}
