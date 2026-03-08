@@ -39,24 +39,15 @@ function scanDirectory(dirPath: string, supportedExts: Set<string>): string[] {
 function generateProjectMedia(): void {
     const result: ProjectMedia = {};
 
-    // Ensure output directory exists
+    // Ensure output and projects directory exist safely (no existsSync checks to avoid race conditions)
     const outputDir = path.dirname(OUTPUT_FILE);
-    if (!fs.existsSync(outputDir)) {
-        fs.mkdirSync(outputDir, { recursive: true });
-    }
+    fs.mkdirSync(outputDir, { recursive: true });
+    fs.mkdirSync(PUBLIC_DIR, { recursive: true });
 
-    // Check if the projects directory exists
-    if (!fs.existsSync(PUBLIC_DIR)) {
-        // Guaranteed file creation — always write even if empty
-        fs.writeFileSync(OUTPUT_FILE, JSON.stringify({}, null, 2), 'utf-8');
-        console.log('[generateProjectMedia] No projects directory found. Created empty project-media.json');
-        return;
-    }
-
-    const projectDirs = fs.readdirSync(PUBLIC_DIR).filter((entry) => {
-        const entryPath = path.join(PUBLIC_DIR, entry);
-        return fs.statSync(entryPath).isDirectory() && !entry.startsWith('.');
-    });
+    // Robust directory scanning
+    const projectDirs = fs.readdirSync(PUBLIC_DIR, { withFileTypes: true })
+        .filter((entry) => entry.isDirectory() && !entry.name.startsWith('.'))
+        .map((entry) => entry.name);
 
     for (const projectId of projectDirs.sort()) {
         const imagesDir = path.join(PUBLIC_DIR, projectId, 'images');

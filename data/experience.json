@@ -1,42 +1,25 @@
 {
     "experiences": [
         {
-            "id": "mira-django-intern",
+            "id": "mira-intern",
             "type": "experience",
-            "role": "Django Developer Intern",
+            "role": "Python & Django Developer Intern",
             "company": "MIRA Advanced Engineering",
-            "duration": "Feb 2024 - Mar 2024",
-            "description": "Built small-scale Django modules and CRUD-based backend features. Gained hands-on experience with Django project structure and backend workflows.",
+            "duration": "Jan 2024 - Mar 2024",
+            "description": "Worked on backend development using Python and Django, building RESTful APIs, implementing CRUD modules, and improving backend validation and error handling.",
             "bulletPoints": [
-                "Built small-scale Django modules and CRUD-based backend features",
-                "Gained hands-on experience with Django project structure and backend workflows",
-                "Implemented RESTful API endpoints using Django REST Framework"
-            ],
-            "technologies": [
-                "Django",
-                "Python",
-                "Django REST Framework"
-            ],
-            "orderIndex": 1
-        },
-        {
-            "id": "mira-python-intern",
-            "type": "experience",
-            "role": "Python Developer Intern",
-            "company": "MIRA Advanced Engineering",
-            "duration": "Jan 2024 - Feb 2024",
-            "description": "Developed backend features using Python and Django. Assisted in building REST APIs and handling basic data processing logic.",
-            "bulletPoints": [
-                "Developed backend features using Python and Django",
-                "Assisted in building REST APIs and handling basic data processing logic",
-                "Worked on data validation and error handling mechanisms"
+                "Built backend modules and CRUD functionality using Django",
+                "Developed RESTful API endpoints using Django REST Framework",
+                "Implemented backend validation and error-handling logic",
+                "Assisted in backend data processing and API integration tasks"
             ],
             "technologies": [
                 "Python",
                 "Django",
+                "Django REST Framework",
                 "REST API"
             ],
-            "orderIndex": 2
+            "orderIndex": 1
         }
     ]
 }

@@ -4,6 +4,85 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ProjectWithMedia } from '@/types';
 import { cn } from '@/lib/utils';
+import { RequestFlowDiagram } from '@/components/ui/RequestFlowDiagram';
+import { CapsuleArchitectureDiagram } from '@/components/ui/CapsuleArchitectureDiagram';
+
+const capsuleEngineeringDetails = {
+    securityHardening: {
+        title: "Security Hardening",
+        items: [
+            "Removed accessToken and refreshToken from JSON API responses to eliminate XSS token exposure.",
+            "All authentication tokens are now delivered via HttpOnly and Secure cookies.",
+            "Refresh token lifecycle hardened using rotation and reuse detection.",
+            "Authentication flow redesigned to prevent client-side access to sensitive tokens.",
+            "Strict CORS allowlist implemented to block unauthorized cross-origin requests.",
+            "Helmet middleware integrated to enforce modern HTTP security headers.",
+            "MongoDB query sanitization added to prevent NoSQL injection."
+        ]
+    },
+    configurationHardening: {
+        title: "Configuration & Secrets Management",
+        items: [
+            "Removed unsafe fallback secrets such as 'testsecret' from JWT configuration logic.",
+            "Implemented strict environment validation during application boot.",
+            "Application now terminates startup if critical environment variables are missing.",
+            "Critical variables validated include JWT_SECRET, REDIS_URL, FRONTEND_URL, and RESEND_API_KEY.",
+            "Removed hardcoded credentials from database seeding scripts.",
+            "Database seeding now requires explicit SEED_PASSWORD environment configuration."
+        ]
+    },
+    observability: {
+        title: "Production Observability",
+        items: [
+            "Integrated Sentry v10 SDK for centralized error monitoring.",
+            "Prometheus metrics implemented using prom-client.",
+            "Queue telemetry exposed including queue_waiting, queue_active, queue_completed, and queue_failed.",
+            "Redis Bull queue monitoring dashboards implemented.",
+            "Correlation ID tracing added to track requests across services.",
+            "Structured logging implemented using Winston with log rotation."
+        ]
+    },
+    queueReliability: {
+        title: "Async Processing Reliability",
+        items: [
+            "Dead Letter Queue system implemented for permanently failed background jobs.",
+            "DLQ monitoring service isolates poisoned jobs automatically.",
+            "Queue spike detector alerts when failure rates exceed operational thresholds.",
+            "Exponential retry strategy implemented for failed worker tasks.",
+            "Background worker failures are isolated from primary API request lifecycle."
+        ]
+    },
+    cicd: {
+        title: "CI/CD Pipeline Stability",
+        items: [
+            "Resolved ESLint formatting violations that previously broke CI pipelines.",
+            "Strict lint enforcement enabled with npm run lint -- --max-warnings=0.",
+            "CI pipeline verified locally to match GitHub Actions workflow.",
+            "Repository now maintains zero lint violations."
+        ]
+    },
+    testing: {
+        title: "Test Infrastructure Improvements",
+        items: [
+            "Security tests updated to support HttpOnly cookie authentication.",
+            "Token assertions migrated from JSON responses to Set-Cookie header parsing.",
+            "Implemented cookie extraction helpers for integration tests.",
+            "Injected safe environment variables during Jest bootstrap.",
+            "Achieved 162/162 passing unit and integration tests."
+        ]
+    },
+    engineeringOutcome: {
+        title: "Engineering Outcome",
+        items: [
+            "Authentication flow hardened against token leakage vulnerabilities.",
+            "Application configuration now fails securely during invalid boot conditions.",
+            "Background worker reliability improved with DLQ isolation.",
+            "Production monitoring established using Sentry and Prometheus.",
+            "CI/CD pipeline stabilized through strict lint enforcement.",
+            "Full automated test suite passing across all security pathways."
+        ]
+    }
+};
 
 interface ProjectDetailClientProps {
     project: ProjectWithMedia;
@@ -181,6 +260,50 @@ export const ProjectDetailClient: React.FC<ProjectDetailClientProps> = ({ projec
                                 </div>
                             );
                         })}
+                    </div>
+                </motion.section>
+            )}
+
+            {/* Request Lifecycle Diagram */}
+            {project.architectureBreakdown && project.architectureBreakdown.systemStructure && project.architectureBreakdown.systemStructure.length > 0 && (
+                <motion.section
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.45 }}
+                    className="mb-16"
+                >
+                    <h2 className="text-2xl font-bold text-textHeading font-outfit mb-6">System Architecture</h2>
+                    {project.id === 'capsule' ? (
+                        <CapsuleArchitectureDiagram />
+                    ) : (
+                        <RequestFlowDiagram steps={project.architectureBreakdown.systemStructure} />
+                    )}
+                </motion.section>
+            )}
+
+            {/* Post-Forensic Engineering Improvements (Capsule Only) */}
+            {project.id === 'capsule' && (
+                <motion.section
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.48 }}
+                    className="mb-16"
+                >
+                    <h2 className="text-2xl font-bold text-textHeading font-outfit mb-8">Post-Forensic Engineering Improvements</h2>
+                    <div className="grid grid-cols-1 gap-6">
+                        {Object.entries(capsuleEngineeringDetails).map(([key, section]) => (
+                            <div key={key} className="bg-surface/30 rounded-xl p-6 md:p-8 border border-border">
+                                <h3 className="text-xl font-bold text-textHeading mb-4">{section.title}</h3>
+                                <ul className="space-y-3">
+                                    {section.items.map((item, i) => (
+                                        <li key={i} className="flex items-start gap-3 text-textMuted text-sm md:text-base leading-relaxed">
+                                            <span className="text-accent mt-1.5 flex-shrink-0 text-xs">▹</span>
+                                            {item}
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+                        ))}
                     </div>
                 </motion.section>
             )}

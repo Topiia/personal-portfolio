@@ -34,12 +34,18 @@ const mediaMap: GeneratedMediaMap = generatedMedia as GeneratedMediaMap;
 // Merge a project with its discovered media (safe defaults)
 function mergeWithMedia(project: Project): ProjectWithMedia {
     const discovered = mediaMap[project.id];
+    
+    // Defensive normalization: ensure arrays
+    const safeVideos = Array.isArray(discovered?.videos) ? discovered.videos : [];
+    const safeImages = Array.isArray(discovered?.images) ? discovered.images : [];
+
     return {
         ...project,
         media: {
+            ...(project.media || {}),
             thumbnail: project.media?.thumbnail || '',
-            videos: discovered?.videos || [],
-            images: discovered?.images || [],
+            videos: safeVideos,
+            images: safeImages,
         },
     };
 }
