@@ -2,8 +2,6 @@
 
 import React, { useEffect, useCallback, useState } from 'react';
 import { motion } from 'framer-motion';
-import useEmblaCarousel from 'embla-carousel-react';
-import Autoplay from 'embla-carousel-autoplay';
 import Image from 'next/image';
 import dynamic from 'next/dynamic';
 import { getTimeline, getCertifications, getInternshipCertificates } from '@/lib/data-loader';
@@ -14,8 +12,6 @@ import {
     GraduationCap,
     Award,
     Calendar,
-    ChevronLeft,
-    ChevronRight,
     ImageOff,
 } from 'lucide-react';
 
@@ -123,48 +119,9 @@ CertCard.displayName = 'CertCard';
    Embla Carousel – Infinite Auto-Scroll
 ───────────────────────────────────────────────────────────── */
 const CertCarousel: React.FC<{ onOpen: (src: string, alt: string) => void }> = React.memo(({ onOpen }) => {
-    const [mounted, setMounted] = useState(false);
     const { certifications } = getCertifications();
-
-    const autoplay = React.useRef(
-        Autoplay({ delay: 2500, stopOnInteraction: true, stopOnMouseEnter: true })
-    );
-
-    const [emblaRef, emblaApi] = useEmblaCarousel(
-        mounted ? { loop: true, align: 'center', dragFree: true, skipSnaps: false } : undefined,
-        mounted ? [autoplay.current] : []
-    );
-
-    const [selectedIndex, setSelectedIndex] = useState(0);
-
+    const [mounted, setMounted] = useState(false);
     useEffect(() => { setMounted(true); }, []);
-
-    const onSelect = useCallback(() => {
-        if (!emblaApi) return;
-        setSelectedIndex(emblaApi.selectedScrollSnap());
-    }, [emblaApi]);
-
-    useEffect(() => {
-        if (!emblaApi) return;
-        onSelect();
-        emblaApi.on('select', onSelect);
-        emblaApi.on('reInit', onSelect);
-        return () => {
-            emblaApi.off('select', onSelect);
-            emblaApi.off('reInit', onSelect);
-        };
-    }, [emblaApi, onSelect]);
-
-    const handleKeyDown = useCallback(
-        (e: React.KeyboardEvent) => {
-            if (e.key === 'ArrowLeft') emblaApi?.scrollPrev();
-            else if (e.key === 'ArrowRight') emblaApi?.scrollNext();
-        },
-        [emblaApi]
-    );
-
-    const scrollPrev = useCallback(() => emblaApi?.scrollPrev(), [emblaApi]);
-    const scrollNext = useCallback(() => emblaApi?.scrollNext(), [emblaApi]);
 
     const certs = React.useMemo(() => certifications.map(c => ({
         id: c.id,
@@ -172,12 +129,11 @@ const CertCarousel: React.FC<{ onOpen: (src: string, alt: string) => void }> = R
         image: (c as any).image || ''
     })), [certifications]);
 
-    // Skeleton before mount
     if (!mounted) {
         return (
             <div className="overflow-hidden py-8">
                 <div className="flex justify-center gap-6">
-                    {certs.map(c => (
+                    {certs.slice(0, 3).map(c => (
                         <div key={c.id} className="flex-none w-[260px] h-[195px] rounded-2xl bg-white/5 border border-white/10 animate-pulse" />
                     ))}
                 </div>
@@ -186,49 +142,23 @@ const CertCarousel: React.FC<{ onOpen: (src: string, alt: string) => void }> = R
     }
 
     return (
-        <div
-            className="cert-carousel-root relative focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent rounded-2xl"
-            tabIndex={0}
-            onKeyDown={handleKeyDown}
-            aria-label="Certificate Gallery"
-        >
+        <div className="arsenal-slider-wrapper overflow-hidden w-full py-8 relative">
+            <div className="arsenal-slider-track items-center group-hover:pause">
+                {[...certs, ...certs].map((cert, index) => (
+                    <CertCard
+                        key={`${cert.id}-${index}`}
+                        title={cert.title}
+                        image={cert.image}
+                        isActive={true} /* Force 100% scale for CSS track */
+                        isPrev={false}
+                        isNext={false}
+                        onOpen={onOpen}
+                    />
+                ))}
+            </div>
             {/* Fade masks */}
             <div className="pointer-events-none absolute inset-y-0 left-0 w-16 md:w-32 z-20 bg-gradient-to-r from-background to-transparent" />
             <div className="pointer-events-none absolute inset-y-0 right-0 w-16 md:w-32 z-20 bg-gradient-to-l from-background to-transparent" />
-
-            <div ref={emblaRef} className="overflow-hidden py-8">
-                <div className="flex items-center will-change-transform">
-                    {certs.map((cert, index) => {
-                        const total = certs.length;
-                        return (
-                            <CertCard
-                                key={cert.id}
-                                title={cert.title}
-                                image={cert.image}
-                                isActive={index === selectedIndex}
-                                isPrev={index === (selectedIndex - 1 + total) % total}
-                                isNext={index === (selectedIndex + 1) % total}
-                                onOpen={onOpen}
-                            />
-                        );
-                    })}
-                </div>
-            </div>
-
-            <button
-                onClick={scrollPrev}
-                aria-label="Previous certificate"
-                className="absolute left-2 top-1/2 -translate-y-1/2 z-30 w-10 h-10 rounded-full bg-surface/90 border border-white/10 flex items-center justify-center hover:bg-accent hover:border-accent hover:text-white transition-all shadow-xl group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
-            >
-                <ChevronLeft className="w-5 h-5 text-textMuted group-hover:text-white" />
-            </button>
-            <button
-                onClick={scrollNext}
-                aria-label="Next certificate"
-                className="absolute right-2 top-1/2 -translate-y-1/2 z-30 w-10 h-10 rounded-full bg-surface/90 border border-white/10 flex items-center justify-center hover:bg-accent hover:border-accent hover:text-white transition-all shadow-xl group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
-            >
-                <ChevronRight className="w-5 h-5 text-textMuted group-hover:text-white" />
-            </button>
         </div>
     );
 });
