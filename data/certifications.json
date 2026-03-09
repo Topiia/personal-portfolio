@@ -1,44 +1,40 @@
 {
     "certifications": [
         {
-            "id": "python-cert",
-            "title": "Python Programming",
-            "name": "Python Programming Certificate",
-            "issuer": "",
-            "date": "",
-            "credentialUrl": "",
+            "id": "py-basic",
+            "name": "Python (Basic)",
+            "issuer": "HackerRank",
+            "date": "2023",
+            "credentialUrl": "https://www.hackerrank.com/certificates/e39bbf8a55ed",
             "icon": "python",
-            "image": "/certificates/python.webp"
+            "image": "/certificates/python_certificate_ankit.jpg"
         },
         {
-            "id": "django-cert",
-            "title": "Django",
-            "name": "Django Certificate",
-            "issuer": "",
-            "date": "",
-            "credentialUrl": "",
+            "id": "django-basic",
+            "name": "Software Engineering: Django",
+            "issuer": "HackerRank",
+            "date": "2023",
+            "credentialUrl": "https://www.hackerrank.com/certificates/64757041fa16",
             "icon": "django",
-            "image": "/certificates/django.webp"
+            "image": "/certificates/django_certificate_ankit.jpg"
         },
         {
-            "id": "ml-cert",
-            "title": "Machine Learning",
-            "name": "Machine Learning Certificate",
-            "issuer": "",
-            "date": "",
-            "credentialUrl": "",
+            "id": "dt-ml",
+            "name": "Machine Learning with Python",
+            "issuer": "DataTrained",
+            "date": "2023",
+            "credentialUrl": "#",
             "icon": "brain",
-            "image": "/certificates/ml.webp"
+            "image": "/certificates/ml_certificate_ankit.jpg"
         },
         {
-            "id": "nlp-cert",
-            "title": "NLP",
-            "name": "Natural Language Processing (NLP) Certificate",
-            "issuer": "",
-            "date": "",
-            "credentialUrl": "",
+            "id": "dt-nlp",
+            "name": "Natural Language Processing (NLP)",
+            "issuer": "DataTrained",
+            "date": "2023",
+            "credentialUrl": "#",
             "icon": "message-square",
-            "image": "/certificates/nlp.webp"
+            "image": "/certificates/nlp_certificate_ankit.jpg"
         }
     ]
 }

@@ -1,8 +1,12 @@
 {
     "mira": [
         {
-            "title": "MIRA Internship Certificate",
-            "image": "/internships/mira.webp"
+            "title": "Python Internship Certificate",
+            "image": "/internships/python_intern_ankit.jpg"
+        },
+        {
+            "title": "Django Internship Certificate",
+            "image": "/internships/django_intern_ankit.jpg"
         }
     ]
 }
