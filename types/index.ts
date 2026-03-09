@@ -108,12 +108,18 @@ export interface Education {
     id: string;
     type: 'education';
     degree: string;
-    institution: string;
-    duration: string;
-    grade: string;
-    description: string;
-    achievements: string[];
+    institution?: string;
+    duration?: string;
+    grade?: string;
+    description?: string;
+    achievements?: string[];
     orderIndex: number;
+    group?: string;
+    entries?: {
+        level: string;
+        year: string;
+        score?: string;
+    }[];
 }
 
 export interface Certification {

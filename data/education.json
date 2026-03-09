@@ -6,7 +6,6 @@
             "degree": "Bachelor of Engineering (EXTC)",
             "institution": "Terna Engineering College",
             "duration": "2020 - 2024",
-            "grade": "CGPA: 6.5",
             "description": "Bachelor of Engineering in Electronics and Telecommunication",
             "achievements": [],
             "orderIndex": 1
@@ -14,10 +13,18 @@
         {
             "id": "school-education",
             "type": "education",
-            "degree": "Secondary & Higher Secondary Education",
-            "institution": "",
-            "duration": "2018 - 2020",
-            "grade": "SSC: 68% • HSC: 80%",
+            "degree": "School Education",
+            "group": "school",
+            "entries": [
+                {
+                    "level": "Secondary School (SSC)",
+                    "year": "2018"
+                },
+                {
+                    "level": "Higher Secondary (HSC)",
+                    "year": "2020"
+                }
+            ],
             "description": "Completed Secondary and Higher Secondary education.",
             "achievements": [],
             "orderIndex": 2

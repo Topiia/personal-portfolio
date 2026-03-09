@@ -6,6 +6,7 @@ import educationData from '@/data/education.json';
 import certificationsData from '@/data/certifications.json';
 import servicesData from '@/data/services.json';
 import contactData from '@/data/contact.json';
+import internshipCertsData from '@/data/internshipCertificates.json';
 import navigationData from '@/data/navigation.json';
 import themeData from '@/data/theme.json';
 import capsuleData from '@/data/projects/capsule.json';
@@ -67,6 +68,7 @@ export const getProjectById = (id: string): ProjectWithMedia | undefined => {
 export const getExperiences = (): { experiences: Experience[] } => experienceData as { experiences: Experience[] };
 export const getEducation = (): { education: Education[] } => educationData as { education: Education[] };
 export const getCertifications = (): { certifications: Certification[] } => certificationsData as { certifications: Certification[] };
+export const getInternshipCertificates = (): Record<string, { title: string, image: string }[]> => internshipCertsData;
 export const getServices = (): { services: Service[] } => servicesData as { services: Service[] };
 export const getContact = (): Contact => contactData as Contact;
 export const getNavigation = (): Navigation => navigationData as Navigation;
