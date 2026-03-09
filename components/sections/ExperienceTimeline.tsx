@@ -1,10 +1,11 @@
 'use client';
 
-import React, { useEffect, useCallback, useRef, useState } from 'react';
+import React, { useEffect, useCallback, useState } from 'react';
 import { motion } from 'framer-motion';
 import useEmblaCarousel from 'embla-carousel-react';
-import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch';
+import Autoplay from 'embla-carousel-autoplay';
 import Image from 'next/image';
+import dynamic from 'next/dynamic';
 import { getTimeline, getCertifications, getInternshipCertificates } from '@/lib/data-loader';
 import { Section } from '@/components/ui/Section';
 import { Card } from '@/components/ui/Card';
@@ -18,6 +19,9 @@ import {
     ImageOff,
 } from 'lucide-react';
 
+// Dynamically import modal to keep initial bundle lean
+const CertificateModal = dynamic(() => import('@/components/CertificateModal'), { ssr: false });
+
 /* ─────────────────────────────────────────────────────────────
    Types
 ───────────────────────────────────────────────────────────── */
@@ -27,7 +31,7 @@ interface InternshipCert {
 }
 
 /* ─────────────────────────────────────────────────────────────
-   Certificate Image Card (inside carousel)
+   Certificate Thumbnail Card (no zoom – opens modal on click)
 ───────────────────────────────────────────────────────────── */
 interface CertCardProps {
     title: string;
@@ -35,23 +39,27 @@ interface CertCardProps {
     isActive: boolean;
     isPrev: boolean;
     isNext: boolean;
+    onOpen: (src: string, alt: string) => void;
 }
 
-const CertCard: React.FC<CertCardProps> = React.memo(({ title, image, isActive, isPrev, isNext }) => {
+const CertCard: React.FC<CertCardProps> = React.memo(({ title, image, isActive, isPrev, isNext, onOpen }) => {
     const [imgError, setImgError] = useState(false);
 
-    let transformClass = 'opacity-40 z-0';
-    let rotateStyle: React.CSSProperties = { transform: 'scale(0.85) rotateY(0deg)' };
+    let rotateStyle: React.CSSProperties;
+    let opacityClass: string;
 
     if (isActive) {
-        transformClass = 'opacity-100 z-10';
         rotateStyle = { transform: 'scale(1) rotateY(0deg)' };
+        opacityClass = 'opacity-100 z-10';
     } else if (isPrev) {
-        transformClass = 'opacity-65 z-0';
         rotateStyle = { transform: 'scale(0.88) rotateY(6deg)' };
+        opacityClass = 'opacity-65 z-0';
     } else if (isNext) {
-        transformClass = 'opacity-65 z-0';
         rotateStyle = { transform: 'scale(0.88) rotateY(-6deg)' };
+        opacityClass = 'opacity-65 z-0';
+    } else {
+        rotateStyle = { transform: 'scale(0.85) rotateY(0deg)' };
+        opacityClass = 'opacity-40 z-0';
     }
 
     return (
@@ -60,35 +68,26 @@ const CertCard: React.FC<CertCardProps> = React.memo(({ title, image, isActive, 
             style={{ perspective: '1200px' }}
         >
             <div
-                className={`cert-card group relative rounded-2xl overflow-hidden border border-white/10 bg-white/5 backdrop-blur-md shadow-lg transition-transform duration-500 will-change-transform ${transformClass}`}
+                className={`cert-card group relative rounded-2xl overflow-hidden border border-white/10 bg-white/5 backdrop-blur-md shadow-lg transition-transform duration-500 will-change-transform cursor-pointer hover:border-accent/40 ${opacityClass}`}
                 style={{ ...rotateStyle, transformStyle: 'preserve-3d' }}
-                aria-label={`${title} Certificate`}
+                onClick={() => !imgError && onOpen(image, `${title} Certificate`)}
+                aria-label={`View ${title} Certificate`}
+                role="button"
+                tabIndex={0}
+                onKeyDown={(e) => e.key === 'Enter' && !imgError && onOpen(image, `${title} Certificate`)}
             >
                 <div className="relative w-full aspect-[4/3] overflow-hidden bg-background/50">
                     {!imgError ? (
-                        <TransformWrapper
-                            initialScale={1}
-                            minScale={1}
-                            maxScale={4}
-                            wheel={{ step: 0.2 }}
-                            doubleClick={{ disabled: false }}
-                        >
-                            <TransformComponent
-                                wrapperStyle={{ width: '100%', height: '100%' }}
-                                contentStyle={{ width: '100%', height: '100%' }}
-                            >
-                                <Image
-                                    src={image}
-                                    alt={`${title} Certificate`}
-                                    width={420}
-                                    height={260}
-                                    loading="lazy"
-                                    sizes="(max-width:768px) 90vw, 420px"
-                                    onError={() => setImgError(true)}
-                                    className="w-full h-full object-cover cursor-zoom-in"
-                                />
-                            </TransformComponent>
-                        </TransformWrapper>
+                        <Image
+                            src={image}
+                            alt={`${title} Certificate`}
+                            width={420}
+                            height={260}
+                            loading="lazy"
+                            sizes="(max-width:768px) 90vw, 420px"
+                            onError={() => setImgError(true)}
+                            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                        />
                     ) : (
                         <div className="w-full h-full flex flex-col items-center justify-center gap-3 text-textMuted bg-gradient-to-br from-accent/10 to-accent/5">
                             <ImageOff className="w-8 h-8 opacity-40" />
@@ -98,6 +97,16 @@ const CertCard: React.FC<CertCardProps> = React.memo(({ title, image, isActive, 
                             </span>
                         </div>
                     )}
+
+                    {/* Hover zoom hint */}
+                    {!imgError && (
+                        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100">
+                            <span className="text-white text-xs font-semibold bg-black/50 px-3 py-1 rounded-full border border-white/20">
+                                Click to view
+                            </span>
+                        </div>
+                    )}
+
                     {/* Gradient + title overlay */}
                     <div className="pointer-events-none absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-black/80 to-transparent" />
                     <span className="pointer-events-none absolute bottom-3 left-3 right-3 text-white text-sm font-semibold truncate drop-shadow-md">
@@ -111,22 +120,24 @@ const CertCard: React.FC<CertCardProps> = React.memo(({ title, image, isActive, 
 CertCard.displayName = 'CertCard';
 
 /* ─────────────────────────────────────────────────────────────
-   Embla Carousel Wrapper
+   Embla Carousel – Infinite Auto-Scroll
 ───────────────────────────────────────────────────────────── */
-const CertCarousel: React.FC = React.memo(() => {
+const CertCarousel: React.FC<{ onOpen: (src: string, alt: string) => void }> = React.memo(({ onOpen }) => {
     const [mounted, setMounted] = useState(false);
     const { certifications } = getCertifications();
 
-    // Only initialise Embla after client mount to avoid hydration mismatch
+    const autoplay = React.useRef(
+        Autoplay({ delay: 2500, stopOnInteraction: true, stopOnMouseEnter: true })
+    );
+
     const [emblaRef, emblaApi] = useEmblaCarousel(
-        mounted ? { loop: true, align: 'center', dragFree: true, skipSnaps: false } : undefined
+        mounted ? { loop: true, align: 'center', dragFree: true, skipSnaps: false } : undefined,
+        mounted ? [autoplay.current] : []
     );
 
     const [selectedIndex, setSelectedIndex] = useState(0);
 
-    useEffect(() => {
-        setMounted(true);
-    }, []);
+    useEffect(() => { setMounted(true); }, []);
 
     const onSelect = useCallback(() => {
         if (!emblaApi) return;
@@ -161,13 +172,13 @@ const CertCarousel: React.FC = React.memo(() => {
         image: (c as any).image || ''
     })), [certifications]);
 
-    // Don't render anything interactive until after mount
+    // Skeleton before mount
     if (!mounted) {
         return (
             <div className="overflow-hidden py-8">
-                <div className="flex justify-center gap-4">
+                <div className="flex justify-center gap-6">
                     {certs.map(c => (
-                        <div key={c.id} className="flex-none w-[260px] h-[200px] rounded-2xl bg-white/5 border border-white/10 animate-pulse" />
+                        <div key={c.id} className="flex-none w-[260px] h-[195px] rounded-2xl bg-white/5 border border-white/10 animate-pulse" />
                     ))}
                 </div>
             </div>
@@ -186,20 +197,18 @@ const CertCarousel: React.FC = React.memo(() => {
             <div className="pointer-events-none absolute inset-y-0 right-0 w-16 md:w-32 z-20 bg-gradient-to-l from-background to-transparent" />
 
             <div ref={emblaRef} className="overflow-hidden py-8">
-                <div className="flex items-center">
+                <div className="flex items-center will-change-transform">
                     {certs.map((cert, index) => {
-                        const isActive = index === selectedIndex;
                         const total = certs.length;
-                        const isPrev = index === (selectedIndex - 1 + total) % total;
-                        const isNext = index === (selectedIndex + 1) % total;
                         return (
                             <CertCard
                                 key={cert.id}
                                 title={cert.title}
                                 image={cert.image}
-                                isActive={isActive}
-                                isPrev={isPrev}
-                                isNext={isNext}
+                                isActive={index === selectedIndex}
+                                isPrev={index === (selectedIndex - 1 + total) % total}
+                                isNext={index === (selectedIndex + 1) % total}
+                                onOpen={onOpen}
                             />
                         );
                     })}
@@ -226,41 +235,39 @@ const CertCarousel: React.FC = React.memo(() => {
 CertCarousel.displayName = 'CertCarousel';
 
 /* ─────────────────────────────────────────────────────────────
-   Internship Certificate Card
+   Internship Certificate Thumbnail (click → modal)
 ───────────────────────────────────────────────────────────── */
-const InternshipCertCard: React.FC<InternshipCert> = React.memo(({ title, image }) => {
+const InternshipCertCard: React.FC<InternshipCert & { onOpen: (src: string, alt: string) => void }> = React.memo(({ title, image, onOpen }) => {
     const [imgError, setImgError] = useState(false);
 
     return (
         <div
-            className="group relative rounded-2xl overflow-hidden border border-white/10 bg-white/5 backdrop-blur-md shadow-md hover:shadow-accent/20 hover:border-accent/40 transition-all duration-300 hover:-translate-y-1 hover:scale-105"
-            aria-label={title}
+            className="group relative rounded-2xl overflow-hidden border border-white/10 bg-white/5 backdrop-blur-md shadow-md hover:shadow-accent/20 hover:border-accent/40 transition-all duration-300 hover:-translate-y-1 hover:scale-105 cursor-pointer"
+            onClick={() => !imgError && onOpen(image, title)}
+            role="button"
+            tabIndex={0}
+            onKeyDown={(e) => e.key === 'Enter' && !imgError && onOpen(image, title)}
+            aria-label={`View ${title}`}
         >
             <div className="relative w-full aspect-[4/3] bg-background/50 overflow-hidden">
                 {!imgError ? (
-                    <TransformWrapper
-                        initialScale={1}
-                        minScale={1}
-                        maxScale={4}
-                        wheel={{ step: 0.2 }}
-                        doubleClick={{ disabled: false }}
-                    >
-                        <TransformComponent
-                            wrapperStyle={{ width: '100%', height: '100%' }}
-                            contentStyle={{ width: '100%', height: '100%' }}
-                        >
-                            <Image
-                                src={image}
-                                alt={title}
-                                width={420}
-                                height={260}
-                                loading="lazy"
-                                sizes="(max-width:768px) 100vw, 420px"
-                                onError={() => setImgError(true)}
-                                className="w-full h-full object-cover cursor-zoom-in"
-                            />
-                        </TransformComponent>
-                    </TransformWrapper>
+                    <>
+                        <Image
+                            src={image}
+                            alt={title}
+                            width={420}
+                            height={260}
+                            loading="lazy"
+                            sizes="(max-width:768px) 100vw, 420px"
+                            onError={() => setImgError(true)}
+                            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                        />
+                        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100">
+                            <span className="text-white text-xs font-semibold bg-black/50 px-3 py-1 rounded-full border border-white/20">
+                                Click to view
+                            </span>
+                        </div>
+                    </>
                 ) : (
                     <div className="w-full h-full flex flex-col items-center justify-center gap-2 text-textMuted bg-gradient-to-br from-accent/10 to-accent/5">
                         <ImageOff className="w-8 h-8 opacity-40" />
@@ -286,9 +293,16 @@ InternshipCertCard.displayName = 'InternshipCertCard';
 ───────────────────────────────────────────────────────────── */
 export const ExperienceTimeline = () => {
     const [mounted, setMounted] = useState(false);
+    const [modalImage, setModalImage] = useState<{ src: string; alt: string } | null>(null);
 
-    useEffect(() => {
-        setMounted(true);
+    useEffect(() => { setMounted(true); }, []);
+
+    const openModal = useCallback((src: string, alt: string) => {
+        setModalImage({ src, alt });
+    }, []);
+
+    const closeModal = useCallback(() => {
+        setModalImage(null);
     }, []);
 
     const timeline = getTimeline();
@@ -298,7 +312,6 @@ export const ExperienceTimeline = () => {
     const experienceEntries = timeline.filter((item) => item.type === 'experience');
     const higherEduEntries = educationEntries.filter((e) => e.group !== 'school');
     const schoolGroupEntry = educationEntries.find((e) => e.group === 'school');
-
     const orderedItems = [...experienceEntries, ...higherEduEntries];
 
     const itemVariants = {
@@ -308,6 +321,11 @@ export const ExperienceTimeline = () => {
 
     return (
         <Section id="experience" className="py-32">
+            {/* Certificate preview modal */}
+            {mounted && modalImage && (
+                <CertificateModal src={modalImage.src} alt={modalImage.alt} onClose={closeModal} />
+            )}
+
             {/* Section header */}
             <div className="text-center mb-24">
                 <span className="text-accent font-semibold tracking-widest text-xs uppercase mb-4 block">
@@ -380,7 +398,6 @@ export const ExperienceTimeline = () => {
                                         </div>
                                     </div>
 
-                                    {/* Tech tags */}
                                     {item.type === 'experience' && (
                                         <div className="flex flex-wrap gap-2 mt-8 pt-8 border-t border-white/5">
                                             {item.technologies.map((tech: string) => (
@@ -391,7 +408,6 @@ export const ExperienceTimeline = () => {
                                         </div>
                                     )}
 
-                                    {/* Internship certificates (only rendered after mount to avoid hydration errors) */}
                                     {mounted && item.type === 'experience' && internshipCerts.length > 0 && (
                                         <div className="mt-10 pt-8 border-t border-white/5">
                                             <h4 className="text-sm font-bold uppercase tracking-widest text-accent/80 mb-5 flex items-center gap-2">
@@ -400,7 +416,7 @@ export const ExperienceTimeline = () => {
                                             </h4>
                                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                                 {internshipCerts.map((cert: InternshipCert, idx: number) => (
-                                                    <InternshipCertCard key={idx} title={cert.title} image={cert.image} />
+                                                    <InternshipCertCard key={idx} title={cert.title} image={cert.image} onOpen={openModal} />
                                                 ))}
                                             </div>
                                         </div>
@@ -428,9 +444,7 @@ export const ExperienceTimeline = () => {
                                             <div className="p-2 rounded-lg bg-accent/10">
                                                 <GraduationCap className="w-5 h-5 text-accent" />
                                             </div>
-                                            <span className="text-sm font-bold uppercase tracking-widest text-accent/80">
-                                                Academic
-                                            </span>
+                                            <span className="text-sm font-bold uppercase tracking-widest text-accent/80">Academic</span>
                                         </div>
                                         <h3 className="text-3xl font-bold text-textHeading font-outfit">
                                             {schoolGroupEntry.degree || 'School Education'}
@@ -467,7 +481,7 @@ export const ExperienceTimeline = () => {
                     </h3>
                     <div className="h-px bg-white/10 flex-1" />
                 </div>
-                <CertCarousel />
+                <CertCarousel onOpen={openModal} />
             </div>
         </Section>
     );
