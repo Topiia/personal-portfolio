@@ -3,8 +3,7 @@
 import React, { useEffect, useCallback, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import useEmblaCarousel from 'embla-carousel-react';
-import 'react-medium-image-zoom/dist/styles.css';
-import Zoom from 'react-medium-image-zoom';
+import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch';
 import Image from 'next/image';
 import { getTimeline, getCertifications, getInternshipCertificates } from '@/lib/data-loader';
 import { Section } from '@/components/ui/Section';
@@ -41,52 +40,55 @@ interface CertCardProps {
 const CertCard: React.FC<CertCardProps> = React.memo(({ title, image, isActive, isPrev, isNext }) => {
     const [imgError, setImgError] = useState(false);
 
-    // Apply 3D perspective based on active state
-    let transformClass = 'scale-90 opacity-65';
-    let rotateStyle = {};
+    let transformClass = 'opacity-40 z-0';
+    let rotateStyle: React.CSSProperties = { transform: 'scale(0.85) rotateY(0deg)' };
 
     if (isActive) {
-        transformClass = 'scale-100 opacity-100 z-10';
+        transformClass = 'opacity-100 z-10';
         rotateStyle = { transform: 'scale(1) rotateY(0deg)' };
     } else if (isPrev) {
-        // Card to the left of center should rotate facing right
+        transformClass = 'opacity-65 z-0';
         rotateStyle = { transform: 'scale(0.88) rotateY(6deg)' };
-        transformClass = 'opacity-65 z-0';
     } else if (isNext) {
-        // Card to the right of center should rotate facing left
-        rotateStyle = { transform: 'scale(0.88) rotateY(-6deg)' };
         transformClass = 'opacity-65 z-0';
-    } else {
-        // Cards further out
-        rotateStyle = { transform: 'scale(0.85) rotateY(0deg)' };
-        transformClass = 'opacity-40 z-0';
+        rotateStyle = { transform: 'scale(0.88) rotateY(-6deg)' };
     }
 
     return (
-        <div 
-            className={`cert-carousel-slide flex-none w-[220px] sm:w-[260px] md:w-[300px] px-2 transition-all duration-300 ease-out`}
+        <div
+            className="cert-carousel-slide flex-none w-[220px] sm:w-[260px] md:w-[300px] px-2 transition-all duration-300 ease-out"
             style={{ perspective: '1200px' }}
         >
-            <div 
+            <div
                 className={`cert-card group relative rounded-2xl overflow-hidden border border-white/10 bg-white/5 backdrop-blur-md shadow-lg transition-transform duration-500 will-change-transform ${transformClass}`}
                 style={{ ...rotateStyle, transformStyle: 'preserve-3d' }}
                 aria-label={`${title} Certificate`}
             >
-                {/* Image or placeholder */}
-                <div className="relative aspect-[4/3] overflow-hidden bg-background/50">
+                <div className="relative w-full aspect-[4/3] overflow-hidden bg-background/50">
                     {!imgError ? (
-                        <Zoom zoomMargin={24}>
-                            <Image
-                                src={image}
-                                alt={`${title} Certificate`}
-                                width={420}
-                                height={260}
-                                loading="lazy"
-                                sizes="(max-width:768px) 90vw, 420px"
-                                onError={() => setImgError(true)}
-                                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                            />
-                        </Zoom>
+                        <TransformWrapper
+                            initialScale={1}
+                            minScale={1}
+                            maxScale={4}
+                            wheel={{ step: 0.2 }}
+                            doubleClick={{ disabled: false }}
+                        >
+                            <TransformComponent
+                                wrapperStyle={{ width: '100%', height: '100%' }}
+                                contentStyle={{ width: '100%', height: '100%' }}
+                            >
+                                <Image
+                                    src={image}
+                                    alt={`${title} Certificate`}
+                                    width={420}
+                                    height={260}
+                                    loading="lazy"
+                                    sizes="(max-width:768px) 90vw, 420px"
+                                    onError={() => setImgError(true)}
+                                    className="w-full h-full object-cover cursor-zoom-in"
+                                />
+                            </TransformComponent>
+                        </TransformWrapper>
                     ) : (
                         <div className="w-full h-full flex flex-col items-center justify-center gap-3 text-textMuted bg-gradient-to-br from-accent/10 to-accent/5">
                             <ImageOff className="w-8 h-8 opacity-40" />
@@ -96,9 +98,9 @@ const CertCard: React.FC<CertCardProps> = React.memo(({ title, image, isActive, 
                             </span>
                         </div>
                     )}
-                    {/* Gradient overlay for title */}
-                    <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-black/80 to-transparent pointer-events-none" />
-                    <span className="absolute bottom-3 left-3 right-3 text-white text-sm font-semibold truncate pointer-events-none drop-shadow-md">
+                    {/* Gradient + title overlay */}
+                    <div className="pointer-events-none absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-black/80 to-transparent" />
+                    <span className="pointer-events-none absolute bottom-3 left-3 right-3 text-white text-sm font-semibold truncate drop-shadow-md">
                         {title}
                     </span>
                 </div>
@@ -112,18 +114,20 @@ CertCard.displayName = 'CertCard';
    Embla Carousel Wrapper
 ───────────────────────────────────────────────────────────── */
 const CertCarousel: React.FC = React.memo(() => {
+    const [mounted, setMounted] = useState(false);
     const { certifications } = getCertifications();
-    
-    const [emblaRef, emblaApi] = useEmblaCarousel({
-        loop: true,
-        align: 'center',
-        dragFree: true,
-        skipSnaps: false, // Important for reliable center focusing
-    });
+
+    // Only initialise Embla after client mount to avoid hydration mismatch
+    const [emblaRef, emblaApi] = useEmblaCarousel(
+        mounted ? { loop: true, align: 'center', dragFree: true, skipSnaps: false } : undefined
+    );
 
     const [selectedIndex, setSelectedIndex] = useState(0);
 
-    // Track active slide for 3D scaling classes
+    useEffect(() => {
+        setMounted(true);
+    }, []);
+
     const onSelect = useCallback(() => {
         if (!emblaApi) return;
         setSelectedIndex(emblaApi.selectedScrollSnap());
@@ -131,41 +135,44 @@ const CertCarousel: React.FC = React.memo(() => {
 
     useEffect(() => {
         if (!emblaApi) return;
-        
         onSelect();
         emblaApi.on('select', onSelect);
         emblaApi.on('reInit', onSelect);
-
         return () => {
             emblaApi.off('select', onSelect);
             emblaApi.off('reInit', onSelect);
         };
     }, [emblaApi, onSelect]);
 
-    // Keyboard Accessibility
     const handleKeyDown = useCallback(
         (e: React.KeyboardEvent) => {
-            if (e.key === 'ArrowLeft') {
-                emblaApi?.scrollPrev();
-            } else if (e.key === 'ArrowRight') {
-                emblaApi?.scrollNext();
-            }
+            if (e.key === 'ArrowLeft') emblaApi?.scrollPrev();
+            else if (e.key === 'ArrowRight') emblaApi?.scrollNext();
         },
         [emblaApi]
     );
 
-    // Navigation buttons
     const scrollPrev = useCallback(() => emblaApi?.scrollPrev(), [emblaApi]);
-    const scrollRight = useCallback(() => emblaApi?.scrollNext(), [emblaApi]);
+    const scrollNext = useCallback(() => emblaApi?.scrollNext(), [emblaApi]);
 
-    // Format certification array for render
-    const certs = React.useMemo(() => {
-        return certifications.map(c => ({
-            id: c.id,
-            title: (c as any).title || c.name,
-            image: (c as any).image || ''
-        }));
-    }, [certifications]);
+    const certs = React.useMemo(() => certifications.map(c => ({
+        id: c.id,
+        title: (c as any).title || c.name,
+        image: (c as any).image || ''
+    })), [certifications]);
+
+    // Don't render anything interactive until after mount
+    if (!mounted) {
+        return (
+            <div className="overflow-hidden py-8">
+                <div className="flex justify-center gap-4">
+                    {certs.map(c => (
+                        <div key={c.id} className="flex-none w-[260px] h-[200px] rounded-2xl bg-white/5 border border-white/10 animate-pulse" />
+                    ))}
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div
@@ -178,33 +185,27 @@ const CertCarousel: React.FC = React.memo(() => {
             <div className="pointer-events-none absolute inset-y-0 left-0 w-16 md:w-32 z-20 bg-gradient-to-r from-background to-transparent" />
             <div className="pointer-events-none absolute inset-y-0 right-0 w-16 md:w-32 z-20 bg-gradient-to-l from-background to-transparent" />
 
-            {/* Carousel viewport */}
             <div ref={emblaRef} className="overflow-hidden py-8">
                 <div className="flex items-center">
                     {certs.map((cert, index) => {
-                        // Calculate relative positions for 3D effect
                         const isActive = index === selectedIndex;
                         const total = certs.length;
-                        
-                        // Handle wrap-around math for prev/next
                         const isPrev = index === (selectedIndex - 1 + total) % total;
                         const isNext = index === (selectedIndex + 1) % total;
-
                         return (
-                            <CertCard 
-                                key={cert.id} 
-                                title={cert.title} 
-                                image={cert.image} 
+                            <CertCard
+                                key={cert.id}
+                                title={cert.title}
+                                image={cert.image}
                                 isActive={isActive}
                                 isPrev={isPrev}
                                 isNext={isNext}
                             />
-                        )
+                        );
                     })}
                 </div>
             </div>
 
-            {/* Prev / Next buttons */}
             <button
                 onClick={scrollPrev}
                 aria-label="Previous certificate"
@@ -213,7 +214,7 @@ const CertCarousel: React.FC = React.memo(() => {
                 <ChevronLeft className="w-5 h-5 text-textMuted group-hover:text-white" />
             </button>
             <button
-                onClick={scrollRight}
+                onClick={scrollNext}
                 aria-label="Next certificate"
                 className="absolute right-2 top-1/2 -translate-y-1/2 z-30 w-10 h-10 rounded-full bg-surface/90 border border-white/10 flex items-center justify-center hover:bg-accent hover:border-accent hover:text-white transition-all shadow-xl group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
             >
@@ -231,24 +232,35 @@ const InternshipCertCard: React.FC<InternshipCert> = React.memo(({ title, image 
     const [imgError, setImgError] = useState(false);
 
     return (
-        <div 
+        <div
             className="group relative rounded-2xl overflow-hidden border border-white/10 bg-white/5 backdrop-blur-md shadow-md hover:shadow-accent/20 hover:border-accent/40 transition-all duration-300 hover:-translate-y-1 hover:scale-105"
             aria-label={title}
         >
-            <div className="relative aspect-[4/3] bg-background/50 overflow-hidden">
+            <div className="relative w-full aspect-[4/3] bg-background/50 overflow-hidden">
                 {!imgError ? (
-                    <Zoom zoomMargin={24}>
-                        <Image
-                            src={image}
-                            alt={title}
-                            width={420}
-                            height={260}
-                            loading="lazy"
-                            sizes="(max-width:768px) 100vw, 420px"
-                            onError={() => setImgError(true)}
-                            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                        />
-                    </Zoom>
+                    <TransformWrapper
+                        initialScale={1}
+                        minScale={1}
+                        maxScale={4}
+                        wheel={{ step: 0.2 }}
+                        doubleClick={{ disabled: false }}
+                    >
+                        <TransformComponent
+                            wrapperStyle={{ width: '100%', height: '100%' }}
+                            contentStyle={{ width: '100%', height: '100%' }}
+                        >
+                            <Image
+                                src={image}
+                                alt={title}
+                                width={420}
+                                height={260}
+                                loading="lazy"
+                                sizes="(max-width:768px) 100vw, 420px"
+                                onError={() => setImgError(true)}
+                                className="w-full h-full object-cover cursor-zoom-in"
+                            />
+                        </TransformComponent>
+                    </TransformWrapper>
                 ) : (
                     <div className="w-full h-full flex flex-col items-center justify-center gap-2 text-textMuted bg-gradient-to-br from-accent/10 to-accent/5">
                         <ImageOff className="w-8 h-8 opacity-40" />
@@ -258,7 +270,7 @@ const InternshipCertCard: React.FC<InternshipCert> = React.memo(({ title, image 
                         </span>
                     </div>
                 )}
-                <div className="absolute inset-x-0 bottom-0 h-14 bg-gradient-to-t from-black/80 to-transparent pointer-events-none" />
+                <div className="pointer-events-none absolute inset-x-0 bottom-0 h-14 bg-gradient-to-t from-black/80 to-transparent" />
             </div>
             <div className="px-4 py-3 bg-surface/30">
                 <p className="text-sm font-semibold text-textHeading line-clamp-1">{title}</p>
@@ -273,31 +285,25 @@ InternshipCertCard.displayName = 'InternshipCertCard';
    Main Component
 ───────────────────────────────────────────────────────────── */
 export const ExperienceTimeline = () => {
+    const [mounted, setMounted] = useState(false);
+
+    useEffect(() => {
+        setMounted(true);
+    }, []);
+
     const timeline = getTimeline();
     const internshipCertsMap = getInternshipCertificates();
 
-    // ── Education logic (structured entries without parsing) ──
     const educationEntries = timeline.filter((item) => item.type === 'education');
     const experienceEntries = timeline.filter((item) => item.type === 'experience');
-
-    // B.E. entries (non-school)
     const higherEduEntries = educationEntries.filter((e) => e.group !== 'school');
-    // School entries natively defined as group "school"
     const schoolGroupEntry = educationEntries.find((e) => e.group === 'school');
 
-    // Ordered list: experiences first, then higher education (B.E.)
-    const orderedItems = [
-        ...experienceEntries,
-        ...higherEduEntries,
-    ];
+    const orderedItems = [...experienceEntries, ...higherEduEntries];
 
     const itemVariants = {
         hidden: { opacity: 0, y: 20 },
-        visible: {
-            opacity: 1,
-            y: 0,
-            transition: { duration: 0.6 },
-        },
+        visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
     };
 
     return (
@@ -317,10 +323,8 @@ export const ExperienceTimeline = () => {
 
             <div className="max-w-4xl mx-auto px-4">
                 <div className="space-y-12">
-                    {/* ── Experience + B.E. cards ─────────────────────── */}
                     {orderedItems.map((item) => {
-                        // Load matching internship certs dynamically from new json
-                        const companyId = item.id.split('-')[0]; // simple ID matching, e.g. "mira-intern" -> "mira"
+                        const companyId = item.id.split('-')[0];
                         const internshipCerts = internshipCertsMap?.[companyId] || [];
 
                         return (
@@ -349,7 +353,6 @@ export const ExperienceTimeline = () => {
                                                     {item.type === 'experience' ? 'Professional' : 'Academic'}
                                                 </span>
                                             </div>
-
                                             <div>
                                                 <h3 className="text-3xl font-bold text-textHeading font-outfit">
                                                     {item.type === 'experience' ? item.role : item.degree}
@@ -358,14 +361,10 @@ export const ExperienceTimeline = () => {
                                                     {item.type === 'experience' ? item.company : (item.institution || item.description)}
                                                 </p>
                                             </div>
-
                                             {item.type === 'experience' && (
                                                 <ul className="space-y-3 pt-2">
                                                     {item.bulletPoints.map((point: string, i: number) => (
-                                                        <li
-                                                            key={i}
-                                                            className="text-base text-textMuted font-light leading-relaxed flex items-start gap-3"
-                                                        >
+                                                        <li key={i} className="text-base text-textMuted font-light leading-relaxed flex items-start gap-3">
                                                             <span className="w-1.5 h-1.5 rounded-full bg-accent/40 mt-2 flex-shrink-0" />
                                                             {point}
                                                         </li>
@@ -373,7 +372,6 @@ export const ExperienceTimeline = () => {
                                                 </ul>
                                             )}
                                         </div>
-
                                         <div className="flex flex-col md:items-end gap-3 flex-shrink-0">
                                             <div className="flex items-center gap-2 text-textMuted text-sm font-medium bg-white/5 px-4 py-2 rounded-full border border-white/5">
                                                 <Calendar className="w-4 h-4" />
@@ -382,22 +380,19 @@ export const ExperienceTimeline = () => {
                                         </div>
                                     </div>
 
-                                    {/* Tech tags (experience only) */}
+                                    {/* Tech tags */}
                                     {item.type === 'experience' && (
                                         <div className="flex flex-wrap gap-2 mt-8 pt-8 border-t border-white/5">
                                             {item.technologies.map((tech: string) => (
-                                                <span
-                                                    key={tech}
-                                                    className="text-[10px] font-bold uppercase tracking-wider px-3 py-1 bg-accent/5 text-accent/70 rounded border border-accent/10"
-                                                >
+                                                <span key={tech} className="text-[10px] font-bold uppercase tracking-wider px-3 py-1 bg-accent/5 text-accent/70 rounded border border-accent/10">
                                                     {tech}
                                                 </span>
                                             ))}
                                         </div>
                                     )}
 
-                                    {/* ── Internship Certificates subset mapping natively ── */}
-                                    {item.type === 'experience' && internshipCerts.length > 0 && (
+                                    {/* Internship certificates (only rendered after mount to avoid hydration errors) */}
+                                    {mounted && item.type === 'experience' && internshipCerts.length > 0 && (
                                         <div className="mt-10 pt-8 border-t border-white/5">
                                             <h4 className="text-sm font-bold uppercase tracking-widest text-accent/80 mb-5 flex items-center gap-2">
                                                 <Award className="w-4 h-4" />
@@ -405,11 +400,7 @@ export const ExperienceTimeline = () => {
                                             </h4>
                                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                                 {internshipCerts.map((cert: InternshipCert, idx: number) => (
-                                                    <InternshipCertCard
-                                                        key={idx}
-                                                        title={cert.title}
-                                                        image={cert.image}
-                                                    />
+                                                    <InternshipCertCard key={idx} title={cert.title} image={cert.image} />
                                                 ))}
                                             </div>
                                         </div>
@@ -419,7 +410,7 @@ export const ExperienceTimeline = () => {
                         );
                     })}
 
-                    {/* ── School Education grouped card from structured data ──────────────── */}
+                    {/* School Education grouped card */}
                     {schoolGroupEntry && Array.isArray(schoolGroupEntry.entries) && schoolGroupEntry.entries.length > 0 && (
                         <motion.div
                             variants={itemVariants}
@@ -431,7 +422,6 @@ export const ExperienceTimeline = () => {
                                 className="relative overflow-hidden p-8 md:p-10 premium-border bg-surface/10 glass-effect group"
                                 hoverEffect={true}
                             >
-                                {/* Card header */}
                                 <div className="flex flex-col md:flex-row md:items-start justify-between gap-6 mb-8">
                                     <div className="space-y-3">
                                         <div className="flex items-center gap-3">
@@ -447,17 +437,13 @@ export const ExperienceTimeline = () => {
                                         </h3>
                                     </div>
                                 </div>
-
-                                {/* Clean sub-rows built exactly from structured entries */}
                                 <div className="space-y-4">
                                     {schoolGroupEntry.entries.map((entry, idx) => (
                                         <div
                                             key={idx}
                                             className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 py-4 px-5 rounded-xl bg-white/5 border border-white/5 hover:border-accent/20 transition-colors"
                                         >
-                                            <p className="text-base font-semibold text-textHeading">
-                                                {entry.level}
-                                            </p>
+                                            <p className="text-base font-semibold text-textHeading">{entry.level}</p>
                                             <div className="flex items-center gap-1.5 text-textMuted text-xs font-medium bg-white/5 px-3 py-1.5 rounded-full border border-white/5">
                                                 <Calendar className="w-3 h-3" />
                                                 {entry.year}
@@ -471,7 +457,7 @@ export const ExperienceTimeline = () => {
                 </div>
             </div>
 
-            {/* ── Certifications Carousel ─────────────────────────── */}
+            {/* Certifications Carousel */}
             <div className="mt-32 max-w-5xl mx-auto px-4">
                 <div className="flex items-center gap-4 mb-12">
                     <div className="h-px bg-white/10 flex-1" />
@@ -481,7 +467,6 @@ export const ExperienceTimeline = () => {
                     </h3>
                     <div className="h-px bg-white/10 flex-1" />
                 </div>
-
                 <CertCarousel />
             </div>
         </Section>
