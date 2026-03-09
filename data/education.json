@@ -5,7 +5,7 @@
             "type": "education",
             "degree": "Bachelor of Engineering (EXTC)",
             "institution": "Terna Engineering College",
-            "duration": "2020 - 2024",
+            "duration": "2021 - 2025",
             "description": "Bachelor of Engineering in Electronics and Telecommunication",
             "achievements": [],
             "orderIndex": 1
@@ -18,11 +18,11 @@
             "entries": [
                 {
                     "level": "Secondary School (SSC)",
-                    "year": "2018"
+                    "year": "2019"
                 },
                 {
                     "level": "Higher Secondary (HSC)",
-                    "year": "2020"
+                    "year": "2021"
                 }
             ],
             "description": "Completed Secondary and Higher Secondary education.",

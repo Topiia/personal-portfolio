@@ -1,11 +1,15 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import Image from 'next/image';
+import dynamic from 'next/dynamic';
 import { ProjectWithMedia } from '@/types';
 import { cn } from '@/lib/utils';
 import { RequestFlowDiagram } from '@/components/ui/RequestFlowDiagram';
 import { CapsuleArchitectureDiagram } from '@/components/ui/CapsuleArchitectureDiagram';
+
+const CertificateModal = dynamic(() => import('@/components/CertificateModal'), { ssr: false });
 
 const capsuleEngineeringDetails = {
     securityHardening: {
@@ -90,16 +94,29 @@ interface ProjectDetailClientProps {
 
 export const ProjectDetailClient: React.FC<ProjectDetailClientProps> = ({ project }) => {
     const [activeSection, setActiveSection] = useState<string | null>(null);
+    const [modalImage, setModalImage] = useState<{ src: string; alt: string } | null>(null);
 
     const toggleSection = (section: string) => {
         setActiveSection(activeSection === section ? null : section);
     };
+
+    const openModal = useCallback((src: string, alt: string) => {
+        setModalImage({ src, alt });
+    }, []);
+
+    const closeModal = useCallback(() => {
+        setModalImage(null);
+    }, []);
 
     const videos = project.media?.videos || [];
     const images = project.media?.images || [];
 
     return (
         <article>
+            {/* Image zoom modal */}
+            {modalImage && (
+                <CertificateModal src={modalImage.src} alt={modalImage.alt} onClose={closeModal} />
+            )}
             {/* Header */}
             <motion.div
                 initial={{ opacity: 0, y: 30 }}
@@ -393,13 +410,29 @@ export const ProjectDetailClient: React.FC<ProjectDetailClientProps> = ({ projec
                             <h3 className="text-lg font-semibold text-textHeading mb-4">Project Screenshots</h3>
                             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                                 {images.map((imgSrc, i) => (
-                                    <div key={i} className="rounded-xl overflow-hidden border border-border bg-surface/30">
-                                        <img
+                                    <div
+                                        key={i}
+                                        className="group relative rounded-xl overflow-hidden border border-border bg-surface/30 cursor-pointer"
+                                        onClick={() => openModal(imgSrc, `${project.title} Screenshot ${i + 1}`)}
+                                        role="button"
+                                        tabIndex={0}
+                                        onKeyDown={(e) => e.key === 'Enter' && openModal(imgSrc, `${project.title} Screenshot ${i + 1}`)}
+                                        aria-label={`View ${project.title} Screenshot ${i + 1}`}
+                                    >
+                                        <Image
                                             src={imgSrc}
                                             alt={`${project.title} Screenshot ${i + 1}`}
+                                            width={600}
+                                            height={338}
                                             loading="lazy"
-                                            className="w-full aspect-video object-cover hover:scale-105 transition-transform duration-500"
+                                            sizes="(max-width:768px) 100vw, (max-width:1024px) 50vw, 33vw"
+                                            className="w-full aspect-video object-cover transition-transform duration-500 group-hover:scale-105"
                                         />
+                                        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100">
+                                            <span className="text-white text-xs font-semibold bg-black/50 px-3 py-1 rounded-full border border-white/20">
+                                                Click to view
+                                            </span>
+                                        </div>
                                     </div>
                                 ))}
                             </div>
