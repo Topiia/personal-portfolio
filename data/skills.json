@@ -1,30 +1,18 @@
 {
     "categories": [
         {
-            "name": "AI & Intelligent Systems",
-            "icon": "brain",
-            "skills": [
-                "Machine Learning",
-                "Natural Language Processing (NLP)",
-                "OpenTelemetry",
-                "Prometheus",
-                "Observability Stack",
-                "Distributed Tracing"
-            ]
-        },
-        {
             "name": "Frontend Development",
             "icon": "layout",
             "skills": [
-                "React 18/19",
+                "React 18",
                 "Next.js 14",
                 "TypeScript",
-                "Redux Toolkit",
+                "Vite",
                 "TanStack Query",
-                "Tailwind CSS",
+                "Redux Toolkit",
                 "Framer Motion",
                 "React Hook Form",
-                "Vite",
+                "Tailwind CSS",
                 "Recharts"
             ]
         },
@@ -32,15 +20,16 @@
             "name": "Backend Development",
             "icon": "server",
             "skills": [
+                "Node.js",
+                "Express.js",
                 "Python",
                 "Django",
                 "Django REST Framework",
-                "Node.js",
-                "Express.js",
                 "FastAPI",
                 "RESTful API Design",
                 "JWT Authentication",
-                "bcrypt"
+                "bcrypt",
+                "Zod"
             ]
         },
         {
@@ -50,37 +39,63 @@
                 "WebSockets",
                 "Socket.IO",
                 "AsyncIO",
-                "Celery",
                 "Redis",
                 "Bull Queues",
+                "Celery",
                 "Event-Driven Architecture",
-                "Microservices"
+                "Microservices",
+                "Dead-Letter Queue"
             ]
         },
         {
             "name": "Databases",
             "icon": "database",
             "skills": [
-                "PostgreSQL",
                 "MongoDB",
                 "Mongoose ODM",
+                "PostgreSQL",
                 "Redis",
                 "Database Indexing",
                 "Query Optimization"
             ]
         },
         {
-            "name": "DevOps & Tools",
-            "icon": "tool",
+            "name": "Observability & DevOps",
+            "icon": "activity",
             "skills": [
+                "Prometheus",
+                "Sentry",
+                "Winston Logging",
+                "OpenTelemetry",
+                "Distributed Tracing",
                 "Docker",
                 "Git",
-                "ESLint",
+                "CI/CD",
+                "ESLint"
+            ]
+        },
+        {
+            "name": "AI & Intelligent Systems",
+            "icon": "brain",
+            "skills": [
+                "LLM Integration",
+                "Groq API",
+                "AI Moderation Pipelines",
+                "Natural Language Processing (NLP)",
+                "Machine Learning",
+                "RAG Pipelines",
+                "HuggingFace Inference"
+            ]
+        },
+        {
+            "name": "Testing",
+            "icon": "check-circle",
+            "skills": [
                 "Jest",
                 "Supertest",
-                "Multer",
-                "Cloudinary",
-                "Winston Logging"
+                "Integration Testing",
+                "Unit Testing",
+                "Test-Driven Development"
             ]
         }
     ]

@@ -3,21 +3,22 @@
         {
             "id": "mira-intern",
             "type": "experience",
-            "role": "Python & Django Developer Intern",
+            "role": "Python & Django Backend Developer Intern",
             "company": "MIRA Advanced Engineering",
-            "duration": "Jan 2024 - Mar 2024",
-            "description": "Worked on backend development using Python and Django, building RESTful APIs, implementing CRUD modules, and improving backend validation and error handling.",
+            "duration": "Jan 2024 – Mar 2024",
+            "description": "Built and maintained backend systems using Python and Django, developing RESTful APIs, CRUD modules, and backend validation logic for internal engineering applications.",
             "bulletPoints": [
-                "Built backend modules and CRUD functionality using Django",
-                "Developed RESTful API endpoints using Django REST Framework",
-                "Implemented backend validation and error-handling logic",
-                "Assisted in backend data processing and API integration tasks"
+                "Developed RESTful API endpoints using Django REST Framework for internal application workflows",
+                "Built backend CRUD modules with Django ORM and implemented request validation and error-handling logic",
+                "Assisted in backend data processing pipelines and third-party API integration tasks",
+                "Improved backend reliability by implementing structured error responses across API endpoints"
             ],
             "technologies": [
                 "Python",
                 "Django",
                 "Django REST Framework",
-                "REST API"
+                "REST API",
+                "PostgreSQL"
             ],
             "orderIndex": 1
         }

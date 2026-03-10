@@ -3,10 +3,10 @@
         {
             "id": "terna-beng",
             "type": "education",
-            "degree": "Bachelor of Engineering (EXTC)",
+            "degree": "Bachelor of Engineering — Electronics & Telecommunication",
             "institution": "Terna Engineering College",
-            "duration": "2021 - 2025",
-            "description": "Bachelor of Engineering in Electronics and Telecommunication",
+            "duration": "2021 – 2025",
+            "description": "Bachelor of Engineering in Electronics and Telecommunication. Built strong foundations in systems engineering, signal processing, and applied computing.",
             "achievements": [],
             "orderIndex": 1
         },
@@ -18,14 +18,16 @@
             "entries": [
                 {
                     "level": "Secondary School (SSC)",
-                    "year": "2019"
+                    "year": "2019",
+                    "score": "68%"
                 },
                 {
                     "level": "Higher Secondary (HSC)",
-                    "year": "2021"
+                    "year": "2021",
+                    "score": "80%"
                 }
             ],
-            "description": "Completed Secondary and Higher Secondary education.",
+            "description": "Completed Secondary and Higher Secondary education with 80% in HSC.",
             "achievements": [],
             "orderIndex": 2
         }

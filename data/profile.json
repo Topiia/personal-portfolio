@@ -1,17 +1,17 @@
 {
     "name": "ANKIT SINGH",
-    "title": "AI & Backend Systems Engineer",
-    "tagline": "Security-First • Distributed • Production Systems",
-    "summary": "Backend-focused engineer building production-grade platforms with stateless authentication, async worker pipelines, caching strategies, and AI-powered services. Experienced in designing scalable Node.js systems with Redis queues, observability tooling, and secure API architectures.",
+    "title": "Full Stack Engineer — Backend-Focused",
+    "tagline": "Security-First • Distributed Systems • Production-Grade",
+    "summary": "Backend-focused Full Stack Engineer building production-grade platforms with React frontends, Node.js and Django backends, stateless authentication, async worker pipelines, Redis queues, and AI-powered services. Strong in both UI architecture and distributed systems design with hands-on experience in production observability, security-first API design, and scalable microservice patterns.",
     "email": "ankitsinghak3028@gmail.com",
     "location": "India",
     "focusAreas": [
-        "AI Application Engineering",
+        "Full Stack Engineering",
         "Distributed Backend Systems",
-        "Async Worker & Queue Architectures",
         "Security-First API Design",
-        "Redis Caching Strategies",
-        "Production Observability"
+        "Async Worker & Queue Architectures",
+        "Production Observability",
+        "Real-Time Systems"
     ],
     "ctaButtons": [
         {
