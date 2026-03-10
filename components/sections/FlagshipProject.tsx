@@ -29,19 +29,19 @@ export const FlagshipProject: React.FC<FlagshipProjectProps> = ({ project }) => 
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.8 }}
-                className="relative border border-border rounded-[24px] p-[28px] md:p-[48px] mb-[120px] bg-card overflow-hidden"
+                className="relative border border-border rounded-[16px] sm:rounded-[20px] md:rounded-[24px] p-5 sm:p-7 md:p-[48px] mb-16 sm:mb-20 md:mb-[120px] bg-card overflow-hidden"
             >
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-start relative z-10">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-10 lg:gap-16 items-start relative z-10">
                     {/* Left Column: Content */}
                     <div className="space-y-8">
                         <div>
                             <span className="inline-block px-3 py-1 mb-4 text-xs font-bold tracking-widest text-white bg-accent rounded-full shadow-md">
                                 FLAGSHIP PROJECT
                             </span>
-                            <h2 className="text-4xl md:text-6xl font-black mb-6 leading-tight text-textHeading font-outfit">
+                            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-6xl font-black mb-4 sm:mb-6 leading-tight text-textHeading font-outfit break-words">
                                 {project.title}
                             </h2>
-                            <p className="text-xl md:text-2xl text-textMuted font-light leading-relaxed mb-8 border-l-4 border-accent pl-6">
+                            <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-textMuted font-light leading-relaxed mb-5 sm:mb-6 md:mb-8 border-l-4 border-accent pl-4 sm:pl-6">
                                 {project.impactStatement}
                             </p>
 
@@ -55,7 +55,7 @@ export const FlagshipProject: React.FC<FlagshipProjectProps> = ({ project }) => 
                         </div>
 
                         {/* Executive Summary */}
-                        <div className="bg-surface/60 rounded-xl p-6 border border-border backdrop-blur-md shadow-sm">
+                        <div className="bg-surface/60 rounded-xl p-4 sm:p-5 md:p-6 border border-border backdrop-blur-md shadow-sm">
                             <h3 className="text-lg font-bold text-textHeading mb-3 flex items-center gap-2">
                                 <svg className="w-5 h-5 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
                                 Executive Summary
@@ -124,7 +124,7 @@ export const FlagshipProject: React.FC<FlagshipProjectProps> = ({ project }) => 
                 </div>
 
                 {/* Deep Dive Sections (Full Width) */}
-                <div className="mt-16 grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div className="mt-10 sm:mt-12 md:mt-16 grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
                     {/* Architecture Breakdown Collapsibles */}
                     <div className="space-y-4">
                         <h3 className="text-xl font-bold text-textHeading mb-6">Architecture Breakdown</h3>

@@ -42,8 +42,8 @@
         "Layered Architecture",
         "Production Observability"
     ],
-    "githubUrl": "#",
-    "liveUrl": "#",
+    "githubUrl": "https://github.com/Topiia/Capsule",
+    "liveUrl": "https://capsule.topiiaa.site",
     "demoVideoUrl": "",
     "images": [
         "/images/projects/capsule-preview.png"

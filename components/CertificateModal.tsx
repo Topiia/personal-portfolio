@@ -54,7 +54,7 @@ const CertificateModal: React.FC<CertificateModalProps> = ({ src, alt, onClose }
 
             {/* Modal content – stop click propagation so overlay click still works */}
             <div
-                className="relative max-w-[90vw] max-h-[85vh] rounded-2xl overflow-hidden shadow-2xl"
+                className="relative w-full max-w-[95vw] md:max-w-[800px] lg:max-w-[900px] max-h-[85vh] rounded-2xl overflow-hidden shadow-2xl"
                 onClick={(e) => e.stopPropagation()}
             >
                 <TransformWrapper
@@ -71,21 +71,21 @@ const CertificateModal: React.FC<CertificateModalProps> = ({ src, alt, onClose }
                             <div className="absolute top-3 left-3 z-10 flex gap-2">
                                 <button
                                     onClick={() => zoomIn()}
-                                    className="w-8 h-8 rounded-full bg-black/50 border border-white/20 flex items-center justify-center hover:bg-black/70 transition-colors"
+                                    className="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-black/50 border border-white/20 flex items-center justify-center hover:bg-black/70 transition-colors pointer-events-auto"
                                     aria-label="Zoom in"
                                 >
                                     <ZoomIn className="w-4 h-4 text-white" />
                                 </button>
                                 <button
                                     onClick={() => zoomOut()}
-                                    className="w-8 h-8 rounded-full bg-black/50 border border-white/20 flex items-center justify-center hover:bg-black/70 transition-colors"
+                                    className="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-black/50 border border-white/20 flex items-center justify-center hover:bg-black/70 transition-colors pointer-events-auto"
                                     aria-label="Zoom out"
                                 >
                                     <ZoomOut className="w-4 h-4 text-white" />
                                 </button>
                                 <button
                                     onClick={() => resetTransform()}
-                                    className="w-8 h-8 rounded-full bg-black/50 border border-white/20 flex items-center justify-center hover:bg-black/70 transition-colors"
+                                    className="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-black/50 border border-white/20 flex items-center justify-center hover:bg-black/70 transition-colors pointer-events-auto"
                                     aria-label="Reset zoom"
                                 >
                                     <RotateCcw className="w-4 h-4 text-white" />
@@ -93,15 +93,15 @@ const CertificateModal: React.FC<CertificateModalProps> = ({ src, alt, onClose }
                             </div>
 
                             <TransformComponent
-                                wrapperStyle={{ maxWidth: '90vw', maxHeight: '85vh' }}
-                                contentStyle={{ cursor: 'grab' }}
+                                wrapperStyle={{ width: '100%', maxHeight: '85vh' }}
+                                contentStyle={{ cursor: 'grab', width: '100%', display: 'flex', justifyContent: 'center' }}
                             >
                                 <Image
                                     src={src}
                                     alt={alt}
                                     width={900}
                                     height={600}
-                                    className="rounded-lg select-none"
+                                    className="rounded-lg select-none w-full h-auto max-w-[95vw] md:max-w-[800px] lg:max-w-[900px]"
                                     draggable={false}
                                     priority
                                 />

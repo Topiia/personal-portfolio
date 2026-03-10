@@ -50,9 +50,9 @@
             "icon": "github"
         },
         {
-            "label": "Let's Talk",
-            "href": "#contact",
-            "type": "scroll",
+            "label": "Talk With AI About Me",
+            "href": "/ai-chat",
+            "type": "link",
             "variant": "primary"
         }
     ]

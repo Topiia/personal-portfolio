@@ -130,27 +130,27 @@ export const ProjectDetailClient: React.FC<ProjectDetailClientProps> = ({ projec
                     <span className="text-textMuted text-sm">{project.complexityLevel}</span>
                 </div>
 
-                <h1 className="text-4xl md:text-6xl font-black text-textHeading font-outfit mb-6 leading-tight">
+                <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-textHeading font-outfit mb-4 sm:mb-6 leading-tight break-words">
                     {project.title}
                 </h1>
 
-                <p className="text-xl md:text-2xl text-textMuted font-light leading-relaxed mb-10 border-l-4 border-accent pl-6 max-w-4xl">
+                <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-textMuted font-light leading-relaxed mb-8 sm:mb-10 border-l-4 border-accent pl-4 sm:pl-6 max-w-4xl">
                     {project.impactStatement}
                 </p>
             </motion.div>
 
             {/* Main Content Grid */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 mb-16">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 sm:gap-10 lg:gap-12 mb-12 sm:mb-16">
                 {/* Left: Description + Problem */}
-                <div className="lg:col-span-2 space-y-10">
+                <div className="lg:col-span-2 space-y-8 sm:space-y-10">
                     {/* Description */}
                     <motion.section
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.1 }}
                     >
-                        <h2 className="text-2xl font-bold text-textHeading font-outfit mb-4">Description</h2>
-                        <p className="text-textMuted leading-relaxed text-lg">{project.description}</p>
+                        <h2 className="text-xl sm:text-2xl font-bold text-textHeading font-outfit mb-3 sm:mb-4">Description</h2>
+                        <p className="text-textMuted leading-relaxed text-base sm:text-lg">{project.description}</p>
                     </motion.section>
 
                     {/* Problem Solved */}
@@ -159,8 +159,8 @@ export const ProjectDetailClient: React.FC<ProjectDetailClientProps> = ({ projec
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.2 }}
                     >
-                        <h2 className="text-2xl font-bold text-textHeading font-outfit mb-4">Problem Solved</h2>
-                        <p className="text-textMuted leading-relaxed text-lg">{project.problemSolved}</p>
+                        <h2 className="text-xl sm:text-2xl font-bold text-textHeading font-outfit mb-3 sm:mb-4">Problem Solved</h2>
+                        <p className="text-textMuted leading-relaxed text-base sm:text-lg">{project.problemSolved}</p>
                     </motion.section>
 
                     {/* Architecture */}
@@ -169,8 +169,8 @@ export const ProjectDetailClient: React.FC<ProjectDetailClientProps> = ({ projec
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.3 }}
                     >
-                        <h2 className="text-2xl font-bold text-textHeading font-outfit mb-4">Architecture</h2>
-                        <p className="text-textMuted leading-relaxed text-lg">{project.architecture}</p>
+                        <h2 className="text-xl sm:text-2xl font-bold text-textHeading font-outfit mb-3 sm:mb-4">Architecture</h2>
+                        <p className="text-textMuted leading-relaxed text-base sm:text-lg">{project.architecture}</p>
                     </motion.section>
                 </div>
 
@@ -238,9 +238,9 @@ export const ProjectDetailClient: React.FC<ProjectDetailClientProps> = ({ projec
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.4 }}
-                    className="mb-16"
+                    className="mb-12 sm:mb-16"
                 >
-                    <h2 className="text-2xl font-bold text-textHeading font-outfit mb-8">Architecture Breakdown</h2>
+                    <h2 className="text-xl sm:text-2xl font-bold text-textHeading font-outfit mb-6 sm:mb-8">Architecture Breakdown</h2>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         {Object.entries(project.architectureBreakdown).map(([key, section]: [string, any]) => {
                             if (key === 'systemStructure') return null;
@@ -304,9 +304,9 @@ export const ProjectDetailClient: React.FC<ProjectDetailClientProps> = ({ projec
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.48 }}
-                    className="mb-16"
+                    className="mb-12 sm:mb-16"
                 >
-                    <h2 className="text-2xl font-bold text-textHeading font-outfit mb-8">Post-Forensic Engineering Improvements</h2>
+                    <h2 className="text-xl sm:text-2xl font-bold text-textHeading font-outfit mb-6 sm:mb-8">Post-Forensic Engineering Improvements</h2>
                     <div className="grid grid-cols-1 gap-6">
                         {Object.entries(capsuleEngineeringDetails).map(([key, section]) => (
                             <div key={key} className="bg-surface/30 rounded-xl p-6 md:p-8 border border-border">
@@ -331,9 +331,9 @@ export const ProjectDetailClient: React.FC<ProjectDetailClientProps> = ({ projec
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.5 }}
-                    className="mb-16"
+                    className="mb-12 sm:mb-16"
                 >
-                    <h2 className="text-2xl font-bold text-textHeading font-outfit mb-6">Engineering Decisions</h2>
+                    <h2 className="text-xl sm:text-2xl font-bold text-textHeading font-outfit mb-5 sm:mb-6">Engineering Decisions</h2>
                     <div className="bg-surface/40 rounded-xl p-6 border border-border">
                         <ul className="space-y-3">
                             {project.engineeringDecisions.map((decision, i) => (
@@ -353,9 +353,9 @@ export const ProjectDetailClient: React.FC<ProjectDetailClientProps> = ({ projec
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.6 }}
-                    className="mb-16"
+                    className="mb-12 sm:mb-16"
                 >
-                    <h2 className="text-2xl font-bold text-textHeading font-outfit mb-6">Production Readiness</h2>
+                    <h2 className="text-xl sm:text-2xl font-bold text-textHeading font-outfit mb-5 sm:mb-6">Production Readiness</h2>
                     <div className="bg-surface/40 rounded-xl p-6 border border-border">
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                             {project.productionReadiness.checked.map((item, i) => (

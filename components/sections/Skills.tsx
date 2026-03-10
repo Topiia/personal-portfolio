@@ -91,21 +91,21 @@ export const Skills = () => {
     };
 
     return (
-        <Section id="skills" className="relative">
-            <div className="text-center mb-16">
+        <Section id="skills" className="relative py-16 sm:py-24 md:py-32">
+            <div className="text-center mb-12 sm:mb-16 md:mb-20 px-4">
                 <span className="text-accent font-semibold tracking-widest text-xs uppercase mb-4 block">
                     Expertise
                 </span>
-                <h2 className="text-4xl md:text-5xl font-bold mb-4 font-outfit">Technical Arsenal</h2>
-                <p className="text-xl text-textMuted max-w-2xl mx-auto">Categorized signals of my engineering capabilities</p>
+                <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-3 sm:mb-4 font-outfit text-textHeading">Technical Arsenal</h2>
+                <p className="text-base sm:text-lg md:text-xl text-textMuted max-w-2xl mx-auto">Categorized signals of my engineering capabilities</p>
             </div>
 
             {/* Skeleton before mount */}
             {!mounted ? (
-                <div className="overflow-hidden w-full py-10 opacity-50">
-                    <div className="flex justify-center gap-6">
+                <div className="overflow-hidden w-full py-8 sm:py-10 opacity-50">
+                    <div className="flex justify-center gap-4 sm:gap-6">
                         {categories.slice(0, 3).map(c => (
-                            <div key={c.name} className="flex-none w-[280px] md:w-[400px] h-[300px] rounded-2xl bg-white/5 border border-white/10 animate-pulse" />
+                            <div key={c.name} className="flex-none w-[260px] sm:w-[320px] md:w-[400px] h-[300px] rounded-2xl bg-white/5 border border-white/10 animate-pulse" />
                         ))}
                     </div>
                 </div>
@@ -150,7 +150,7 @@ export const Skills = () => {
                                 return (
                                     <div 
                                         key={category.name} 
-                                        className={`flex-none w-[280px] md:w-[400px] px-4 transition-all duration-500 ease-out ${opacityClass}`}
+                                        className={`flex-none w-[260px] sm:w-[320px] md:w-[400px] px-2 sm:px-4 transition-all duration-500 ease-out ${opacityClass}`}
                                         style={{ perspective: '1200px' }}
                                     >
                                         <div 
@@ -158,7 +158,7 @@ export const Skills = () => {
                                             className="transition-transform duration-500 will-change-transform h-full"
                                         >
                                             <Card className="h-full p-6 md:p-8 premium-border bg-surface/20 glass-effect" hoverEffect={false}>
-                                                <h3 className="text-xl font-bold mb-6 text-textHeading flex items-center gap-3 font-outfit">
+                                                <h3 className="text-lg sm:text-xl font-bold mb-4 sm:mb-6 text-textHeading flex items-center gap-3 font-outfit break-words">
                                                     <span className="p-2 rounded-lg bg-accent/10">
                                                         <Icon className="w-5 h-5 text-accent" />
                                                     </span>
@@ -185,14 +185,14 @@ export const Skills = () => {
                     <button
                         onClick={scrollPrev}
                         aria-label="Previous category"
-                        className="absolute left-2 top-1/2 -translate-y-1/2 z-30 w-10 h-10 rounded-full bg-surface/90 border border-white/10 flex items-center justify-center hover:bg-accent hover:border-accent hover:text-white transition-all shadow-xl group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+                        className="absolute left-1 sm:left-2 top-1/2 -translate-y-1/2 z-30 w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-surface/90 border border-white/10 flex items-center justify-center hover:bg-accent hover:border-accent hover:text-white transition-all shadow-xl group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
                     >
                         <ChevronLeft className="w-5 h-5 text-textMuted group-hover:text-white" />
                     </button>
                     <button
                         onClick={scrollNext}
                         aria-label="Next category"
-                        className="absolute right-2 top-1/2 -translate-y-1/2 z-30 w-10 h-10 rounded-full bg-surface/90 border border-white/10 flex items-center justify-center hover:bg-accent hover:border-accent hover:text-white transition-all shadow-xl group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+                        className="absolute right-1 sm:right-2 top-1/2 -translate-y-1/2 z-30 w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-surface/90 border border-white/10 flex items-center justify-center hover:bg-accent hover:border-accent hover:text-white transition-all shadow-xl group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
                     >
                         <ChevronRight className="w-5 h-5 text-textMuted group-hover:text-white" />
                     </button>

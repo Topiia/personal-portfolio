@@ -38,13 +38,13 @@ export const ProjectsGrid: React.FC<ProjectsGridProps> = ({
     };
 
     return (
-        <Section id="projects" className="py-24">
-            <div className="text-center mb-20">
+        <Section id="projects" className="py-16 sm:py-20 md:py-24">
+            <div className="text-center mb-12 sm:mb-16 md:mb-20 px-4">
                 <span className="text-accent font-semibold tracking-widest text-xs uppercase mb-4 block">
                     Portfolio
                 </span>
-                <h2 className="text-4xl md:text-5xl font-bold mb-4 font-outfit text-textHeading">Selected Work</h2>
-                <p className="text-xl text-textMuted max-w-2xl mx-auto">Production-grade systems and technical demonstrations</p>
+                <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-3 sm:mb-4 font-outfit text-textHeading">Selected Work</h2>
+                <p className="text-base sm:text-lg md:text-xl text-textMuted max-w-2xl mx-auto">Production-grade systems and technical demonstrations</p>
             </div>
 
             {/* Flagship Project(s) */}
@@ -76,9 +76,9 @@ export const ProjectsGrid: React.FC<ProjectsGridProps> = ({
                                 </div>
 
                                 {/* Card Content */}
-                                <div className="flex-1 p-8">
-                                    <div className="flex justify-between items-start mb-6">
-                                        <h3 className="text-2xl font-bold text-textHeading font-outfit leading-tight group-hover:text-accent transition-colors">
+                                <div className="flex-1 p-5 sm:p-6 md:p-8">
+                                    <div className="flex justify-between items-start mb-4 sm:mb-6">
+                                        <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-textHeading font-outfit leading-tight group-hover:text-accent transition-colors break-words">
                                             {project.title}
                                         </h3>
                                         <div className="flex gap-2">
@@ -98,7 +98,7 @@ export const ProjectsGrid: React.FC<ProjectsGridProps> = ({
                                             )}
                                         </div>
                                     </div>
-                                    <p className="text-textMuted text-lg mb-8 font-light leading-relaxed">
+                                    <p className="text-textMuted text-sm sm:text-base md:text-lg mb-5 sm:mb-6 md:mb-8 font-light leading-relaxed">
                                         {project.impactStatement}
                                     </p>
 

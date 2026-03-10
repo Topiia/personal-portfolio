@@ -29,14 +29,14 @@ export const Contact = () => {
     };
 
     return (
-        <Section id="contact" className="py-32">
-            <div className="text-center mb-20">
+        <Section id="contact" className="py-16 sm:py-24 md:py-32">
+            <div className="text-center mb-12 sm:mb-16 md:mb-20 px-4">
                 <span className="text-accent font-semibold tracking-widest text-xs uppercase mb-4 block">
                     Collaboration
                 </span>
-                <h2 className="text-4xl md:text-5xl font-bold mb-4 font-outfit text-textHeading">Get In Touch</h2>
-                <div className="flex flex-col items-center gap-4">
-                    <p className="text-xl text-textMuted max-w-xl mx-auto font-light leading-relaxed">
+                <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-3 sm:mb-4 font-outfit text-textHeading">Get In Touch</h2>
+                <div className="flex flex-col items-center gap-3 sm:gap-4">
+                    <p className="text-base sm:text-lg md:text-xl text-textMuted max-w-xl mx-auto font-light leading-relaxed">
                         Interested in building production-grade systems? Let&apos;s talk about your next project.
                     </p>
                     <div className="px-4 py-1.5 rounded-full bg-accent/10 border border-accent/20 flex items-center gap-2">

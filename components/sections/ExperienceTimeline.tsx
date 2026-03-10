@@ -250,27 +250,27 @@ export const ExperienceTimeline = () => {
     };
 
     return (
-        <Section id="experience" className="py-32">
+        <Section id="experience" className="py-16 sm:py-24 md:py-32">
             {/* Certificate preview modal */}
             {mounted && modalImage && (
                 <CertificateModal src={modalImage.src} alt={modalImage.alt} onClose={closeModal} />
             )}
 
             {/* Section header */}
-            <div className="text-center mb-24">
+            <div className="text-center mb-12 sm:mb-16 md:mb-24 px-4">
                 <span className="text-accent font-semibold tracking-widest text-xs uppercase mb-4 block">
                     Trajectory
                 </span>
-                <h2 className="text-4xl md:text-5xl font-bold mb-4 font-outfit text-textHeading">
+                <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-3 sm:mb-4 font-outfit text-textHeading">
                     Experience &amp; Education
                 </h2>
-                <p className="text-xl text-textMuted max-w-2xl mx-auto font-light">
+                <p className="text-base sm:text-lg md:text-xl text-textMuted max-w-2xl mx-auto font-light">
                     The professional path and academic foundation
                 </p>
             </div>
 
             <div className="max-w-4xl mx-auto px-4">
-                <div className="space-y-12">
+                <div className="space-y-8 sm:space-y-10 md:space-y-12">
                     {orderedItems.map((item) => {
                         const companyId = item.id.split('-')[0];
                         const internshipCerts = internshipCertsMap?.[companyId] || [];
@@ -284,10 +284,10 @@ export const ExperienceTimeline = () => {
                                 viewport={{ once: true, margin: '-50px' }}
                             >
                                 <Card
-                                    className="relative overflow-hidden p-8 md:p-10 premium-border bg-surface/10 glass-effect group"
+                                    className="relative overflow-hidden p-5 sm:p-6 md:p-8 lg:p-10 premium-border bg-surface/10 glass-effect group"
                                     hoverEffect={true}
                                 >
-                                    <div className="flex flex-col md:flex-row md:items-start justify-between gap-6">
+                                    <div className="flex flex-col md:flex-row md:items-start justify-between gap-4 sm:gap-6">
                                         <div className="space-y-4">
                                             <div className="flex items-center gap-3">
                                                 <div className="p-2 rounded-lg bg-accent/10">
@@ -302,17 +302,17 @@ export const ExperienceTimeline = () => {
                                                 </span>
                                             </div>
                                             <div>
-                                                <h3 className="text-3xl font-bold text-textHeading font-outfit">
+                                                <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-textHeading font-outfit break-words">
                                                     {item.type === 'experience' ? item.role : item.degree}
                                                 </h3>
-                                                <p className="text-xl text-textMuted font-medium mt-1">
+                                                <p className="text-base sm:text-lg md:text-xl text-textMuted font-medium mt-1">
                                                     {item.type === 'experience' ? item.company : (item.institution || item.description)}
                                                 </p>
                                             </div>
                                             {item.type === 'experience' && (
-                                                <ul className="space-y-3 pt-2">
+                                                <ul className="space-y-2 sm:space-y-3 pt-2">
                                                     {item.bulletPoints.map((point: string, i: number) => (
-                                                        <li key={i} className="text-base text-textMuted font-light leading-relaxed flex items-start gap-3">
+                                                        <li key={i} className="text-sm sm:text-base text-textMuted font-light leading-relaxed flex items-start gap-2 sm:gap-3">
                                                             <span className="w-1.5 h-1.5 rounded-full bg-accent/40 mt-2 flex-shrink-0" />
                                                             {point}
                                                         </li>
@@ -329,7 +329,7 @@ export const ExperienceTimeline = () => {
                                     </div>
 
                                     {item.type === 'experience' && (
-                                        <div className="flex flex-wrap gap-2 mt-8 pt-8 border-t border-white/5">
+                                        <div className="flex flex-wrap gap-1.5 sm:gap-2 mt-5 sm:mt-6 md:mt-8 pt-5 sm:pt-6 md:pt-8 border-t border-white/5">
                                             {item.technologies.map((tech: string) => (
                                                 <span key={tech} className="text-[10px] font-bold uppercase tracking-wider px-3 py-1 bg-accent/5 text-accent/70 rounded border border-accent/10">
                                                     {tech}
