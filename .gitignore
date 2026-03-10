@@ -38,4 +38,3 @@ next-env.d.ts
 extracted_report.txt
 
 # generated build artifacts
-data/generated/project-media.json

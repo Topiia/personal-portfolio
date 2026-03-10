@@ -1,0 +1,35 @@
+{
+  "agile-almanac": {
+    "videos": [
+      "/images/projects/agile-almanac/videos/agile-almanac-video1.mp4"
+    ],
+    "images": []
+  },
+  "capsule": {
+    "videos": [
+      "/images/projects/capsule/videos/capsule-video1.mp4"
+    ],
+    "images": [
+      "/images/projects/capsule/images/capsule-image1.jpeg",
+      "/images/projects/capsule/images/capsule-image2.jpeg"
+    ]
+  },
+  "cryptodash": {
+    "videos": [
+      "/images/projects/cryptodash/videos/cryptoDash-video1.mp4"
+    ],
+    "images": []
+  },
+  "sky-link": {
+    "videos": [
+      "/images/projects/sky-link/videos/sky-link-video1.mp4"
+    ],
+    "images": []
+  },
+  "system-pulse": {
+    "videos": [
+      "/images/projects/system-pulse/videos/system-pulse-video1.mp4"
+    ],
+    "images": []
+  }
+}
