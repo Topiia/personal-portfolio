@@ -74,6 +74,20 @@ export const Hero = () => {
                         const Variant = btn.type === 'primary' ? 'primary' : btn.type === 'accent' ? 'primary' : 'outline';
                         const isExternal = btn.action === 'link';
 
+                        if (btn.action === 'download') {
+                            return (
+                                <a
+                                    key={btn.label}
+                                    href="/resume.pdf"
+                                    download="Ankit_Singh_Resume.pdf"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="inline-flex items-center justify-center min-w-[140px] sm:min-w-[180px] rounded-full min-h-[44px] text-sm sm:text-base px-6 border border-border/40 text-textPrimary hover:text-accent hover:border-accent/40 transition-all duration-300"
+                                >
+                                    {btn.label}
+                                </a>
+                            );
+                        }
                         return (
                             <Button
                                 key={btn.label}
