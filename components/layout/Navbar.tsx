@@ -71,7 +71,7 @@ export const Navbar = () => {
                         </Link>
 
                         {/* Desktop Menu */}
-                        <div className="hidden md:flex items-center space-x-8">
+                        <div className="hidden md:flex items-center space-x-8 min-w-0 overflow-hidden">
                             {navigation.mainMenu.map((item) => (
                                 <Link
                                     key={item.label}
@@ -89,7 +89,7 @@ export const Navbar = () => {
                         </div>
 
                         {/* Desktop CTA */}
-                        <div className="hidden md:flex items-center space-x-4">
+                        <div className="hidden md:flex items-center space-x-3">
                             {navigation.ctaButtons.map((btn) =>
                                 btn.variant === 'icon' ? (
                                     <a key={btn.label} href={btn.href} target="_blank" rel="noopener noreferrer" className="text-textMuted hover:text-textHeading transition-all hover:scale-105">
@@ -106,17 +106,33 @@ export const Navbar = () => {
                                     >
                                         {btn.label}
                                     </a>
-                                ) : (
-                                    <Button key={btn.label} href={btn.href} variant={btn.variant === 'primary' ? 'primary' : 'outline'} size="sm">
-                                        {btn.label}
-                                    </Button>
-                                )
+                                ) : null
                             )}
+                            {/* AI Chat — solid button, always visible regardless of nav scroll state */}
+                            <a
+                                href="/ai-chat"
+                                className="hidden md:inline-flex items-center gap-2 px-3 py-2 rounded-full bg-accent text-white font-semibold whitespace-nowrap hover:opacity-90 hover:shadow-lg hover:shadow-accent/30 transition-all duration-300 text-xs lg:text-sm"
+                            >
+                                <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                                </svg>
+                                <span className="hidden lg:inline">Talk With AI About Me</span>
+                                <span className="lg:hidden">Ask AI</span>
+                            </a>
                         </div>
 
-                        {/* Mobile Toggle */}
-                        <div className="md:hidden flex items-center gap-4 relative z-50">
-                            <ThemeToggle />
+                        {/* Mobile Toggle — Logo | Ask AI | Hamburger (ThemeToggle moved into drawer) */}
+                        <div className="md:hidden flex items-center gap-2 relative z-50">
+                            {/* Ask AI pill: icon-only on <380px, icon+text on ≥380px */}
+                            <a
+                                href="/ai-chat"
+                                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-accent text-white text-xs font-semibold whitespace-nowrap flex-shrink-0 hover:opacity-90 transition-all duration-300"
+                            >
+                                <svg className="w-3.5 h-3.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                                </svg>
+                                <span className="hidden xs:inline">Ask AI</span>
+                            </a>
                             <button
                                 onClick={() => setMobileMenuOpen(prev => !prev)}
                                 className="text-textHeading p-2 focus:outline-none"
@@ -165,6 +181,12 @@ export const Navbar = () => {
                             exit={{ y: -20, opacity: 0 }}
                             transition={{ duration: 0.25, delay: 0.05 }}
                         >
+                            {/* Theme toggle row at top of drawer */}
+                            <div className="flex items-center justify-between px-4 py-2 mb-2">
+                                <span className="text-sm text-textMuted font-medium">Theme</span>
+                                <ThemeToggle />
+                            </div>
+                            <div className="h-px bg-border/20 mb-2" />
                             {navigation.mainMenu.map((item, i) => (
                                 <motion.button
                                     key={item.label}

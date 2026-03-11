@@ -8,6 +8,9 @@ const config: Config = {
     ],
     theme: {
         extend: {
+            screens: {
+                xs: '380px', // custom: show Ask AI label text on ≥380px, icon-only below
+            },
             colors: {
                 background: 'var(--color-background)',
                 surface: 'var(--color-surface)',
