@@ -26,6 +26,11 @@ const jetbrainsMono = JetBrains_Mono({
 export const metadata: Metadata = {
     title: 'Ankit Singh | AI Full-Stack Engineer',
     description: 'AI Full-Stack Engineer specializing in real-time systems, distributed architecture, and intelligent web applications.',
+    icons: {
+        icon: '/topiiaa_icon.ico',
+        shortcut: '/topiiaa_icon.ico',
+        apple: '/topiiaa_icon.ico',
+    },
 };
 
 export default function RootLayout({

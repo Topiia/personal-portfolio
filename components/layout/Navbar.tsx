@@ -65,9 +65,13 @@ export const Navbar = () => {
                         <Link
                             href="/"
                             onClick={() => setMobileMenuOpen(false)}
-                            className="text-2xl font-bold bg-gradient-to-r from-textPrimary to-accent bg-clip-text text-transparent hover:from-accent hover:to-textPrimary transition-all duration-300 relative z-50"
+                            className="relative z-50 flex items-center"
                         >
-                            {navigation.logo.text}
+                            <img
+                                src="/topiiaa_icon.ico"
+                                alt="Ankit Singh"
+                                className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 rounded-lg object-contain hover:scale-110 transition-transform duration-300"
+                            />
                         </Link>
 
                         {/* Desktop Menu */}
