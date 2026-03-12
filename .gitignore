@@ -36,5 +36,11 @@ next-env.d.ts
 
 # extracted files (temporary)
 extracted_report.txt
+err.txt
+media-audit-results.json
+media-audit.js
+update-data-files.js
+scripts/temp/
+*.log
 
 # generated build artifacts
