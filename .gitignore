@@ -44,3 +44,5 @@ scripts/temp/
 *.log
 
 # generated build artifacts
+out.txt
+upload_log.txt

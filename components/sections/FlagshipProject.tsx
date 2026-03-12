@@ -90,17 +90,76 @@ export const FlagshipProject: React.FC<FlagshipProjectProps> = ({ project }) => 
                                 </Button>
                             </Link>
                         </div>
+
+                        {/* Desktop Only: Deep Dive Sections & Images */}
+                        <div className="hidden lg:flex flex-col space-y-8 pt-8">
+                            {/* Architecture Breakdown */}
+                            <div className="space-y-4">
+                                <h3 className="text-xl font-bold text-textHeading mb-6">Architecture Breakdown</h3>
+                                {project.architectureBreakdown && Object.entries(project.architectureBreakdown).map(([key, section]: [string, any]) => {
+                                    if (key === 'systemStructure') return null; // Already rendered
+                                    return (
+                                        <div key={`desktop-${key}`} className="border border-border rounded-lg overflow-hidden bg-surface/40 shadow-sm">
+                                            <button
+                                                onClick={() => toggleSection(`desktop-${key}`)}
+                                                className="w-full flex justify-between items-center p-4 text-left hover:bg-surface/60 transition-colors"
+                                            >
+                                                <span className="font-semibold text-textHeading">{section.title}</span>
+                                                <span className={cn("transform transition-transform duration-300 text-accent", activeSection === `desktop-${key}` ? "rotate-180" : "")}>
+                                                    ▼
+                                                </span>
+                                            </button>
+                                            <AnimatePresence>
+                                                {activeSection === `desktop-${key}` && (
+                                                    <motion.div
+                                                        initial={{ height: 0, opacity: 0 }}
+                                                        animate={{ height: 'auto', opacity: 1 }}
+                                                        exit={{ height: 0, opacity: 0 }}
+                                                        transition={{ duration: 0.3 }}
+                                                        className="overflow-hidden"
+                                                    >
+                                                        <div className="p-4 pt-0 text-sm text-textMuted space-y-2 border-t border-border bg-surface/20">
+                                                            <ul className="list-disc pl-5 space-y-1">
+                                                                {section.items.map((item: string, i: number) => (
+                                                                    <li key={`d-item-${i}`}>{item}</li>
+                                                                ))}
+                                                            </ul>
+                                                        </div>
+                                                    </motion.div>
+                                                )}
+                                            </AnimatePresence>
+                                        </div>
+                                    );
+                                })}
+                            </div>
+
+                            {/* Engineering Decisions */}
+                            <div className="bg-surface/40 rounded-xl p-6 border border-border shadow-sm">
+                                <h3 className="text-xl font-bold text-textHeading mb-4">Engineering Decisions</h3>
+                                <ul className="space-y-3">
+                                    {project.engineeringDecisions?.map((decision, i) => (
+                                        <li key={`desktop-eng-${i}`} className="flex items-start gap-3 text-sm text-textMuted">
+                                            <span className="text-accent mt-1">▹</span>
+                                            {decision}
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+
+                        </div>
                     </div>
 
                     {/* Right Column: Visuals & Architecture */}
-                    <div className="space-y-8">
+                    <div className="space-y-8 lg:flex lg:flex-col lg:space-y-6 lg:pt-8">
                         {/* Preview Image/Video Container */}
-                        <ProjectCardMedia
-                            videos={project.media?.videos || []}
-                            images={project.media?.images || []}
-                            thumbnail={project.media?.thumbnail || ''}
-                            title={project.title}
-                        />
+                        <div className="lg:-mt-8">
+                            <ProjectCardMedia
+                                videos={project.media?.videos || []}
+                                images={project.media?.images || []}
+                                thumbnail={project.media?.thumbnail || ''}
+                                title={project.title}
+                            />
+                        </div>
 
                         {/* System Architecture Diagram Block */}
                         {project.architectureBreakdown?.systemStructure && (
@@ -120,11 +179,40 @@ export const FlagshipProject: React.FC<FlagshipProjectProps> = ({ project }) => 
                                 </div>
                             </div>
                         )}
+
+                        {/* Production Readiness (Desktop Only Right Column) */}
+                        <div className="hidden lg:block bg-surface/40 rounded-xl p-6 border border-border shadow-sm">
+                            <h3 className="text-xl font-bold text-textHeading mb-4">Production Readiness</h3>
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                {project.productionReadiness?.checked.map((item, i) => (
+                                    <div key={`desktop-prod-c-${i}`} className="flex items-center gap-2 text-xs text-green-600 dark:text-green-400">
+                                        <span className="text-green-500">✔</span> {item}
+                                    </div>
+                                ))}
+                                {project.productionReadiness?.unchecked.map((item, i) => (
+                                    <div key={`desktop-prod-u-${i}`} className="flex items-center gap-2 text-xs text-orange-600/80 dark:text-orange-400/80 opacity-80">
+                                        <span className="text-orange-500">⚠</span> {item}
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* Capsule Images Row (Desktop Only Right Column) */}
+                        {(project.id.toLowerCase() === 'capsule' || project.title.toLowerCase() === 'capsule') && project.media?.images && project.media.images.length >= 2 && (
+                            <div className="hidden lg:flex w-full flex-row gap-2 pt-2">
+                                <div className="w-1/2 aspect-video rounded-xl overflow-hidden border border-accent/20 bg-surface/40">
+                                    <img src={project.media.images[0]} alt="Capsule Architecture View 1" className="w-full h-full object-cover" loading="lazy" />
+                                </div>
+                                <div className="w-1/2 aspect-video rounded-xl overflow-hidden border border-accent/20 bg-surface/40">
+                                    <img src={project.media.images[1]} alt="Capsule Architecture View 2" className="w-full h-full object-cover" loading="lazy" />
+                                </div>
+                            </div>
+                        )}
                     </div>
                 </div>
 
-                {/* Deep Dive Sections (Full Width) */}
-                <div className="mt-10 sm:mt-12 md:mt-16 grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
+                {/* Deep Dive Sections (Full Width) - Mobile and Tablet only */}
+                <div className="mt-10 sm:mt-12 md:mt-16 grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 lg:hidden">
                     {/* Architecture Breakdown Collapsibles */}
                     <div className="space-y-4">
                         <h3 className="text-xl font-bold text-textHeading mb-6">Architecture Breakdown</h3>
