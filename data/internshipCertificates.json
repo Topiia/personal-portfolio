@@ -2,11 +2,11 @@
     "mira": [
         {
             "title": "Python Internship Certificate",
-            "image": "/internships/python_intern_ankit.jpg"
+            "image": "https://res.cloudinary.com/dretmkjzq/image/upload/v1773304339/portfolio/public/internships/python_intern_ankit.jpg"
         },
         {
             "title": "Django Internship Certificate",
-            "image": "/internships/django_intern_ankit.jpg"
+            "image": "https://res.cloudinary.com/dretmkjzq/image/upload/v1773304337/portfolio/public/internships/django_intern_ankit.jpg"
         }
     ]
 }

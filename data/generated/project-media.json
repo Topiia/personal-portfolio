@@ -1,34 +1,34 @@
 {
   "agile-almanac": {
     "videos": [
-      "/images/projects/agile-almanac/videos/agile-almanac-video1.mp4"
+      "https://res.cloudinary.com/dretmkjzq/video/upload/v1773304231/portfolio/public/images/projects/agile-almanac/videos/agile-almanac-video1.mp4"
     ],
     "images": []
   },
   "capsule": {
     "videos": [
-      "/images/projects/capsule/videos/capsule-video1.mp4"
+      "https://res.cloudinary.com/dretmkjzq/video/upload/v1773304264/portfolio/public/images/projects/capsule/videos/capsule-video1.mp4"
     ],
     "images": [
-      "/images/projects/capsule/images/capsule-image1.jpeg",
-      "/images/projects/capsule/images/capsule-image2.jpeg"
+      "https://res.cloudinary.com/dretmkjzq/image/upload/v1773304233/portfolio/public/images/projects/capsule/images/capsule-image1.jpg",
+      "https://res.cloudinary.com/dretmkjzq/image/upload/v1773304233/portfolio/public/images/projects/capsule/images/capsule-image2.jpg"
     ]
   },
   "cryptodash": {
     "videos": [
-      "/images/projects/cryptodash/videos/cryptoDash-video1.mp4"
+      "https://res.cloudinary.com/dretmkjzq/video/upload/v1773304273/portfolio/public/images/projects/cryptodash/videos/cryptoDash-video1.mp4"
     ],
     "images": []
   },
   "sky-link": {
     "videos": [
-      "/images/projects/sky-link/videos/sky-link-video1.mp4"
+      "https://res.cloudinary.com/dretmkjzq/video/upload/v1773304306/portfolio/public/images/projects/sky-link/videos/sky-link-video1.mp4"
     ],
     "images": []
   },
   "system-pulse": {
     "videos": [
-      "/images/projects/system-pulse/videos/system-pulse-video1.mp4"
+      "https://res.cloudinary.com/dretmkjzq/video/upload/v1773304319/portfolio/public/images/projects/system-pulse/videos/system-pulse-video1.mp4"
     ],
     "images": []
   }

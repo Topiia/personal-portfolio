@@ -39,6 +39,12 @@ function scanDirectory(dirPath: string, supportedExts: Set<string>): string[] {
 function generateProjectMedia(): void {
     const result: ProjectMedia = {};
 
+    let urlMap: Record<string, string> = {};
+    const mapPath = path.resolve(__dirname, 'cloudinary-url-map.json');
+    if (fs.existsSync(mapPath)) {
+        urlMap = JSON.parse(fs.readFileSync(mapPath, 'utf-8'));
+    }
+
     // Ensure output and projects directory exist safely (no existsSync checks to avoid race conditions)
     const outputDir = path.dirname(OUTPUT_FILE);
     fs.mkdirSync(outputDir, { recursive: true });
@@ -53,8 +59,12 @@ function generateProjectMedia(): void {
         const imagesDir = path.join(PUBLIC_DIR, projectId, 'images');
         const videosDir = path.join(PUBLIC_DIR, projectId, 'videos');
 
-        const images = scanDirectory(imagesDir, SUPPORTED_IMAGE_EXTS);
-        const videos = scanDirectory(videosDir, SUPPORTED_VIDEO_EXTS);
+        let images = scanDirectory(imagesDir, SUPPORTED_IMAGE_EXTS);
+        let videos = scanDirectory(videosDir, SUPPORTED_VIDEO_EXTS);
+
+        // Map to Cloudinary URLs if available
+        images = images.map(img => urlMap['/public' + img] || img);
+        videos = videos.map(vid => urlMap['/public' + vid] || vid);
 
         // Only include projects that have at least one media file
         if (images.length > 0 || videos.length > 0) {
