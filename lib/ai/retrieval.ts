@@ -58,6 +58,31 @@ function fuzzyMatch(token: string, target: string): boolean {
     return levenshteinDistance(token, target) <= maxDistance;
 }
 
+// Trim text to a max word count, appending ellipsis if truncated.
+function trimToWords(text: string, maxWords: number): string {
+    if (!text) return '';
+    const words = text.trim().split(/\s+/);
+    if (words.length <= maxWords) return text.trim();
+    return words.slice(0, maxWords).join(' ') + '\u2026';
+}
+
+// Structured, token-controlled context for non-flagship projects.
+// Formats only high-signal fields; keeps each section concise.
+// Target: ~80-120 words total per project.
+function formatNonFlagshipContext(proj: {
+    description?: string;
+    impactStatement?: string;
+    problemSolved?: string;
+    architecture?: string;
+}): string {
+    const parts: string[] = [];
+    if (proj.description)     parts.push(`What it does: ${trimToWords(proj.description, 25)}`);
+    if (proj.problemSolved)   parts.push(`Problem: ${trimToWords(proj.problemSolved, 28)}`);
+    if (proj.impactStatement) parts.push(`Impact: ${trimToWords(proj.impactStatement, 20)}`);
+    if (proj.architecture)    parts.push(`Architecture: ${trimToWords(proj.architecture, 28)}`);
+    return parts.join(' | ');
+}
+
 const MAX_CONTEXT_CHARS = 6000;
 const MIN_RELEVANCE_SCORE = 2;
 
@@ -140,14 +165,28 @@ function buildSearchIndex(): SearchDocument[] {
     });
 
     // Secondary projects (data/projects.json)
+    // Uses structured, controlled context — NOT raw data dump.
+    // Each project is formatted with high-signal fields only (~80-120 words).
     const projects = Array.isArray(projectsData) ? projectsData : (projectsData as { projects?: unknown[] }).projects ?? [];
-    for (const proj of projects as { id: string; title: string; description: string; techStack?: string[]; tags?: string[] }[]) {
+    type SecondaryProject = {
+        id: string;
+        title: string;
+        description?: string;
+        impactStatement?: string;
+        problemSolved?: string;
+        architecture?: string;
+        techStack?: string[];
+        tags?: string[];
+    };
+    for (const proj of projects as SecondaryProject[]) {
         docs.push({
             id: proj.id,
             type: 'project',
             title: proj.title,
+            // Keep full tag set for retrieval scoring (unchanged behaviour)
             tags: [...(proj.techStack ?? []), ...(proj.tags ?? [])],
-            content: proj.description,
+            // Structured, LLM-readable context — replaces shallow description-only
+            content: formatNonFlagshipContext(proj),
         });
     }
 
