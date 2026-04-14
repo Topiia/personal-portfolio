@@ -107,21 +107,21 @@ export const FlagshipProject: React.FC<FlagshipProjectProps> = ({ project }) => 
                             {/* Architecture Breakdown */}
                             <div className="space-y-4">
                                 <h3 className="text-xl font-bold text-textHeading mb-6">Architecture Breakdown</h3>
-                                {project.architectureBreakdown && Object.entries(project.architectureBreakdown).map(([key, section]: [string, any]) => {
-                                    if (key === 'systemStructure') return null; // Already rendered
+                                {project.architectureBreakdown?.sections && project.architectureBreakdown.sections.map((section, index) => {
+                                    const key = `desktop-section-${index}`;
                                     return (
-                                        <div key={`desktop-${key}`} className="border border-border rounded-lg overflow-hidden bg-surface/40 shadow-sm">
+                                        <div key={key} className="border border-border rounded-lg overflow-hidden bg-surface/40 shadow-sm">
                                             <button
-                                                onClick={() => toggleSection(`desktop-${key}`)}
+                                                onClick={() => toggleSection(key)}
                                                 className="w-full flex justify-between items-center p-4 text-left hover:bg-surface/60 transition-colors"
                                             >
                                                 <span className="font-semibold text-textHeading">{section.title}</span>
-                                                <span className={cn("transform transition-transform duration-300 text-accent", activeSection === `desktop-${key}` ? "rotate-180" : "")}>
+                                                <span className={cn("transform transition-transform duration-300 text-accent", activeSection === key ? "rotate-180" : "")}>
                                                     ▼
                                                 </span>
                                             </button>
                                             <AnimatePresence>
-                                                {activeSection === `desktop-${key}` && (
+                                                {activeSection === key && (
                                                     <motion.div
                                                         initial={{ height: 0, opacity: 0 }}
                                                         animate={{ height: 'auto', opacity: 1 }}
@@ -182,7 +182,7 @@ export const FlagshipProject: React.FC<FlagshipProjectProps> = ({ project }) => 
                                             <div className="w-full bg-surface hover:bg-surface/80 transition-colors p-3 rounded text-center text-sm text-textHeading border border-border font-mono shadow-sm">
                                                 {layer}
                                             </div>
-                                            {index < project.architectureBreakdown!.systemStructure.length - 1 && (
+                                            {index < project.architectureBreakdown!.systemStructure!.length - 1 && (
                                                 <div className="h-4 w-px bg-border my-1"></div>
                                             )}
                                         </div>
@@ -239,8 +239,8 @@ export const FlagshipProject: React.FC<FlagshipProjectProps> = ({ project }) => 
                     {/* Architecture Breakdown Collapsibles */}
                     <div className="space-y-4">
                         <h3 className="text-xl font-bold text-textHeading mb-6">Architecture Breakdown</h3>
-                        {project.architectureBreakdown && Object.entries(project.architectureBreakdown).map(([key, section]: [string, any]) => {
-                            if (key === 'systemStructure') return null; // Already rendered
+                        {project.architectureBreakdown?.sections && project.architectureBreakdown.sections.map((section, index) => {
+                            const key = `mobile-section-${index}`;
                             return (
                                 <div key={key} className="border border-border rounded-lg overflow-hidden bg-surface/40 shadow-sm">
                                     <button

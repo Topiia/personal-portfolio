@@ -10,6 +10,7 @@ import internshipCertsData from '@/data/internshipCertificates.json';
 import navigationData from '@/data/navigation.json';
 import themeData from '@/data/theme.json';
 import capsuleData from '@/data/projects/capsule.json';
+import topiaAggregatorData from '@/data/projects/topia-aggregator.json';
 import generatedMedia from '@/data/generated/project-media.json';
 
 import type {
@@ -56,7 +57,8 @@ export const getSkills = (): Skills => skillsData as Skills;
 
 export const getProjects = (): { projects: ProjectWithMedia[] } => {
     const capsuleProject = capsuleData as Project;
-    const allProjects = [capsuleProject, ...projectsData.projects] as Project[];
+    const topiaAggregatorProject = topiaAggregatorData as Project;
+    const allProjects = [capsuleProject, topiaAggregatorProject, ...projectsData.projects] as Project[];
     return { projects: allProjects.map(mergeWithMedia) };
 };
 

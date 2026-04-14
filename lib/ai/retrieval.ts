@@ -4,6 +4,7 @@ import experienceData from '@/data/experience.json';
 import educationData from '@/data/education.json';
 import projectsData from '@/data/projects.json';
 import capsuleData from '@/data/projects/capsule.json';
+import topiaAggregatorData from '@/data/projects/topia-aggregator.json';
 
 export interface SearchDocument {
     id: string;
@@ -126,6 +127,18 @@ function buildSearchIndex(): SearchDocument[] {
         content: `${capsuleData.impactStatement}. ${capsuleData.description} Problem solved: ${capsuleData.problemSolved}`,
     });
 
+    // TOPIA – second flagship project
+    docs.push({
+        id: topiaAggregatorData.id,
+        type: 'project',
+        title: topiaAggregatorData.title,
+        tags: [
+            ...(topiaAggregatorData.techStack ?? []),
+            ...(topiaAggregatorData.tags ?? []),
+        ],
+        content: `${topiaAggregatorData.impactStatement}. ${topiaAggregatorData.description} Problem solved: ${topiaAggregatorData.problemSolved}`,
+    });
+
     // Secondary projects (data/projects.json)
     const projects = Array.isArray(projectsData) ? projectsData : (projectsData as { projects?: unknown[] }).projects ?? [];
     for (const proj of projects as { id: string; title: string; description: string; techStack?: string[]; tags?: string[] }[]) {
@@ -218,13 +231,13 @@ export function scoreDocuments(query: string, tokens: string[], index: SearchDoc
 
             // Intent boosting
             if (isProjectIntent && doc.type === 'project') {
-                score += (doc.id === 'capsule' ? 5 : 3); // Flagship priority
+                score += ((doc.id === 'capsule' || doc.id === 'topia-aggregator') ? 5 : 3); // Flagship priority
             }
             if (isExperienceIntent && doc.type === 'experience') score += 3;
             if (isSkillIntent && doc.type === 'skill') score += 3;
             if (isProfileIntent) {
                 if (doc.type === 'profile') score += 5;
-                else if (doc.id === 'capsule') score += 4;
+                else if (doc.id === 'capsule' || doc.id === 'topia-aggregator') score += 4;
                 else if (doc.type === 'skill') score += 3;
             }
 

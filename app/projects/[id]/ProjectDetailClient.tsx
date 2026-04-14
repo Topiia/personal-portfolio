@@ -242,8 +242,8 @@ export const ProjectDetailClient: React.FC<ProjectDetailClientProps> = ({ projec
                 >
                     <h2 className="text-xl sm:text-2xl font-bold text-textHeading font-outfit mb-6 sm:mb-8">Architecture Breakdown</h2>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        {Object.entries(project.architectureBreakdown).map(([key, section]: [string, any]) => {
-                            if (key === 'systemStructure') return null;
+                        {project.architectureBreakdown?.sections && project.architectureBreakdown.sections.map((section, index) => {
+                            const key = `section-${index}`;
                             return (
                                 <div key={key} className="border border-border rounded-lg overflow-hidden bg-surface/40">
                                     <button

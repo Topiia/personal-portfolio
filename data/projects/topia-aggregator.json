@@ -1,0 +1,136 @@
+{
+    "id": "topia-aggregator",
+    "title": "TOPIA \u2014 Job Aggregator Pipeline",
+    "impactStatement": "Production-deployed full-stack job aggregation pipeline that collects, normalizes, deduplicates, and serves remote job listings using a distributed architecture with MongoDB Atlas, FastAPI, and a locally scheduled scraper running on a residential IP to bypass cloud IP bans.",
+    "description": "Building a fault-tolerant, idempotent data pipeline that separates write and read paths while handling external API inconsistencies and cloud deployment limitations.",
+    "problemSolved": "Building a fault-tolerant, idempotent data pipeline that separates write and read paths while handling external API inconsistencies and cloud deployment limitations.",
+    "architecture": "Local Scheduler (Windows Task Scheduler) -> Python Scraper (Residential IP) -> MongoDB Atlas (Cloud DB) -> FastAPI (Railway - Read Only) -> React Frontend (Vercel). Architecture highlights full separation of concerns, stateless API, and persistent external DB.",
+    "techStack": [
+        "Python",
+        "FastAPI",
+        "MongoDB Atlas",
+        "React",
+        "Vite",
+        "TypeScript",
+        "Railway",
+        "Vercel",
+        "Windows Task Scheduler"
+    ],
+    "tags": [
+        "Distributed Data Pipeline",
+        "Read-Optimized Backend System",
+        "Production deployed",
+        "Stateless backend",
+        "Idempotent pipeline",
+        "Externalized database",
+        "Fault-tolerant design",
+        "Read/write separation"
+    ],
+    "githubUrl": "https://github.com/Topiia/job-aggregator-pipeline",
+    "liveUrl": "https://jobs.topiiaa.site",
+    "demoVideoUrl": "",
+    "images": [
+        "/images/projects/topia-aggregator-placeholder.png"
+    ],
+    "featured": true,
+    "isFlagship": true,
+    "complexityLevel": "Senior",
+    "status": "Production-Ready",
+    "orderIndex": 1,
+    "media": {
+        "thumbnail": ""
+    },
+    "architectureBreakdown": {
+        "systemStructure": [
+            "Local Scheduler (Windows Task Scheduler) [Write Path]",
+            "Python Scraper (Residential IP) [Write Path]",
+            "MongoDB Atlas (Cloud DB)",
+            "FastAPI (Railway - Read Only) [Read Path]",
+            "React Frontend (Vercel) [Read Path]"
+        ],
+        "sections": [
+            {
+                "title": "Data Pipeline",
+                "items": [
+                    "Multi-source ingestion (RemoteOK, Arbeitnow, HN)",
+                    "Normalization layer",
+                    "Rate limiting protection",
+                    "Abort on API failure"
+                ]
+            },
+            {
+                "title": "Idempotency & Deduplication",
+                "items": [
+                    "Deterministic _id = source::external_id",
+                    "MongoDB unique constraint",
+                    "Upsert logic"
+                ]
+            },
+            {
+                "title": "API Design",
+                "items": [
+                    "Read-only FastAPI",
+                    "Pagination + filtering",
+                    "Stateless design"
+                ]
+            },
+            {
+                "title": "Deployment Challenges",
+                "items": [
+                    "Railway ephemeral containers",
+                    "MongoDB Atlas IP access",
+                    "CORS issues",
+                    "DNS propagation"
+                ]
+            },
+            {
+                "title": "Security Layer",
+                "items": [
+                    "Rate limiting (100 req/min)",
+                    "Bot protection via User-Agent filtering",
+                    "CORS strict origin control"
+                ]
+            },
+            {
+                "title": "Problems Solved",
+                "items": [
+                    "Data wiped on deploy \u2192 fixed via MongoDB Atlas",
+                    "IP banned scraping \u2192 moved to residential IP",
+                    "API 500 crash \u2192 moved index creation to startup",
+                    "Duplicate data \u2192 solved via deterministic IDs",
+                    "CORS failure \u2192 fixed via explicit origin config"
+                ]
+            }
+        ]
+    },
+    "engineeringDecisions": [
+        "Architecture Transformations: SQLite \u2192 MongoDB Atlas (fix data loss)",
+        "Architecture Transformations: Cloud scraping \u2192 local scraping (fix IP ban)",
+        "Architecture Transformations: Monolithic flow \u2192 separated pipeline"
+    ],
+    "productionReadiness": {
+        "checked": [
+            "Production deployed",
+            "Stateless backend",
+            "Idempotent pipeline",
+            "Externalized database",
+            "Fault-tolerant design",
+            "Read/write separation"
+        ],
+        "unchecked": [
+            "No Redis caching",
+            "No CI/CD pipeline",
+            "Local scraper dependency",
+            "No APM metrics"
+        ]
+    },
+    "scalability": {
+        "badges": [
+            "Stateless backend",
+            "Idempotent pipeline",
+            "Fault-tolerant design",
+            "Read-Optimized Backend System"
+        ],
+        "description": "Designed for fault tolerance and distributed workload segregation. By detaching the write path (residential scraper) from the read path (ephemeral cloud API), the system scales API instances independently while maintaining strict idempotency against a centralized Atlas cluster."
+    }
+}

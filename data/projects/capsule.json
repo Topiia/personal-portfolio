@@ -57,77 +57,6 @@
         "thumbnail": ""
     },
     "architectureBreakdown": {
-        "security": {
-            "title": "Security Architecture",
-            "items": [
-                "JWT-based stateless authentication",
-                "HttpOnly + Secure cookie token delivery",
-                "Refresh token rotation with single-use tokens",
-                "Token family tracking to detect reuse attacks",
-                "Bcrypt-hashed refresh tokens in database",
-                "Strict CORS allowlist enforcement",
-                "Helmet security headers",
-                "XSS sanitization and DOMPurify filtering",
-                "MongoDB query sanitization against NoSQL injection",
-                "Tiered rate limiting for authentication and general endpoints",
-                "Progressive request slowdown protection",
-                "CSRF-safe cookie strategy",
-                "Resource ownership validation",
-                "Role-based authorization for admin routes"
-            ]
-        },
-        "async": {
-            "title": "Async & Queue Processing",
-            "items": [
-                "Bull queue system backed by Redis",
-                "Dedicated background worker processes",
-                "Email delivery worker using Resend API",
-                "AI moderation worker using Groq LLM inference",
-                "Account deletion worker performing cascading deletes",
-                "Exponential retry strategy for failed jobs",
-                "Dead-Letter Queue (DLQ) for permanently failed tasks",
-                "DLQ spike detection alerting for abnormal failure rates",
-                "Non-blocking request threads through job delegation"
-            ]
-        },
-        "caching": {
-            "title": "Caching Strategy",
-            "items": [
-                "Redis cache-aside architecture",
-                "GET endpoint response caching",
-                "Pattern-based cache invalidation",
-                "TTL-based expiration control",
-                "Selective caching of expensive database queries",
-                "Cache bypass for authenticated mutation routes",
-                "X-Cache headers for cache hit/miss debugging"
-            ]
-        },
-        "observability": {
-            "title": "Observability",
-            "items": [
-                "Winston structured logging with daily rotation",
-                "Correlation ID tracing across request lifecycle",
-                "Prometheus metrics instrumentation using prom-client",
-                "Queue performance metrics (waiting, active, completed, failed)",
-                "Prometheus queue gauges for Bull worker monitoring",
-                "Sentry v10 error tracking integration for production monitoring",
-                "Audit log stream with long-term retention",
-                "Real-time system monitoring dashboard via /status endpoint",
-                "Request logging via Morgan middleware",
-                "Centralized error handling middleware"
-            ]
-        },
-        "aiModeration": {
-            "title": "AI Moderation Pipeline",
-            "items": [
-                "Groq LLM moderation worker pipeline",
-                "Queued moderation jobs for content safety",
-                "Natural language processing using HuggingFace inference APIs",
-                "Trust-score based moderation logic",
-                "Async moderation to prevent blocking user uploads",
-                "Flagging system for suspicious content"
-            ]
-        },
         "systemStructure": [
             "Client (React SPA)",
             "TanStack Query Data Layer",
@@ -139,6 +68,79 @@
             "Bull Worker Processes",
             "AI Moderation Services",
             "External Integrations (Cloudinary, Email APIs)"
+        ],
+        "sections": [
+            {
+                "title": "Security Architecture",
+                "items": [
+                    "JWT-based stateless authentication",
+                    "HttpOnly + Secure cookie token delivery",
+                    "Refresh token rotation with single-use tokens",
+                    "Token family tracking to detect reuse attacks",
+                    "Bcrypt-hashed refresh tokens in database",
+                    "Strict CORS allowlist enforcement",
+                    "Helmet security headers",
+                    "XSS sanitization and DOMPurify filtering",
+                    "MongoDB query sanitization against NoSQL injection",
+                    "Tiered rate limiting for authentication and general endpoints",
+                    "Progressive request slowdown protection",
+                    "CSRF-safe cookie strategy",
+                    "Resource ownership validation",
+                    "Role-based authorization for admin routes"
+                ]
+            },
+            {
+                "title": "Async & Queue Processing",
+                "items": [
+                    "Bull queue system backed by Redis",
+                    "Dedicated background worker processes",
+                    "Email delivery worker using Resend API",
+                    "AI moderation worker using Groq LLM inference",
+                    "Account deletion worker performing cascading deletes",
+                    "Exponential retry strategy for failed jobs",
+                    "Dead-Letter Queue (DLQ) for permanently failed tasks",
+                    "DLQ spike detection alerting for abnormal failure rates",
+                    "Non-blocking request threads through job delegation"
+                ]
+            },
+            {
+                "title": "Caching Strategy",
+                "items": [
+                    "Redis cache-aside architecture",
+                    "GET endpoint response caching",
+                    "Pattern-based cache invalidation",
+                    "TTL-based expiration control",
+                    "Selective caching of expensive database queries",
+                    "Cache bypass for authenticated mutation routes",
+                    "X-Cache headers for cache hit/miss debugging"
+                ]
+            },
+            {
+                "title": "Observability",
+                "items": [
+                    "Winston structured logging with daily rotation",
+                    "Correlation ID tracing across request lifecycle",
+                    "Prometheus metrics instrumentation using prom-client",
+                    "Queue performance metrics (waiting, active, completed, failed)",
+                    "Prometheus queue gauges for Bull worker monitoring",
+                    "Sentry v10 error tracking integration for production monitoring",
+                    "Audit log stream with long-term retention",
+                    "Real-time system monitoring dashboard via /status endpoint",
+                    "Request logging via Morgan middleware",
+                    "Centralized error handling middleware"
+                ]
+            },
+            {
+                "title": "AI Moderation Pipeline",
+                "items": [
+                    "Groq LLM moderation worker pipeline",
+                    "Queued moderation jobs for content safety",
+                    "Natural language processing using HuggingFace inference APIs",
+                    "Trust-score based moderation logic",
+                    "Async moderation to prevent blocking user uploads",
+                    "Flagging system for suspicious content"
+                ]
+            }
         ]
     },
     "engineeringDecisions": [

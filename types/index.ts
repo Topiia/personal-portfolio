@@ -47,23 +47,11 @@ export interface Project {
     orderIndex: number;
     isFlagship?: boolean;
     architectureBreakdown?: {
-        security: {
+        systemStructure?: string[];
+        sections?: {
             title: string;
             items: string[];
-        };
-        async: {
-            title: string;
-            items: string[];
-        };
-        caching: {
-            title: string;
-            items: string[];
-        };
-        observability: {
-            title: string;
-            items: string[];
-        };
-        systemStructure: string[];
+        }[];
     };
     engineeringDecisions?: string[];
     productionReadiness?: {
