@@ -58,29 +58,145 @@ function fuzzyMatch(token: string, target: string): boolean {
     return levenshteinDistance(token, target) <= maxDistance;
 }
 
-// Trim text to a max word count, appending ellipsis if truncated.
-function trimToWords(text: string, maxWords: number): string {
+// ---------------------------------------------------------------------------
+// Adaptive context compression for non-flagship projects.
+//
+// Design principles:
+//   - Sentence-aware: never cuts mid-thought, always ends at a period/boundary.
+//   - Priority-ordered: Architecture > ProblemSolved > Impact > Description.
+//     High-priority fields are compressed last, low-priority first.
+//   - Deduplication: if description and impactStatement overlap significantly,
+//     description is dropped to avoid wasting tokens on repeated phrasing.
+//   - Adaptive, not rigid: short fields pass through untouched; only verbose
+//     fields are compressed once the per-project budget is exceeded.
+// ---------------------------------------------------------------------------
+
+const PROJECT_WORD_BUDGET = 130; // per-project soft cap (adaptive, not hard)
+const CONCISE_THRESHOLD = 22;   // fields at or below this are "already concise"
+
+/** Split text into sentences. Handles ". " and terminal periods. */
+function splitSentences(text: string): string[] {
+    if (!text) return [];
+    // Split on period-space or period-end, keeping the period with the sentence.
+    return text
+        .trim()
+        .split(/(?<=\.)\s+/)
+        .filter(s => s.length > 0);
+}
+
+/** Trim text to a word budget at the nearest sentence boundary. */
+function trimToSentenceBoundary(text: string, maxWords: number): string {
     if (!text) return '';
     const words = text.trim().split(/\s+/);
     if (words.length <= maxWords) return text.trim();
-    return words.slice(0, maxWords).join(' ') + '\u2026';
+
+    const sentences = splitSentences(text);
+    let accumulated = 0;
+    const kept: string[] = [];
+
+    for (const sentence of sentences) {
+        const sentenceWords = sentence.split(/\s+/).length;
+        if (accumulated + sentenceWords > maxWords && kept.length > 0) break;
+        kept.push(sentence);
+        accumulated += sentenceWords;
+    }
+
+    return kept.join(' ');
 }
 
-// Structured, token-controlled context for non-flagship projects.
-// Formats only high-signal fields; keeps each section concise.
-// Target: ~80-120 words total per project.
+/** Rough word overlap ratio between two strings (Jaccard-ish). */
+function overlapRatio(a: string, b: string): number {
+    if (!a || !b) return 0;
+    const setA = new Set(a.toLowerCase().split(/\s+/));
+    const setB = new Set(b.toLowerCase().split(/\s+/));
+    let shared = 0;
+    for (const w of setA) if (setB.has(w)) shared++;
+    return shared / Math.max(setA.size, setB.size);
+}
+
+function wordCount(text: string): number {
+    return text ? text.trim().split(/\s+/).length : 0;
+}
+
+/**
+ * Structured, adaptively-compressed context for non-flagship projects.
+ *
+ * Field priority (highest → lowest):
+ *   1. Architecture  – technical depth, most valuable for interview-level answers
+ *   2. ProblemSolved – demonstrates reasoning, always high-signal
+ *   3. Impact        – concise differentiator
+ *   4. Description   – often overlaps with impact; trimmed first
+ *
+ * If the combined word count is within budget, everything is kept verbatim.
+ * When over budget, lower-priority fields are sentence-trimmed first.
+ */
 function formatNonFlagshipContext(proj: {
     description?: string;
     impactStatement?: string;
     problemSolved?: string;
     architecture?: string;
 }): string {
-    const parts: string[] = [];
-    if (proj.description)     parts.push(`What it does: ${trimToWords(proj.description, 25)}`);
-    if (proj.problemSolved)   parts.push(`Problem: ${trimToWords(proj.problemSolved, 28)}`);
-    if (proj.impactStatement) parts.push(`Impact: ${trimToWords(proj.impactStatement, 20)}`);
-    if (proj.architecture)    parts.push(`Architecture: ${trimToWords(proj.architecture, 28)}`);
-    return parts.join(' | ');
+    // --- Step 1: Deduplicate description vs impactStatement ---
+    // If >60% word overlap, drop description entirely (it adds no new signal).
+    let useDescription = true;
+    if (proj.description && proj.impactStatement) {
+        if (overlapRatio(proj.description, proj.impactStatement) > 0.6) {
+            useDescription = false;
+        }
+    }
+
+    // --- Step 2: Build raw field map in priority order (lowest → highest) ---
+    // We'll trim from the front of this array when over budget.
+    type Field = { label: string; text: string; priority: number };
+    const fields: Field[] = [];
+
+    if (useDescription && proj.description) {
+        fields.push({ label: 'What it does', text: proj.description.trim(), priority: 1 });
+    }
+    if (proj.impactStatement) {
+        fields.push({ label: 'Impact', text: proj.impactStatement.trim(), priority: 2 });
+    }
+    if (proj.problemSolved) {
+        fields.push({ label: 'Problem', text: proj.problemSolved.trim(), priority: 3 });
+    }
+    if (proj.architecture) {
+        fields.push({ label: 'Architecture', text: proj.architecture.trim(), priority: 4 });
+    }
+
+    // --- Step 3: Check total word count ---
+    const totalWords = fields.reduce((sum, f) => sum + wordCount(f.text), 0);
+
+    if (totalWords > PROJECT_WORD_BUDGET) {
+        // --- Step 4: Adaptive compression, lowest priority first ---
+        // Sort ascending by priority so we compress cheap fields first.
+        const sorted = [...fields].sort((a, b) => a.priority - b.priority);
+
+        let excess = totalWords - PROJECT_WORD_BUDGET;
+
+        for (const field of sorted) {
+            if (excess <= 0) break;
+            const wc = wordCount(field.text);
+
+            // Already concise? Skip — don't over-compress short fields.
+            if (wc <= CONCISE_THRESHOLD) continue;
+
+            // How many words can we afford to keep for this field?
+            const targetWords = Math.max(CONCISE_THRESHOLD, wc - excess);
+            const trimmed = trimToSentenceBoundary(field.text, targetWords);
+            const saved = wc - wordCount(trimmed);
+            field.text = trimmed;
+            excess -= saved;
+        }
+    }
+
+    // --- Step 5: Format in reading order (not priority order) ---
+    // Stable order: Description → Problem → Impact → Architecture
+    fields.sort((a, b) => a.priority - b.priority);
+
+    return fields
+        .filter(f => f.text.length > 0)
+        .map(f => `${f.label}: ${f.text}`)
+        .join(' | ');
 }
 
 const MAX_CONTEXT_CHARS = 6000;
