@@ -1,31 +1,48 @@
 import type { Metadata } from 'next';
+import Link from 'next/link';
 import { ChatContainer } from '@/components/ui/chat/ChatContainer';
 
 export const metadata: Metadata = {
-    title: 'Talk With AI About Me',
-    description: 'Ask questions about projects, skills, and engineering experience — powered by AI.',
+    title: 'Ask About The Work | Ankit Singh',
+    description: 'Ask questions about projects, engineering decisions, and technical experience — powered by AI.',
 };
 
 export default function AIChatPage() {
     return (
-        <div className="min-h-dvh flex flex-col bg-background text-textPrimary">
-            {/* Header */}
-            <header className="border-b border-border/10 backdrop-blur-xl bg-surface/60 sticky top-0 z-10">
-                <div className="container mx-auto px-6 max-w-3xl h-16 flex items-center gap-4">
-                    <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-accent to-primary flex items-center justify-center flex-shrink-0">
-                        <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-                        </svg>
+        <div className="min-h-dvh flex flex-col bg-ink text-paper">
+            {/* Editorial header */}
+            <header className="sticky top-0 z-10 bg-ink/95 backdrop-blur-sm border-b border-[rgba(243,240,232,0.08)]">
+                <div className="editorial-container h-[72px] flex items-center justify-between">
+                    {/* Left: back link */}
+                    <Link
+                        href="/"
+                        className="text-[0.6875rem] font-semibold tracking-[0.12em] uppercase text-[rgba(243,240,232,0.38)] hover:text-paper transition-colors duration-200"
+                    >
+                        ← ANKIT SINGH
+                    </Link>
+
+                    {/* Center: title */}
+                    <div className="text-center">
+                        <h1 className="text-[0.6875rem] font-bold tracking-[0.18em] uppercase text-paper">
+                            ASK ABOUT THE WORK
+                        </h1>
+                        <p className="text-[0.625rem] text-[rgba(243,240,232,0.35)] tracking-wide mt-0.5">
+                            AI layer — powered by Groq
+                        </p>
                     </div>
-                    <div>
-                        <h1 className="text-sm font-semibold text-textHeading leading-tight">Talk With AI About Me</h1>
-                        <p className="text-xs text-textMuted">Ask about projects, skills, and experience</p>
+
+                    {/* Right: status */}
+                    <div className="flex items-center gap-2">
+                        <span className="w-1.5 h-1.5 rounded-full bg-acid" aria-hidden="true" />
+                        <span className="text-[0.625rem] font-semibold tracking-[0.10em] uppercase text-[rgba(243,240,232,0.40)]">
+                            Online
+                        </span>
                     </div>
                 </div>
             </header>
 
-            {/* Chat area fills remaining viewport height */}
-            <main className="flex-1 flex flex-col container mx-auto px-0 max-w-3xl w-full overflow-hidden">
+            {/* Chat container fills remaining height */}
+            <main className="flex-1 flex flex-col w-full max-w-3xl mx-auto overflow-hidden px-4 md:px-0">
                 <ChatContainer />
             </main>
         </div>

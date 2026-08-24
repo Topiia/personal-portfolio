@@ -3,14 +3,13 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
-import { getProfile } from '@/lib/data-loader';
 
 const fadeUp = (delay = 0) => ({
-    hidden: { opacity: 0, y: 28 },
+    hidden: { opacity: 0, y: 32 },
     visible: {
         opacity: 1,
         y: 0,
-        transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1], delay },
+        transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1], delay },
     },
 });
 
@@ -18,177 +17,158 @@ const fadeIn = (delay = 0) => ({
     hidden: { opacity: 0 },
     visible: {
         opacity: 1,
-        transition: { duration: 0.6, ease: 'easeOut', delay },
+        transition: { duration: 0.7, ease: 'easeOut', delay },
     },
 });
 
 export const Hero = () => {
-    const profile = getProfile();
-
     return (
         <section
             id="hero"
-            className="relative min-h-screen flex flex-col justify-center overflow-hidden pt-16"
+            className="relative bg-paper min-h-[90svh] flex flex-col justify-center overflow-hidden pt-[72px]"
         >
-            {/* Workspace image — full bleed bottom strip */}
-            <div className="absolute inset-x-0 bottom-0 h-[35%] pointer-events-none">
-                <div
-                    className="absolute inset-0 z-10"
-                    style={{
-                        background: 'linear-gradient(to bottom, var(--color-background) 0%, transparent 40%, transparent 100%)',
-                    }}
-                />
-                <Image
-                    src="/images/ChatGPT Image Aug 12, 2026, 04_40_21 PM.png"
-                    alt="Workspace"
-                    fill
-                    sizes="100vw"
-                    className="object-cover object-center opacity-[0.18]"
-                    priority={false}
-                />
-            </div>
-
-            <div className="relative z-10 max-w-[1320px] mx-auto px-6 md:px-10 w-full">
-
+            <div className="editorial-container relative z-10 w-full">
                 {/* Top meta row */}
                 <motion.div
-                    className="flex items-center justify-between mb-12 md:mb-16"
+                    className="flex items-center justify-between mb-10 md:mb-16"
                     variants={fadeIn(0.1)}
                     initial="hidden"
                     animate="visible"
                 >
-                    <span className="mono-label">
-                        Full Stack Developer
+                    <span className="text-micro text-[rgba(21,21,21,0.40)]">
+                        Full Stack Engineer
                     </span>
-                    <span className="mono-label">
+                    <span className="text-micro text-[rgba(21,21,21,0.40)]">
                         India — {new Date().getFullYear()}
                     </span>
                 </motion.div>
 
-                {/* Main layout — asymmetric two-column on desktop */}
-                <div className="grid grid-cols-1 md:grid-cols-[1fr_auto] gap-8 md:gap-16 items-start">
+                {/* Asymmetric two-column layout */}
+                <div className="grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-10 lg:gap-20 items-start">
 
-                    {/* Left: Text block */}
+                    {/* Left: large editorial type */}
                     <div>
-                        {/* Name */}
                         <motion.h1
-                            className="font-outfit font-bold text-[var(--color-textPrimary)] leading-[0.92] tracking-[-0.04em] mb-6"
-                            style={{ fontSize: 'clamp(3.5rem, 10.5vw, 9rem)' }}
-                            variants={fadeUp(0.15)}
+                            className="text-ink leading-[0.88] tracking-[-0.045em] font-bold mb-8"
+                            style={{ fontSize: 'clamp(3.75rem, 11vw, 9rem)' }}
+                            variants={fadeUp(0.12)}
                             initial="hidden"
                             animate="visible"
                         >
-                            ANKIT<br />SINGH
+                            I build systems<br />
+                            <span className="font-serif-accent" style={{ fontSize: '0.88em' }}>
+                                that hold up
+                            </span><br />
+                            when the interface<br />ends.
                         </motion.h1>
 
-                        {/* Positioning statement */}
+                        {/* Supporting statement */}
                         <motion.p
-                            className="text-[var(--color-textMuted)] text-lg md:text-xl font-light leading-relaxed max-w-[520px] mb-10"
-                            variants={fadeUp(0.3)}
+                            className="text-[rgba(21,21,21,0.56)] text-lg md:text-xl font-normal leading-relaxed max-w-[480px] mb-10"
+                            variants={fadeUp(0.28)}
                             initial="hidden"
                             animate="visible"
                         >
-                            Building systems across interfaces,<br className="hidden md:block" />
-                            backend, data and real-time applications.
+                            Full-stack engineering across backend architecture,
+                            real-time systems, distributed infrastructure, and
+                            AI-powered services.
                         </motion.p>
 
                         {/* CTAs */}
                         <motion.div
-                            className="flex flex-wrap items-center gap-3"
-                            variants={fadeUp(0.42)}
+                            className="flex flex-wrap items-center gap-4"
+                            variants={fadeUp(0.4)}
                             initial="hidden"
                             animate="visible"
                         >
-                            {/* Explore Work — outline */}
+                            {/* Primary — ACID */}
                             <a
-                                href="#projects"
-                                id="hero-explore-work"
+                                href="#work"
+                                id="hero-view-work"
                                 onClick={(e) => {
                                     e.preventDefault();
-                                    document.querySelector('#projects')?.scrollIntoView({ behavior: 'smooth' });
+                                    document.querySelector('#work')?.scrollIntoView({ behavior: 'smooth' });
                                 }}
-                                className="inline-flex items-center gap-2 px-6 py-3 border border-[var(--color-border)] text-[var(--color-textPrimary)] text-sm font-medium hover:border-[var(--color-textMuted)] transition-colors duration-300 rounded-sm"
+                                className="btn-acid"
                             >
-                                Explore Work
-                                <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                                    <path d="M7 2L7 12M7 12L3 8M7 12L11 8" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
+                                View selected work
+                                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                                    <path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" />
                                 </svg>
                             </a>
 
-                            {/* Ask Ankit — accent fill */}
+                            {/* Secondary — text link */}
                             <a
                                 href="/ai-chat"
-                                id="hero-ask-ankit"
-                                className="inline-flex items-center gap-2 px-6 py-3 bg-[var(--color-accent)] text-[var(--color-button-text)] text-sm font-bold tracking-wide hover:opacity-90 transition-opacity duration-200 rounded-sm"
-                                style={{ fontFamily: 'var(--font-mono)' }}
+                                id="hero-ask-work"
+                                className="inline-flex items-center gap-2 text-[0.8125rem] font-semibold text-ink hover:text-cobalt transition-colors duration-200 underline underline-offset-4 decoration-[rgba(21,21,21,0.25)] hover:decoration-cobalt"
                             >
-                                <svg className="w-3.5 h-3.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                                Ask about my work
+                                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                                    <path d="M2 10L10 2M10 2H4M10 2v6" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
                                 </svg>
-                                Ask Ankit
                             </a>
 
-                            {/* Resume text link */}
+                            {/* Tertiary — resume */}
                             <a
                                 href="/resume.pdf"
                                 download="Ankit_Singh_Resume.pdf"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="mono-label text-[var(--color-textMuted)] hover:text-[var(--color-textPrimary)] transition-colors flex items-center gap-1 pl-1"
+                                className="text-[0.6875rem] font-semibold tracking-[0.10em] uppercase text-[rgba(21,21,21,0.40)] hover:text-ink transition-colors duration-200 pl-1"
                             >
                                 Resume ↗
                             </a>
                         </motion.div>
                     </div>
 
-                    {/* Right: Profile photo */}
+                    {/* Right: landscape image element */}
                     <motion.div
-                        className="hidden md:block flex-shrink-0"
-                        variants={fadeIn(0.5)}
+                        className="hidden lg:block relative w-[340px] xl:w-[400px] flex-shrink-0 self-center"
+                        variants={fadeIn(0.55)}
                         initial="hidden"
                         animate="visible"
                     >
-                        <div className="relative w-[200px] h-[200px] lg:w-[240px] lg:h-[240px]">
-                            {/* Subtle accent border ring */}
+                        <div
+                            className="relative overflow-hidden"
+                            style={{ borderRadius: '28px', aspectRatio: '3/4' }}
+                        >
+                            <Image
+                                src="/images/ChatGPT Image Aug 24, 2026, 12_51_46 PM.png"
+                                alt="Atmospheric landscape — visual counterweight"
+                                fill
+                                sizes="(max-width: 1280px) 340px, 400px"
+                                className="object-cover object-center"
+                                priority
+                            />
+                            {/* Subtle warm overlay to blend with PAPER */}
                             <div
-                                className="absolute inset-0 rounded-full"
-                                style={{
-                                    background: 'conic-gradient(from 0deg, var(--color-accent) 0%, transparent 40%, transparent 100%)',
-                                    padding: '2px',
-                                    borderRadius: '50%',
-                                }}
-                            >
-                                <div className="w-full h-full rounded-full bg-[var(--color-background)]" />
-                            </div>
-                            <div className="absolute inset-[3px] rounded-full overflow-hidden">
-                                <Image
-                                    src="/images/ChatGPT Image Aug 12, 2026, 04_57_06 PM.png"
-                                    alt="Ankit Singh"
-                                    fill
-                                    sizes="240px"
-                                    className="object-cover object-top"
-                                    priority
-                                />
-                            </div>
+                                className="absolute inset-0"
+                                style={{ background: 'linear-gradient(135deg, rgba(243,240,232,0.10) 0%, transparent 60%)' }}
+                            />
                         </div>
+                        {/* Small editorial label below image */}
+                        <p className="text-micro text-[rgba(21,21,21,0.36)] mt-3 text-right">
+                            Available for opportunities
+                        </p>
                     </motion.div>
                 </div>
 
-                {/* Bottom stats row */}
+                {/* Bottom rule + metadata */}
                 <motion.div
-                    className="mt-16 md:mt-20 pt-8 border-t border-[var(--color-rule)] flex flex-wrap gap-x-10 gap-y-4"
-                    variants={fadeIn(0.58)}
+                    className="mt-14 md:mt-20 pt-7 border-t border-[rgba(21,21,21,0.10)] flex flex-wrap gap-x-10 gap-y-4"
+                    variants={fadeIn(0.55)}
                     initial="hidden"
                     animate="visible"
                 >
                     {[
                         { label: 'Focus', value: 'Full Stack + Data' },
                         { label: 'Stack', value: 'Next.js · Node.js · Python' },
-                        { label: 'Status', value: 'Open to Opportunities' },
+                        { label: 'Status', value: 'Open to opportunities' },
                     ].map(({ label, value }) => (
                         <div key={label} className="flex flex-col gap-1">
-                            <span className="mono-label">{label}</span>
-                            <span className="text-sm text-[var(--color-textPrimary)] font-medium">{value}</span>
+                            <span className="text-micro text-[rgba(21,21,21,0.36)]">{label}</span>
+                            <span className="text-sm font-medium text-ink">{value}</span>
                         </div>
                     ))}
                 </motion.div>
@@ -196,17 +176,16 @@ export const Hero = () => {
 
             {/* Scroll indicator */}
             <motion.div
-                className="absolute bottom-8 left-1/2 -translate-x-1/2"
+                className="absolute bottom-8 left-[clamp(1.25rem,5vw,5rem)]"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ delay: 2.2, duration: 1 }}
+                transition={{ delay: 2.0, duration: 1 }}
             >
                 <motion.div
                     animate={{ y: [0, 6, 0] }}
                     transition={{ repeat: Infinity, duration: 2.2, ease: 'easeInOut' }}
-                    className="flex flex-col items-center gap-1.5"
                 >
-                    <div className="w-px h-8 bg-gradient-to-b from-transparent to-[var(--color-textMuted)] opacity-40" />
+                    <div className="w-px h-10 bg-gradient-to-b from-transparent to-[rgba(21,21,21,0.28)]" />
                 </motion.div>
             </motion.div>
         </section>

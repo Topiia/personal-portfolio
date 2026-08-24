@@ -89,7 +89,15 @@ export function ChatContainer() {
     return (
         <div className="flex flex-col h-full">
             {/* Messages area */}
-            <div className="flex-1 overflow-y-auto px-4 py-6 space-y-1">
+            <div className="flex-1 overflow-y-auto px-4 md:px-8 py-8 space-y-1">
+                {messages.length === 0 && (
+                    <div className="pt-12 text-center">
+                        <p className="text-[rgba(243,240,232,0.28)] text-[0.8125rem]">
+                            No messages yet — ask anything about the work.
+                        </p>
+                    </div>
+                )}
+
                 {messages.map((msg, i) => {
                     // Skip empty assistant messages (show TypingIndicator instead)
                     if (msg.role === 'assistant' && msg.content === '' && isStreaming) return null;
@@ -99,17 +107,17 @@ export function ChatContainer() {
                 {showTypingIndicator && <TypingIndicator />}
 
                 {error && (
-                    <div className="text-red-400 text-sm text-center py-2">{error}</div>
+                    <div className="text-coral text-sm text-center py-2">{error}</div>
                 )}
 
                 <div ref={messagesEndRef} />
             </div>
 
             {/* Input area */}
-            <div className="px-4 pb-4 pt-2 border-t border-border/10">
+            <div className="px-4 md:px-8 pb-6 pt-3 border-t border-[rgba(243,240,232,0.08)]">
                 <ChatInput onSend={handleSend} disabled={isStreaming} />
-                <p className="text-center text-xs text-textMuted mt-2 opacity-60">
-                    Ask about projects, skills, experience, or technologies.
+                <p className="text-center text-[0.625rem] text-[rgba(243,240,232,0.24)] mt-3 tracking-wide">
+                    Ask about projects, engineering decisions, or architecture.
                 </p>
             </div>
         </div>
