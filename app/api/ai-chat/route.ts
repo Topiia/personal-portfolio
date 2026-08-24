@@ -93,10 +93,11 @@ export async function POST(req: Request) {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                model: 'llama-3.3-70b-versatile',
+                model: 'qwen/qwen3.6-27b',
                 messages: modelMessages,
                 stream: true,
                 temperature: 0.5,
+
                 max_tokens: 1024,
             }),
         });

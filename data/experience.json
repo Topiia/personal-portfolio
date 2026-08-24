@@ -1,6 +1,33 @@
 {
     "experiences": [
         {
+            "id": "tglevels-intern",
+            "type": "experience",
+            "role": "Software Developer Intern",
+            "company": "Mentorchamp EdTech Pvt. Ltd. (TG Levels)",
+            "duration": "11 May 2026 – 11 Aug 2026",
+            "description": "Built the CRM Phase 2 frontend from scratch, integrated MW/DW/Wave logic into the trading application, and developed a Python backtesting and research pipeline.",
+            "bulletPoints": [
+                "Built CRM Phase 2 frontend — dashboard, Leadership Hub, analytics views — with Next.js, TypeScript, and Tailwind CSS",
+                "Integrated MW/DW/Wave logic into existing Node.js/Express trading application",
+                "Developed Python MW/DW backtesting and research pipeline; converted CSV equity/NIFTY options datasets to partitioned Parquet",
+                "Resolved Lightweight Charts performance issues and historical data loading bottlenecks",
+                "Performed data validation and audit across trading datasets"
+            ],
+            "technologies": [
+                "Next.js",
+                "TypeScript",
+                "Tailwind CSS",
+                "Node.js",
+                "Express",
+                "Python",
+                "Pandas",
+                "Parquet"
+            ],
+            "images": [],
+            "orderIndex": 0
+        },
+        {
             "id": "mira-intern",
             "type": "experience",
             "role": "Python & Django Backend Developer Intern",

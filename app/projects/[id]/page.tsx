@@ -2,7 +2,6 @@ import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
-import { BackgroundLogos } from '@/components/background/BackgroundLogos';
 import { getProjects, getProjectById } from '@/lib/data-loader';
 import { ProjectDetailClient } from './ProjectDetailClient';
 
@@ -32,15 +31,23 @@ export default function ProjectDetailPage({ params }: { params: { id: string } }
     }
 
     return (
-        <main className="min-h-screen">
-            <BackgroundLogos />
+        <main className="min-h-screen bg-paper">
             <Navbar />
 
-            <div className="max-w-6xl mx-auto px-6 pt-32 pb-20">
+            <div 
+                className="editorial-container" 
+                style={{ 
+                    paddingTop: 'calc(var(--nav-height) + clamp(1.5rem, 4dvh, 4rem))',
+                    paddingBottom: 'var(--section-pad-y-lg)'
+                }}
+            >
                 {/* Breadcrumb */}
-                <nav className="mb-8">
-                    <Link href="/#projects" className="text-textMuted hover:text-accent transition-colors text-sm">
-                        ← Back to Projects
+                <nav className="mb-[clamp(1.5rem,4dvh,2.5rem)]" aria-label="Breadcrumb">
+                    <Link
+                        href="/#work"
+                        className="text-[0.6875rem] font-semibold tracking-[0.12em] uppercase text-[rgba(21,21,21,0.38)] hover:text-ink transition-colors duration-200"
+                    >
+                        ← Back to work
                     </Link>
                 </nav>
 

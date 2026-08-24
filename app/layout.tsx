@@ -1,35 +1,25 @@
 import type { Metadata } from 'next';
-import { Outfit, Inter, JetBrains_Mono } from "next/font/google";
+import { Inter } from 'next/font/google';
 import './globals.css';
-import { FloatingBackground } from '@/components/background/FloatingBackground';
-import { CustomCursor } from '@/components/ui/CustomCursor';
-import { ThemeProvider } from '@/components/theme/ThemeProvider';
-
-const outfit = Outfit({
-    subsets: ["latin"],
-    variable: "--font-outfit",
-    display: "swap",
-});
 
 const inter = Inter({
-    subsets: ["latin"],
-    variable: "--font-inter",
-    display: "swap",
-});
-
-const jetbrainsMono = JetBrains_Mono({
-    subsets: ["latin"],
-    variable: "--font-mono",
-    display: "swap",
+    subsets: ['latin'],
+    variable: '--font-inter',
+    display: 'swap',
 });
 
 export const metadata: Metadata = {
-    title: 'Ankit Singh | AI Full-Stack Engineer',
-    description: 'AI Full-Stack Engineer specializing in real-time systems, distributed architecture, and intelligent web applications.',
+    title: 'Ankit Singh — Full Stack Engineer',
+    description: 'Full Stack Engineer building production-grade systems across backend, frontend, real-time infrastructure, and AI-powered services.',
     icons: {
         icon: '/topiiaa_icon.ico',
         shortcut: '/topiiaa_icon.ico',
         apple: '/topiiaa_icon.ico',
+    },
+    openGraph: {
+        title: 'Ankit Singh — Full Stack Engineer',
+        description: 'Full Stack Engineer building production-grade systems across backend, frontend, real-time infrastructure, and AI-powered services.',
+        type: 'website',
     },
 };
 
@@ -40,12 +30,8 @@ export default function RootLayout({
 }) {
     return (
         <html lang="en" className="scroll-smooth">
-            <body className={`${outfit.variable} ${inter.variable} ${jetbrainsMono.variable} font-inter relative`}>
-                <ThemeProvider>
-                    <FloatingBackground />
-                    <CustomCursor />
-                    {children}
-                </ThemeProvider>
+            <body className={`${inter.variable} font-sans antialiased`}>
+                {children}
             </body>
         </html>
     );

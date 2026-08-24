@@ -6,14 +6,7 @@ import Image from 'next/image';
 import dynamic from 'next/dynamic';
 import { getTimeline, getCertifications, getInternshipCertificates } from '@/lib/data-loader';
 import { Section } from '@/components/ui/Section';
-import { Card } from '@/components/ui/Card';
-import {
-    Briefcase,
-    GraduationCap,
-    Award,
-    Calendar,
-    ImageOff,
-} from 'lucide-react';
+import { ImageOff, Award } from 'lucide-react';
 
 // Dynamically import modal to keep initial bundle lean
 const CertificateModal = dynamic(() => import('@/components/CertificateModal'), { ssr: false });
@@ -27,52 +20,30 @@ interface InternshipCert {
 }
 
 /* ─────────────────────────────────────────────────────────────
-   Certificate Thumbnail Card (no zoom – opens modal on click)
+   Certificate Thumbnail Card — kept intact, re-styled
 ───────────────────────────────────────────────────────────── */
 interface CertCardProps {
     title: string;
     image: string;
-    isActive: boolean;
-    isPrev: boolean;
-    isNext: boolean;
     onOpen: (src: string, alt: string) => void;
 }
 
-const CertCard: React.FC<CertCardProps> = React.memo(({ title, image, isActive, isPrev, isNext, onOpen }) => {
+const CertCard: React.FC<CertCardProps> = React.memo(({ title, image, onOpen }) => {
     const [imgError, setImgError] = useState(false);
-
-    let rotateStyle: React.CSSProperties;
-    let opacityClass: string;
-
-    if (isActive) {
-        rotateStyle = { transform: 'scale(1) rotateY(0deg)' };
-        opacityClass = 'opacity-100 z-10';
-    } else if (isPrev) {
-        rotateStyle = { transform: 'scale(0.88) rotateY(6deg)' };
-        opacityClass = 'opacity-65 z-0';
-    } else if (isNext) {
-        rotateStyle = { transform: 'scale(0.88) rotateY(-6deg)' };
-        opacityClass = 'opacity-65 z-0';
-    } else {
-        rotateStyle = { transform: 'scale(0.85) rotateY(0deg)' };
-        opacityClass = 'opacity-40 z-0';
-    }
 
     return (
         <div
-            className="cert-carousel-slide flex-none w-[220px] sm:w-[260px] md:w-[300px] px-2 transition-all duration-300 ease-out"
-            style={{ perspective: '1200px' }}
+            className="flex-none w-[220px] sm:w-[260px] px-2 transition-all duration-300"
         >
             <div
-                className={`cert-card group relative rounded-2xl overflow-hidden border border-white/10 bg-white/5 backdrop-blur-md shadow-lg transition-transform duration-500 will-change-transform cursor-pointer hover:border-accent/40 ${opacityClass}`}
-                style={{ ...rotateStyle, transformStyle: 'preserve-3d' }}
+                className="group relative rounded-sm overflow-hidden border border-[var(--color-border)] bg-[var(--color-surface)] shadow-sm transition-all duration-300 hover:border-[var(--color-accent)] cursor-pointer"
                 onClick={() => !imgError && onOpen(image, `${title} Certificate`)}
                 aria-label={`View ${title} Certificate`}
                 role="button"
                 tabIndex={0}
                 onKeyDown={(e) => e.key === 'Enter' && !imgError && onOpen(image, `${title} Certificate`)}
             >
-                <div className="relative w-full aspect-[4/3] overflow-hidden bg-background/50">
+                <div className="relative w-full aspect-[4/3] overflow-hidden bg-[var(--color-card)]">
                     {!imgError ? (
                         <Image
                             src={image}
@@ -85,27 +56,23 @@ const CertCard: React.FC<CertCardProps> = React.memo(({ title, image, isActive, 
                             className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                         />
                     ) : (
-                        <div className="w-full h-full flex flex-col items-center justify-center gap-3 text-textMuted bg-gradient-to-br from-accent/10 to-accent/5">
-                            <ImageOff className="w-8 h-8 opacity-40" />
-                            <span className="text-xs opacity-40 text-center px-4">
+                        <div className="w-full h-full flex flex-col items-center justify-center gap-3 text-[var(--color-textMuted)]">
+                            <ImageOff className="w-8 h-8 opacity-30" />
+                            <span className="text-xs opacity-30 text-center px-4">
                                 Missing image<br />
-                                <code className="text-accent/60 truncate max-w-full block px-2">{image}</code>
+                                <code className="truncate max-w-full block px-2">{image}</code>
                             </span>
                         </div>
                     )}
-
-                    {/* Hover zoom hint */}
                     {!imgError && (
-                        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100">
-                            <span className="text-white text-xs font-semibold bg-black/50 px-3 py-1 rounded-full border border-white/20">
-                                Click to view
+                        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100">
+                            <span className="text-white text-xs font-medium bg-black/60 px-3 py-1 rounded-sm">
+                                View
                             </span>
                         </div>
                     )}
-
-                    {/* Gradient + title overlay */}
-                    <div className="pointer-events-none absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-black/80 to-transparent" />
-                    <span className="pointer-events-none absolute bottom-3 left-3 right-3 text-white text-sm font-semibold truncate drop-shadow-md">
+                    <div className="pointer-events-none absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-black/70 to-transparent" />
+                    <span className="pointer-events-none absolute bottom-2 left-3 right-3 text-white text-xs font-medium truncate">
                         {title}
                     </span>
                 </div>
@@ -116,7 +83,7 @@ const CertCard: React.FC<CertCardProps> = React.memo(({ title, image, isActive, 
 CertCard.displayName = 'CertCard';
 
 /* ─────────────────────────────────────────────────────────────
-   Embla Carousel – Infinite Auto-Scroll
+   Certifications Carousel — infinite scroll (logic unchanged)
 ───────────────────────────────────────────────────────────── */
 const CertCarousel: React.FC<{ onOpen: (src: string, alt: string) => void }> = React.memo(({ onOpen }) => {
     const { certifications } = getCertifications();
@@ -134,7 +101,7 @@ const CertCarousel: React.FC<{ onOpen: (src: string, alt: string) => void }> = R
             <div className="overflow-hidden py-8">
                 <div className="flex justify-center gap-6">
                     {certs.slice(0, 3).map(c => (
-                        <div key={c.id} className="flex-none w-[260px] h-[195px] rounded-2xl bg-white/5 border border-white/10 animate-pulse" />
+                        <div key={c.id} className="flex-none w-[260px] h-[195px] rounded-sm bg-[var(--color-surface)] border border-[var(--color-border)] animate-pulse" />
                     ))}
                 </div>
             </div>
@@ -143,22 +110,18 @@ const CertCarousel: React.FC<{ onOpen: (src: string, alt: string) => void }> = R
 
     return (
         <div className="arsenal-slider-wrapper overflow-hidden w-full py-8 relative">
-            <div className="arsenal-slider-track items-center group-hover:pause">
+            <div className="arsenal-slider-track items-center">
                 {[...certs, ...certs].map((cert, index) => (
                     <CertCard
                         key={`${cert.id}-${index}`}
                         title={cert.title}
                         image={cert.image}
-                        isActive={true} /* Force 100% scale for CSS track */
-                        isPrev={false}
-                        isNext={false}
                         onOpen={onOpen}
                     />
                 ))}
             </div>
-            {/* Fade masks */}
-            <div className="pointer-events-none absolute inset-y-0 left-0 w-16 md:w-32 z-20 bg-gradient-to-r from-background to-transparent" />
-            <div className="pointer-events-none absolute inset-y-0 right-0 w-16 md:w-32 z-20 bg-gradient-to-l from-background to-transparent" />
+            <div className="pointer-events-none absolute inset-y-0 left-0 w-16 md:w-32 z-20 bg-gradient-to-r from-[var(--color-background)] to-transparent" />
+            <div className="pointer-events-none absolute inset-y-0 right-0 w-16 md:w-32 z-20 bg-gradient-to-l from-[var(--color-background)] to-transparent" />
         </div>
     );
 });
@@ -172,14 +135,14 @@ const InternshipCertCard: React.FC<InternshipCert & { onOpen: (src: string, alt:
 
     return (
         <div
-            className="group relative rounded-2xl overflow-hidden border border-white/10 bg-white/5 backdrop-blur-md shadow-md hover:shadow-accent/20 hover:border-accent/40 transition-all duration-300 hover:-translate-y-1 hover:scale-105 cursor-pointer"
+            className="group relative rounded-sm overflow-hidden border border-[var(--color-border)] bg-[var(--color-surface)] hover:border-[var(--color-accent)] transition-all duration-300 cursor-pointer"
             onClick={() => !imgError && onOpen(image, title)}
             role="button"
             tabIndex={0}
             onKeyDown={(e) => e.key === 'Enter' && !imgError && onOpen(image, title)}
             aria-label={`View ${title}`}
         >
-            <div className="relative w-full aspect-[4/3] bg-background/50 overflow-hidden">
+            <div className="relative w-full aspect-[4/3] bg-[var(--color-card)] overflow-hidden">
                 {!imgError ? (
                     <>
                         <Image
@@ -190,33 +153,71 @@ const InternshipCertCard: React.FC<InternshipCert & { onOpen: (src: string, alt:
                             loading="lazy"
                             sizes="(max-width:768px) 100vw, 420px"
                             onError={() => setImgError(true)}
-                            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                         />
-                        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100">
-                            <span className="text-white text-xs font-semibold bg-black/50 px-3 py-1 rounded-full border border-white/20">
-                                Click to view
-                            </span>
+                        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100">
+                            <span className="text-white text-xs font-medium bg-black/60 px-3 py-1 rounded-sm">View</span>
                         </div>
                     </>
                 ) : (
-                    <div className="w-full h-full flex flex-col items-center justify-center gap-2 text-textMuted bg-gradient-to-br from-accent/10 to-accent/5">
-                        <ImageOff className="w-8 h-8 opacity-40" />
-                        <span className="text-xs opacity-40 text-center px-4">
+                    <div className="w-full h-full flex flex-col items-center justify-center gap-2 text-[var(--color-textMuted)]">
+                        <ImageOff className="w-8 h-8 opacity-30" />
+                        <span className="text-xs opacity-30 text-center px-4">
                             Missing image<br />
-                            <code className="text-accent/60 truncate block px-2">{image}</code>
+                            <code className="truncate block px-2">{image}</code>
                         </span>
                     </div>
                 )}
-                <div className="pointer-events-none absolute inset-x-0 bottom-0 h-14 bg-gradient-to-t from-black/80 to-transparent" />
+                <div className="pointer-events-none absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-black/70 to-transparent" />
             </div>
-            <div className="px-4 py-3 bg-surface/30">
-                <p className="text-sm font-semibold text-textHeading line-clamp-1">{title}</p>
-                <p className="text-xs text-textMuted mt-0.5">Internship Record</p>
+            <div className="px-3 py-2 border-t border-[var(--color-border)]">
+                <p className="text-xs font-medium text-[var(--color-textPrimary)] line-clamp-1">{title}</p>
             </div>
         </div>
     );
 });
 InternshipCertCard.displayName = 'InternshipCertCard';
+
+/* ─────────────────────────────────────────────────────────────
+   Experience Photo Strip — for TG Levels
+───────────────────────────────────────────────────────────── */
+interface ExperiencePhotoStripProps {
+    images: string[];
+    company: string;
+    duration: string;
+}
+
+const ExperiencePhotoStrip: React.FC<ExperiencePhotoStripProps> = ({ images, company, duration }) => {
+    if (!images || images.length === 0) return null;
+
+    return (
+        <div className="mt-8 pt-6 border-t border-[var(--color-rule)]">
+            <p className="mono-label mb-4">@ {company} — {duration}</p>
+            <div className="grid grid-cols-3 gap-2 md:gap-3">
+                {images.map((src, idx) => (
+                    <div
+                        key={idx}
+                        className={`relative overflow-hidden rounded-sm ${idx === 0 ? 'aspect-[3/4]' : 'aspect-[3/4]'}`}
+                        style={{
+                            transform: idx === 1 ? 'translateY(-8px)' : idx === 2 ? 'translateY(4px)' : 'none',
+                        }}
+                    >
+                        <Image
+                            src={src}
+                            alt={`${company} — photo ${idx + 1}`}
+                            fill
+                            sizes="(max-width:768px) 33vw, 200px"
+                            className="object-cover"
+                            loading="lazy"
+                        />
+                        {/* Subtle dark overlay to blend with theme */}
+                        <div className="absolute inset-0 bg-[var(--color-background)] opacity-[0.08]" />
+                    </div>
+                ))}
+            </div>
+        </div>
+    );
+};
 
 /* ─────────────────────────────────────────────────────────────
    Main Component
@@ -242,174 +243,227 @@ export const ExperienceTimeline = () => {
     const experienceEntries = timeline.filter((item) => item.type === 'experience');
     const higherEduEntries = educationEntries.filter((e) => e.group !== 'school');
     const schoolGroupEntry = educationEntries.find((e) => e.group === 'school');
-    const orderedItems = [...experienceEntries, ...higherEduEntries];
 
-    const itemVariants = {
+    const rowVariants = {
         hidden: { opacity: 0, y: 20 },
-        visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
+        visible: { opacity: 1, y: 0, transition: { duration: 0.55, ease: [0.16, 1, 0.3, 1] } },
     };
 
     return (
         <Section id="experience" className="py-16 sm:py-24 md:py-32">
-            {/* Certificate preview modal */}
+            {/* Certificate modal */}
             {mounted && modalImage && (
                 <CertificateModal src={modalImage.src} alt={modalImage.alt} onClose={closeModal} />
             )}
 
-            {/* Section header */}
-            <div className="text-center mb-12 sm:mb-16 md:mb-24 px-4">
-                <span className="text-accent font-semibold tracking-widest text-xs uppercase mb-4 block">
-                    Trajectory
-                </span>
-                <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-3 sm:mb-4 font-outfit text-textHeading">
-                    Experience &amp; Education
-                </h2>
-                <p className="text-base sm:text-lg md:text-xl text-textMuted max-w-2xl mx-auto font-light">
-                    The professional path and academic foundation
-                </p>
+            {/* Section header — left aligned, editorial */}
+            <div className="max-w-[1320px] mx-auto px-6 md:px-10 mb-16 md:mb-24">
+                <div className="flex items-end justify-between border-b border-[var(--color-rule)] pb-6">
+                    <div>
+                        <span className="mono-label text-[var(--color-accent)] block mb-3">01 / Experience</span>
+                        <h2 className="font-outfit font-bold text-[var(--color-textPrimary)] tracking-tight text-3xl md:text-5xl">
+                            Professional<br />Trajectory
+                        </h2>
+                    </div>
+                    <span className="mono-label hidden md:block pb-1">
+                        {experienceEntries.length} role{experienceEntries.length !== 1 ? 's' : ''}
+                    </span>
+                </div>
             </div>
 
-            <div className="max-w-4xl mx-auto px-4">
-                <div className="space-y-8 sm:space-y-10 md:space-y-12">
-                    {orderedItems.map((item) => {
+            {/* Experience entries */}
+            <div className="max-w-[1320px] mx-auto px-6 md:px-10">
+                <div className="space-y-0">
+                    {experienceEntries.map((item, idx) => {
                         const companyId = item.id.split('-')[0];
                         const internshipCerts = internshipCertsMap?.[companyId] || [];
+                        const expImages = (item as any).images as string[] | undefined;
+                        const isFeatured = idx === 0; // Most recent = most prominent
 
                         return (
                             <motion.div
                                 key={item.id}
-                                variants={itemVariants}
+                                variants={rowVariants}
                                 initial="hidden"
                                 whileInView="visible"
-                                viewport={{ once: true, margin: '-50px' }}
+                                viewport={{ once: true, margin: '-60px' }}
+                                className="group"
                             >
-                                <Card
-                                    className="relative overflow-hidden p-5 sm:p-6 md:p-8 lg:p-10 premium-border bg-surface/10 glass-effect group"
-                                    hoverEffect={true}
-                                >
-                                    <div className="flex flex-col md:flex-row md:items-start justify-between gap-4 sm:gap-6">
-                                        <div className="space-y-4">
-                                            <div className="flex items-center gap-3">
-                                                <div className="p-2 rounded-lg bg-accent/10">
-                                                    {item.type === 'experience' ? (
-                                                        <Briefcase className="w-5 h-5 text-accent" />
-                                                    ) : (
-                                                        <GraduationCap className="w-5 h-5 text-accent" />
-                                                    )}
-                                                </div>
-                                                <span className="text-sm font-bold uppercase tracking-widest text-accent/80">
-                                                    {item.type === 'experience' ? 'Professional' : 'Academic'}
-                                                </span>
-                                            </div>
-                                            <div>
-                                                <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-textHeading font-outfit break-words">
-                                                    {item.type === 'experience' ? item.role : item.degree}
-                                                </h3>
-                                                <p className="text-base sm:text-lg md:text-xl text-textMuted font-medium mt-1">
-                                                    {item.type === 'experience' ? item.company : (item.institution || item.description)}
-                                                </p>
-                                            </div>
-                                            {item.type === 'experience' && (
-                                                <ul className="space-y-2 sm:space-y-3 pt-2">
-                                                    {item.bulletPoints.map((point: string, i: number) => (
-                                                        <li key={i} className="text-sm sm:text-base text-textMuted font-light leading-relaxed flex items-start gap-2 sm:gap-3">
-                                                            <span className="w-1.5 h-1.5 rounded-full bg-accent/40 mt-2 flex-shrink-0" />
-                                                            {point}
-                                                        </li>
-                                                    ))}
-                                                </ul>
-                                            )}
-                                        </div>
-                                        <div className="flex flex-col md:items-end gap-3 flex-shrink-0">
-                                            <div className="flex items-center gap-2 text-textMuted text-sm font-medium bg-white/5 px-4 py-2 rounded-full border border-white/5">
-                                                <Calendar className="w-4 h-4" />
-                                                {item.duration}
-                                            </div>
-                                        </div>
+                                <div className={`grid grid-cols-1 md:grid-cols-[auto_1fr_auto] gap-6 md:gap-12 py-10 md:py-14 border-b border-[var(--color-rule)] ${isFeatured ? 'md:items-start' : 'md:items-start'}`}>
+
+                                    {/* Left — index + role */}
+                                    <div className="md:w-[280px] flex-shrink-0">
+                                        <span className="mono-label text-[var(--color-textMuted)] block mb-3">
+                                            {String(idx + 1).padStart(2, '0')}
+                                        </span>
+                                        <h3 className="font-outfit font-bold text-[var(--color-textPrimary)] text-xl md:text-2xl leading-tight tracking-tight mb-1">
+                                            {item.role}
+                                        </h3>
+                                        <p className="text-sm font-medium text-[var(--color-accent)]">
+                                            {item.company}
+                                        </p>
                                     </div>
 
-                                    {item.type === 'experience' && (
-                                        <div className="flex flex-wrap gap-1.5 sm:gap-2 mt-5 sm:mt-6 md:mt-8 pt-5 sm:pt-6 md:pt-8 border-t border-white/5">
+                                    {/* Center — bullets */}
+                                    <div className="flex-1 min-w-0">
+                                        <ul className="space-y-3">
+                                            {item.bulletPoints.map((point: string, i: number) => (
+                                                <li
+                                                    key={i}
+                                                    className="flex items-start gap-3 text-sm text-[var(--color-textMuted)] leading-relaxed"
+                                                >
+                                                    <span className="mt-[7px] w-1 h-1 rounded-full bg-[var(--color-accent)] flex-shrink-0 opacity-60" />
+                                                    {point}
+                                                </li>
+                                            ))}
+                                        </ul>
+
+                                        {/* Tech tags */}
+                                        <div className="flex flex-wrap gap-1.5 mt-6">
                                             {item.technologies.map((tech: string) => (
-                                                <span key={tech} className="text-[10px] font-bold uppercase tracking-wider px-3 py-1 bg-accent/5 text-accent/70 rounded border border-accent/10">
-                                                    {tech}
-                                                </span>
+                                                <span key={tech} className="tech-tag">{tech}</span>
                                             ))}
                                         </div>
-                                    )}
 
-                                    {mounted && item.type === 'experience' && internshipCerts.length > 0 && (
-                                        <div className="mt-10 pt-8 border-t border-white/5">
-                                            <h4 className="text-sm font-bold uppercase tracking-widest text-accent/80 mb-5 flex items-center gap-2">
-                                                <Award className="w-4 h-4" />
-                                                Internship Certificates
-                                            </h4>
-                                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                                {internshipCerts.map((cert: InternshipCert, idx: number) => (
-                                                    <InternshipCertCard key={idx} title={cert.title} image={cert.image} onOpen={openModal} />
-                                                ))}
+                                        {/* Office photo strip for TG Levels */}
+                                        {mounted && expImages && expImages.length > 0 && (
+                                            <ExperiencePhotoStrip
+                                                images={expImages}
+                                                company={item.company}
+                                                duration={item.duration}
+                                            />
+                                        )}
+
+                                        {/* Internship certificates */}
+                                        {mounted && internshipCerts.length > 0 && (
+                                            <div className="mt-8 pt-6 border-t border-[var(--color-rule)]">
+                                                <p className="mono-label flex items-center gap-2 mb-4">
+                                                    <Award className="w-3 h-3 text-[var(--color-accent)]" />
+                                                    Internship Certificates
+                                                </p>
+                                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                                    {internshipCerts.map((cert: InternshipCert, certIdx: number) => (
+                                                        <InternshipCertCard
+                                                            key={certIdx}
+                                                            title={cert.title}
+                                                            image={cert.image}
+                                                            onOpen={openModal}
+                                                        />
+                                                    ))}
+                                                </div>
                                             </div>
-                                        </div>
-                                    )}
-                                </Card>
+                                        )}
+                                    </div>
+
+                                    {/* Right — duration */}
+                                    <div className="md:w-[140px] flex-shrink-0 md:text-right">
+                                        <span className="mono-label whitespace-nowrap">{item.duration}</span>
+                                    </div>
+                                </div>
                             </motion.div>
                         );
                     })}
-
-                    {/* School Education grouped card */}
-                    {schoolGroupEntry && Array.isArray(schoolGroupEntry.entries) && schoolGroupEntry.entries.length > 0 && (
-                        <motion.div
-                            variants={itemVariants}
-                            initial="hidden"
-                            whileInView="visible"
-                            viewport={{ once: true, margin: '-50px' }}
-                        >
-                            <Card
-                                className="relative overflow-hidden p-8 md:p-10 premium-border bg-surface/10 glass-effect group"
-                                hoverEffect={true}
-                            >
-                                <div className="flex flex-col md:flex-row md:items-start justify-between gap-6 mb-8">
-                                    <div className="space-y-3">
-                                        <div className="flex items-center gap-3">
-                                            <div className="p-2 rounded-lg bg-accent/10">
-                                                <GraduationCap className="w-5 h-5 text-accent" />
-                                            </div>
-                                            <span className="text-sm font-bold uppercase tracking-widest text-accent/80">Academic</span>
-                                        </div>
-                                        <h3 className="text-3xl font-bold text-textHeading font-outfit">
-                                            {schoolGroupEntry.degree || 'School Education'}
-                                        </h3>
-                                    </div>
-                                </div>
-                                <div className="space-y-4">
-                                    {schoolGroupEntry.entries.map((entry, idx) => (
-                                        <div
-                                            key={idx}
-                                            className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 py-4 px-5 rounded-xl bg-white/5 border border-white/5 hover:border-accent/20 transition-colors"
-                                        >
-                                            <p className="text-base font-semibold text-textHeading">{entry.level}</p>
-                                            <div className="flex items-center gap-1.5 text-textMuted text-xs font-medium bg-white/5 px-3 py-1.5 rounded-full border border-white/5">
-                                                <Calendar className="w-3 h-3" />
-                                                {entry.year}
-                                            </div>
-                                        </div>
-                                    ))}
-                                </div>
-                            </Card>
-                        </motion.div>
-                    )}
                 </div>
             </div>
 
+            {/* Education section */}
+            {(higherEduEntries.length > 0 || schoolGroupEntry) && (
+                <div className="max-w-[1320px] mx-auto px-6 md:px-10 mt-20 md:mt-28">
+                    <div className="flex items-end justify-between border-b border-[var(--color-rule)] pb-6 mb-0">
+                        <div>
+                            <span className="mono-label text-[var(--color-accent)] block mb-3">02 / Education</span>
+                            <h2 className="font-outfit font-bold text-[var(--color-textPrimary)] tracking-tight text-3xl md:text-4xl">
+                                Academic<br />Foundation
+                            </h2>
+                        </div>
+                    </div>
+
+                    <div className="space-y-0">
+                        {higherEduEntries.map((item, idx) => (
+                            <motion.div
+                                key={item.id}
+                                variants={rowVariants}
+                                initial="hidden"
+                                whileInView="visible"
+                                viewport={{ once: true, margin: '-60px' }}
+                            >
+                                <div className="grid grid-cols-1 md:grid-cols-[auto_1fr_auto] gap-6 md:gap-12 py-10 border-b border-[var(--color-rule)]">
+                                    <div className="md:w-[280px] flex-shrink-0">
+                                        <span className="mono-label text-[var(--color-textMuted)] block mb-3">
+                                            {String(idx + 1).padStart(2, '0')}
+                                        </span>
+                                        <h3 className="font-outfit font-bold text-[var(--color-textPrimary)] text-xl md:text-2xl leading-tight tracking-tight mb-1">
+                                            {item.degree}
+                                        </h3>
+                                        <p className="text-sm font-medium text-[var(--color-accent)]">
+                                            {item.institution || item.description}
+                                        </p>
+                                    </div>
+                                    <div className="flex-1 min-w-0">
+                                        {item.description && item.institution && (
+                                            <p className="text-sm text-[var(--color-textMuted)] leading-relaxed">{item.description}</p>
+                                        )}
+                                        {item.achievements && item.achievements.length > 0 && (
+                                            <ul className="space-y-2 mt-3">
+                                                {item.achievements.map((a: string, i: number) => (
+                                                    <li key={i} className="flex items-start gap-3 text-sm text-[var(--color-textMuted)]">
+                                                        <span className="mt-[7px] w-1 h-1 rounded-full bg-[var(--color-accent)] flex-shrink-0 opacity-60" />
+                                                        {a}
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                        )}
+                                    </div>
+                                    <div className="md:w-[140px] flex-shrink-0 md:text-right">
+                                        <span className="mono-label whitespace-nowrap">{item.duration}</span>
+                                    </div>
+                                </div>
+                            </motion.div>
+                        ))}
+
+                        {/* School grouped entry */}
+                        {schoolGroupEntry && Array.isArray(schoolGroupEntry.entries) && schoolGroupEntry.entries.length > 0 && (
+                            <motion.div
+                                variants={rowVariants}
+                                initial="hidden"
+                                whileInView="visible"
+                                viewport={{ once: true, margin: '-60px' }}
+                            >
+                                <div className="py-10 border-b border-[var(--color-rule)]">
+                                    <div className="grid grid-cols-1 md:grid-cols-[280px_1fr] gap-6 md:gap-12">
+                                        <div>
+                                            <span className="mono-label text-[var(--color-textMuted)] block mb-3">
+                                                {String(higherEduEntries.length + 1).padStart(2, '0')}
+                                            </span>
+                                            <h3 className="font-outfit font-bold text-[var(--color-textPrimary)] text-xl md:text-2xl leading-tight tracking-tight">
+                                                {schoolGroupEntry.degree || 'School Education'}
+                                            </h3>
+                                        </div>
+                                        <div className="space-y-2">
+                                            {schoolGroupEntry.entries.map((entry, i) => (
+                                                <div
+                                                    key={i}
+                                                    className="flex items-center justify-between py-3 px-4 border border-[var(--color-border)] rounded-sm hover:border-[var(--color-textMuted)] transition-colors"
+                                                >
+                                                    <span className="text-sm font-medium text-[var(--color-textPrimary)]">{entry.level}</span>
+                                                    <span className="mono-label">{entry.year}</span>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                </div>
+                            </motion.div>
+                        )}
+                    </div>
+                </div>
+            )}
+
             {/* Certifications Carousel */}
-            <div className="mt-32 max-w-5xl mx-auto px-4">
-                <div className="flex items-center gap-4 mb-12">
-                    <div className="h-px bg-white/10 flex-1" />
-                    <h3 className="text-2xl font-bold font-outfit text-textHeading flex items-center gap-3">
-                        <Award className="w-6 h-6 text-accent" />
-                        Certifications Gallery
-                    </h3>
-                    <div className="h-px bg-white/10 flex-1" />
+            <div className="mt-20 md:mt-28 max-w-[1320px] mx-auto px-6 md:px-10">
+                <div className="flex items-center gap-6 mb-10 border-b border-[var(--color-rule)] pb-6">
+                    <span className="mono-label text-[var(--color-accent)]">03 / Certifications</span>
+                    <div className="flex-1" />
+                    <Award className="w-4 h-4 text-[var(--color-textMuted)]" />
                 </div>
                 <CertCarousel onOpen={openModal} />
             </div>

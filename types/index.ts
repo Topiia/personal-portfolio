@@ -89,6 +89,7 @@ export interface Experience {
     description: string;
     bulletPoints: string[];
     technologies: string[];
+    images?: string[];
     orderIndex: number;
 }
 

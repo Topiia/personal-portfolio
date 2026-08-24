@@ -32,8 +32,8 @@
     "images": [
         "/images/projects/topia-aggregator-placeholder.png"
     ],
-    "featured": true,
-    "isFlagship": true,
+    "featured": false,
+    "isFlagship": false,
     "complexityLevel": "Senior",
     "status": "Production-Ready",
     "orderIndex": 1,
