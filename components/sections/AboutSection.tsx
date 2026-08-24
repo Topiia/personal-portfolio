@@ -65,7 +65,7 @@ export const AboutSection = () => {
                         viewport={{ once: true, margin: '-60px' }}
                     >
                         <p>
-                            I'm a Full Stack Engineer focused on building systems that are
+                            I&apos;m a Full Stack Engineer focused on building systems that are
                             reliable, secure, and well-considered — not just functional.
                             My strongest work sits at the intersection of backend architecture,
                             real-time systems, and thoughtful product interfaces.

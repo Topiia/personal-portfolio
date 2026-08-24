@@ -51,7 +51,7 @@ export const ContactStatement = () => {
                 >
                     <div>
                         <p className="text-[rgba(243,240,232,0.52)] text-lg leading-relaxed max-w-[480px] mb-[clamp(1.5rem,4dvh,2.5rem)]">
-                            I'm available for full-time engineering roles and
+                            I&apos;m available for full-time engineering roles and
                             meaningful freelance projects — especially those involving
                             complex backend systems, real-time infrastructure, or
                             security-critical architecture.
