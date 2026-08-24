@@ -96,11 +96,11 @@ export const Hero = () => {
                         >
                             {/* Primary — ACID */}
                             <a
-                                href="#work"
+                                href="#capsule"
                                 id="hero-view-work"
                                 onClick={(e) => {
                                     e.preventDefault();
-                                    document.querySelector('#work')?.scrollIntoView({ behavior: 'smooth' });
+                                    document.querySelector('#capsule')?.scrollIntoView({ behavior: 'smooth' });
                                 }}
                                 className="btn-acid"
                             >
