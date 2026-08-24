@@ -1,19 +1,11 @@
 import type { Metadata } from 'next';
-import { Instrument_Sans, Instrument_Serif } from 'next/font/google';
+import { Inter } from 'next/font/google';
 import './globals.css';
 
-const instrumentSans = Instrument_Sans({
+const inter = Inter({
     subsets: ['latin'],
-    variable: '--font-instrument-sans',
+    variable: '--font-inter',
     display: 'swap',
-    weight: ['400', '500', '600', '700'],
-});
-
-const instrumentSerif = Instrument_Serif({
-    subsets: ['latin'],
-    variable: '--font-instrument-serif',
-    display: 'swap',
-    weight: ['400'],
 });
 
 export const metadata: Metadata = {
@@ -38,7 +30,7 @@ export default function RootLayout({
 }) {
     return (
         <html lang="en" className="scroll-smooth">
-            <body className={`${instrumentSans.variable} ${instrumentSerif.variable} font-sans antialiased`}>
+            <body className={`${inter.variable} font-sans antialiased`}>
                 {children}
             </body>
         </html>

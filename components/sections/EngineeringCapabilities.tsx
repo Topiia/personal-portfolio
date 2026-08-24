@@ -32,18 +32,18 @@ export const EngineeringCapabilities = () => {
             <div className="editorial-container">
                 {/* Header */}
                 <motion.div
-                    className="mb-14 md:mb-20"
+                    className="mb-[clamp(2.5rem,5dvh,5rem)]"
                     variants={fadeUp(0)}
                     initial="hidden"
                     whileInView="visible"
                     viewport={{ once: true, margin: '-60px' }}
                 >
-                    <span className="text-micro text-[rgba(21,21,21,0.38)] block mb-4">
+                    <span className="text-micro text-[rgba(21,21,21,0.38)] block mb-[clamp(0.75rem,2dvh,1rem)]">
                         04 / CAPABILITIES
                     </span>
                     <h2
-                        className="text-ink font-bold tracking-[-0.035em] leading-[0.96] mb-6"
-                        style={{ fontSize: 'clamp(2rem, 5vw, 4.5rem)' }}
+                        className="text-ink font-bold tracking-[-0.035em] leading-[0.96] mb-[clamp(1rem,3dvh,1.5rem)]"
+                        style={{ fontSize: 'clamp(2rem, min(5vw, 7dvh), 4.5rem)' }}
                     >
                         I work across
                     </h2>
@@ -54,7 +54,7 @@ export const EngineeringCapabilities = () => {
 
                 {/* Typographic capability map */}
                 <motion.div
-                    className="flex flex-wrap gap-3 md:gap-4 mb-12 md:mb-16"
+                    className="flex flex-wrap gap-[clamp(0.75rem,2dvh,1rem)] mb-[clamp(2.5rem,5dvh,4rem)]"
                     variants={fadeUp(0.08)}
                     initial="hidden"
                     whileInView="visible"
@@ -77,7 +77,7 @@ export const EngineeringCapabilities = () => {
                                             ? 'text-ink'
                                             : 'text-[rgba(21,21,21,0.28)] hover:text-[rgba(21,21,21,0.65)]'
                                     }`}
-                                    style={{ fontSize: 'clamp(1.5rem, 3.5vw, 2.75rem)' }}
+                                    style={{ fontSize: 'clamp(1.5rem, min(3.5vw, 5dvh), 2.75rem)' }}
                                 >
                                     {label}
                                     {isActive && (
@@ -122,7 +122,7 @@ export const EngineeringCapabilities = () => {
                 {/* Technology list — always visible as metadata */}
                 {!activeCategory && (
                     <motion.div
-                        className="border-t border-[rgba(21,21,21,0.10)] pt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"
+                        className="border-t border-[rgba(21,21,21,0.10)] pt-[clamp(1.5rem,4dvh,2rem)] grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-[clamp(1rem,2dvh,1.5rem)]"
                         variants={fadeUp(0.15)}
                         initial="hidden"
                         whileInView="visible"

@@ -34,9 +34,15 @@ export default function ProjectDetailPage({ params }: { params: { id: string } }
         <main className="min-h-screen bg-paper">
             <Navbar />
 
-            <div className="editorial-container pt-28 pb-20">
+            <div 
+                className="editorial-container" 
+                style={{ 
+                    paddingTop: 'calc(var(--nav-height) + clamp(1.5rem, 4dvh, 4rem))',
+                    paddingBottom: 'var(--section-pad-y-lg)'
+                }}
+            >
                 {/* Breadcrumb */}
-                <nav className="mb-10" aria-label="Breadcrumb">
+                <nav className="mb-[clamp(1.5rem,4dvh,2.5rem)]" aria-label="Breadcrumb">
                     <Link
                         href="/#work"
                         className="text-[0.6875rem] font-semibold tracking-[0.12em] uppercase text-[rgba(21,21,21,0.38)] hover:text-ink transition-colors duration-200"

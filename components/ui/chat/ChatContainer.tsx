@@ -89,9 +89,9 @@ export function ChatContainer() {
     return (
         <div className="flex flex-col h-full">
             {/* Messages area */}
-            <div className="flex-1 overflow-y-auto px-4 md:px-8 py-8 space-y-1">
+            <div className="flex-1 overflow-y-auto px-4 md:px-8 py-[clamp(1rem,3dvh,2rem)] space-y-1">
                 {messages.length === 0 && (
-                    <div className="pt-12 text-center">
+                    <div className="pt-[clamp(1.5rem,4dvh,3rem)] text-center">
                         <p className="text-[rgba(243,240,232,0.28)] text-[0.8125rem]">
                             No messages yet — ask anything about the work.
                         </p>
@@ -114,7 +114,7 @@ export function ChatContainer() {
             </div>
 
             {/* Input area */}
-            <div className="px-4 md:px-8 pb-6 pt-3 border-t border-[rgba(243,240,232,0.08)]">
+            <div className="px-4 md:px-8 pb-[clamp(1rem,3dvh,1.5rem)] pt-[clamp(0.5rem,1.5dvh,0.75rem)] border-t border-[rgba(243,240,232,0.08)]">
                 <ChatInput onSend={handleSend} disabled={isStreaming} />
                 <p className="text-center text-[0.625rem] text-[rgba(243,240,232,0.24)] mt-3 tracking-wide">
                     Ask about projects, engineering decisions, or architecture.

@@ -1,9 +1,8 @@
 'use client';
 
-import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React from 'react';
+import { motion } from 'framer-motion';
 import Link from 'next/link';
-import Image from 'next/image';
 import { getProjects } from '@/lib/data-loader';
 
 const CATEGORY_MAP: Record<string, string> = {
@@ -15,18 +14,8 @@ const CATEGORY_MAP: Record<string, string> = {
     'agile-almanac': 'Collaboration tools',
 };
 
-const IMAGE_MAP: Record<string, string> = {
-    'capsule': '/images/ChatGPT Image Aug 24, 2026, 12_51_46 PM.png',
-    'topia-aggregator': '/images/ChatGPT Image Aug 24, 2026, 12_52_27 PM (1).png',
-    'cryptodash': '/images/ChatGPT Image Aug 12, 2026, 04_40_21 PM.png',
-    'system-pulse': '/images/ChatGPT Image Aug 24, 2026, 12_39_31 PM.png',
-    'sky-link': '/images/ChatGPT Image Aug 24, 2026, 12_51_46 PM.png',
-    'agile-almanac': '/images/ChatGPT Image Aug 24, 2026, 12_52_27 PM (1).png',
-};
-
 export const ProjectIndex = () => {
     const { projects } = getProjects();
-    const [hoveredId, setHoveredId] = useState<string | null>(null);
 
     // Sort: non-flagship projects by orderIndex
     const indexProjects = projects
@@ -38,18 +27,18 @@ export const ProjectIndex = () => {
             <div className="editorial-container">
                 {/* Header */}
                 <motion.div
-                    className="mb-10 md:mb-14 pb-6 border-b border-[rgba(21,21,21,0.10)]"
+                    className="mb-[clamp(1.5rem,4dvh,3.5rem)] pb-[clamp(1.5rem,3dvh,2rem)] border-b border-[rgba(21,21,21,0.10)]"
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, margin: '-60px' }}
                     transition={{ duration: 0.6 }}
                 >
-                    <span className="text-micro text-[rgba(21,21,21,0.40)] block mb-3">
+                    <span className="text-micro text-[rgba(21,21,21,0.40)] block mb-[clamp(0.5rem,1.5dvh,1rem)]">
                         03 / PROJECT INDEX
                     </span>
                     <h2
                         className="text-ink font-bold tracking-[-0.035em]"
-                        style={{ fontSize: 'clamp(1.75rem, 4vw, 3.25rem)' }}
+                        style={{ fontSize: 'clamp(1.75rem, min(4vw, 5dvh), 3.25rem)' }}
                     >
                         All projects
                     </h2>
@@ -57,30 +46,6 @@ export const ProjectIndex = () => {
 
                 {/* Editorial list */}
                 <div className="relative">
-                    {/* Hover image preview — fixed position inside container */}
-                    <AnimatePresence>
-                        {hoveredId && IMAGE_MAP[hoveredId] && (
-                            <motion.div
-                                key={hoveredId}
-                                className="absolute right-0 top-1/4 w-[220px] h-[160px] overflow-hidden pointer-events-none z-10 hidden lg:block"
-                                style={{ borderRadius: '20px' }}
-                                initial={{ opacity: 0, scale: 0.96, y: 8 }}
-                                animate={{ opacity: 1, scale: 1, y: 0 }}
-                                exit={{ opacity: 0, scale: 0.96, y: 4 }}
-                                transition={{ duration: 0.25 }}
-                            >
-                                <Image
-                                    src={IMAGE_MAP[hoveredId]}
-                                    alt=""
-                                    fill
-                                    sizes="220px"
-                                    className="object-cover"
-                                    aria-hidden="true"
-                                />
-                            </motion.div>
-                        )}
-                    </AnimatePresence>
-
                     {indexProjects.map((project, idx) => (
                         <motion.div
                             key={project.id}
@@ -91,14 +56,10 @@ export const ProjectIndex = () => {
                         >
                             <Link
                                 href={`/projects/${project.id}`}
-                                className="group block border-b border-[rgba(21,21,21,0.09)] py-6 md:py-7 hover:bg-[rgba(21,21,21,0.02)] transition-colors duration-200"
-                                onMouseEnter={() => setHoveredId(project.id)}
-                                onMouseLeave={() => setHoveredId(null)}
-                                onFocus={() => setHoveredId(project.id)}
-                                onBlur={() => setHoveredId(null)}
+                                className="group block border-b border-[rgba(21,21,21,0.09)] py-[clamp(1rem,3dvh,2rem)] hover:bg-[rgba(21,21,21,0.02)] transition-colors duration-200"
                                 aria-label={`View ${project.title} case study`}
                             >
-                                <div className="grid grid-cols-[auto_1fr] md:grid-cols-[56px_1fr_auto_auto_auto] gap-4 md:gap-8 items-center">
+                                <div className="grid grid-cols-[auto_1fr] md:grid-cols-[56px_1fr_auto_auto_auto] gap-[clamp(1rem,3dvh,2rem)] items-center">
                                     {/* Number */}
                                     <span className="text-micro text-[rgba(21,21,21,0.28)] w-10 flex-shrink-0">
                                         {String(idx + 1).padStart(2, '0')}
@@ -108,7 +69,7 @@ export const ProjectIndex = () => {
                                     <div className="min-w-0">
                                         <p
                                             className="text-ink font-semibold tracking-[-0.02em] group-hover:translate-x-1.5 transition-transform duration-300 truncate"
-                                            style={{ fontSize: 'clamp(1rem, 2vw, 1.375rem)' }}
+                                            style={{ fontSize: 'clamp(1rem, min(2vw, 2.5dvh), 1.375rem)' }}
                                         >
                                             {project.title.replace(/ - .*$/, '').replace(/TOPIA.*/, 'TOPIA')}
                                         </p>

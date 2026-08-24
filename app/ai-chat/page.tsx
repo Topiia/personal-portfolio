@@ -9,11 +9,12 @@ export const metadata: Metadata = {
 
 export default function AIChatPage() {
     return (
-        <div className="min-h-dvh flex flex-col bg-ink text-paper">
+        <div className="h-[100dvh] flex flex-col bg-ink text-paper overflow-hidden">
             {/* Editorial header */}
-            <header className="sticky top-0 z-10 bg-ink/95 backdrop-blur-sm border-b border-[rgba(243,240,232,0.08)]">
-                <div className="editorial-container h-[72px] flex items-center justify-between">
-                    {/* Left: back link */}
+            <header className="flex-none bg-ink/95 backdrop-blur-sm border-b border-[rgba(243,240,232,0.08)]">
+                <div className="editorial-container" style={{ height: 'var(--nav-height)' }}>
+                    <div className="h-full flex items-center justify-between">
+                        {/* Left: back link */}
                     <Link
                         href="/"
                         className="text-[0.6875rem] font-semibold tracking-[0.12em] uppercase text-[rgba(243,240,232,0.38)] hover:text-paper transition-colors duration-200"
@@ -38,6 +39,7 @@ export default function AIChatPage() {
                             Online
                         </span>
                     </div>
+                </div>
                 </div>
             </header>
 

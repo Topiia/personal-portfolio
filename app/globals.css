@@ -15,6 +15,11 @@
   --cobalt: #4255FF;
   --coral: #FF6B57;
 
+  /* Layout tokens */
+  --nav-height: 72px;
+  --section-pad-y: clamp(3rem, 6dvh, 8rem);
+  --section-pad-y-lg: clamp(4rem, 8dvh, 10rem);
+
   /* Derived ink-on-paper text */
   --ink-on-paper: #151515;
   --muted-on-paper: rgba(21, 21, 21, 0.52);
@@ -52,6 +57,7 @@
 
   html {
     scroll-behavior: smooth;
+    scroll-padding-top: 80px; /* offset for sticky nav */
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -60,16 +66,16 @@
   body {
     background-color: var(--paper);
     color: var(--ink-on-paper);
-    font-family: var(--font-instrument-sans), 'Instrument Sans', system-ui, sans-serif;
+    font-family: var(--font-inter), 'Inter', system-ui, sans-serif;
     font-size: 18px;
     line-height: 1.55;
     font-weight: 400;
     overflow-x: hidden;
   }
 
-  /* Heading system — Instrument Sans */
+  /* Heading system */
   h1, h2, h3, h4, h5, h6 {
-    font-family: var(--font-instrument-sans), 'Instrument Sans', system-ui, sans-serif;
+    font-family: var(--font-inter), 'Inter', system-ui, sans-serif;
     font-weight: 600;
     letter-spacing: -0.03em;
     line-height: 1.05;
@@ -123,31 +129,34 @@
 
   /* Display — hero scale */
   .text-display {
-    font-size: clamp(4rem, 10vw, 8.25rem);
+    font-size: clamp(2.25rem, min(8vw, 11dvh), 7rem);
     font-weight: 700;
     letter-spacing: -0.04em;
     line-height: 0.92;
+    overflow-wrap: break-word;
   }
 
   /* Major statement */
   .text-major {
-    font-size: clamp(2.5rem, 6vw, 5.5rem);
+    font-size: clamp(2rem, min(6vw, 9dvh), 5.5rem);
     font-weight: 600;
     letter-spacing: -0.035em;
     line-height: 0.96;
+    overflow-wrap: break-word;
   }
 
   /* Project title */
   .text-project-title {
-    font-size: clamp(2rem, 4.5vw, 4.5rem);
+    font-size: clamp(1.75rem, min(4.5vw, 6dvh), 4.5rem);
     font-weight: 600;
     letter-spacing: -0.03em;
     line-height: 0.98;
+    overflow-wrap: break-word;
   }
 
   /* Section heading */
   .text-section {
-    font-size: clamp(1.5rem, 3vw, 3rem);
+    font-size: clamp(1.5rem, min(3vw, 5dvh), 3rem);
     font-weight: 600;
     letter-spacing: -0.025em;
     line-height: 1.08;
@@ -155,7 +164,7 @@
 
   /* Subheading */
   .text-sub {
-    font-size: clamp(1.1rem, 2vw, 1.75rem);
+    font-size: clamp(1.1rem, min(2vw, 3dvh), 1.75rem);
     font-weight: 500;
     letter-spacing: -0.015em;
     line-height: 1.25;
@@ -203,12 +212,12 @@
 
   /* ── Section padding ── */
   .section-pad {
-    padding-top: clamp(4rem, 8vw, 8rem);
-    padding-bottom: clamp(4rem, 8vw, 8rem);
+    padding-top: var(--section-pad-y);
+    padding-bottom: var(--section-pad-y);
   }
   .section-pad-lg {
-    padding-top: clamp(5rem, 10vw, 10rem);
-    padding-bottom: clamp(5rem, 10vw, 10rem);
+    padding-top: var(--section-pad-y-lg);
+    padding-bottom: var(--section-pad-y-lg);
   }
 
   /* ── Container ── */
@@ -265,7 +274,7 @@
 
   /* Editorial serif accent */
   .font-serif-accent {
-    font-family: var(--font-instrument-serif), 'Instrument Serif', Georgia, serif;
+    font-family: var(--font-inter), 'Inter', system-ui, sans-serif;
     font-weight: 400;
     font-style: italic;
     letter-spacing: -0.01em;

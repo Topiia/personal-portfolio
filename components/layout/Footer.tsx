@@ -7,7 +7,7 @@ export const Footer = () => {
         <footer className="bg-ink" role="contentinfo">
             <div className="editorial-container">
                 {/* Main footer row */}
-                <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-8 py-12 border-b border-[rgba(243,240,232,0.10)]">
+                <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-8 py-[clamp(2rem,4dvh,3rem)] border-b border-[rgba(243,240,232,0.10)]">
                     {/* Left — identity */}
                     <div>
                         <p className="text-[0.6875rem] font-bold tracking-[0.20em] uppercase text-paper">
@@ -63,7 +63,7 @@ export const Footer = () => {
                 </div>
 
                 {/* Bottom row */}
-                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 py-6">
+                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 py-[clamp(1rem,3dvh,1.5rem)]">
                     <p className="text-[0.6875rem] text-[rgba(243,240,232,0.28)] tracking-wide">
                         © {year} Ankit Singh. All rights reserved.
                     </p>

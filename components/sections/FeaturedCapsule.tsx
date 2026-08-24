@@ -29,72 +29,72 @@ const CAPSULE_EVIDENCE = [
 
 export const FeaturedCapsule = () => {
     return (
-        <section id="capsule" className="bg-ink section-pad-lg" aria-label="Capsule flagship project">
+        <section id="capsule" className="bg-paper section-pad-lg" aria-label="Capsule flagship project">
             <div className="editorial-container">
 
                 {/* Header row */}
                 <motion.div
-                    className="grid grid-cols-1 md:grid-cols-[1fr_auto] gap-6 md:gap-12 items-end mb-14 md:mb-20 pb-7 border-b border-[rgba(243,240,232,0.10)]"
+                    className="grid grid-cols-1 md:grid-cols-[1fr_auto] gap-[clamp(1.5rem,4dvh,3rem)] items-end mb-[clamp(2rem,5dvh,5rem)] pb-[clamp(1rem,3dvh,2rem)] border-b border-[rgba(21,21,21,0.10)]"
                     variants={fadeUp(0)}
                     initial="hidden"
                     whileInView="visible"
                     viewport={{ once: true, margin: '-60px' }}
                 >
                     <div>
-                        <span className="text-micro text-[rgba(200,255,56,0.65)] block mb-4">
-                            FLAGSHIP PROJECT
+                        <span className="text-micro text-[rgba(21,21,21,0.40)] block mb-[clamp(0.75rem,2dvh,1.25rem)]">
+                            03 / FEATURED WORK
                         </span>
                         <h2
-                            className="text-paper font-bold tracking-[-0.04em] leading-[0.92] mb-5"
-                            style={{ fontSize: 'clamp(2.75rem, 7vw, 6rem)' }}
+                            className="text-ink font-bold tracking-[-0.04em] leading-[0.92] mb-[clamp(1rem,2dvh,1.5rem)]"
+                            style={{ fontSize: 'clamp(2.75rem, min(7vw, 9dvh), 6rem)' }}
                         >
                             CAPSULE
                         </h2>
-                        <p className="text-[rgba(243,240,232,0.60)] text-lg md:text-xl leading-relaxed max-w-[600px]">
+                        <p className="text-[rgba(21,21,21,0.60)] text-lg md:text-xl leading-relaxed max-w-[600px]">
                             Secure AI-moderated visual vlogging platform with
                             security-first architecture, async processing pipelines,
                             and production observability.
                         </p>
                     </div>
                     <div className="flex flex-col gap-3 md:items-end md:pb-2">
-                        <span className="text-micro text-[rgba(200,255,56,0.55)]">Production-Ready</span>
-                        <span className="text-micro text-[rgba(243,240,232,0.28)]">Senior Complexity</span>
+                        <span className="text-micro text-ink">Production-Ready</span>
+                        <span className="text-micro text-[rgba(21,21,21,0.40)]">Senior Complexity</span>
                     </div>
                 </motion.div>
 
                 {/* Engineering thesis */}
                 <motion.div
-                    className="mb-16 md:mb-20"
+                    className="mb-[clamp(3rem,6dvh,5rem)]"
                     variants={fadeUp(0.08)}
                     initial="hidden"
                     whileInView="visible"
                     viewport={{ once: true, margin: '-60px' }}
                 >
                     <p
-                        className="text-paper font-semibold tracking-[-0.025em] leading-[1.12] max-w-[860px]"
-                        style={{ fontSize: 'clamp(1.25rem, 2.5vw, 2rem)' }}
+                        className="text-ink font-semibold tracking-[-0.025em] leading-[1.12] max-w-[860px]"
+                        style={{ fontSize: 'clamp(1.25rem, min(2.5vw, 3dvh), 2rem)' }}
                     >
                         The challenge was not making features work.
                         It was building the security perimeter, async processing,
                         and observability infrastructure that makes a content
-                        platform <span className="font-serif-accent text-acid">trustworthy at scale.</span>
+                        platform <span className="font-serif-accent text-cobalt">trustworthy at scale.</span>
                     </p>
                 </motion.div>
 
                 {/* Evidence grid */}
                 <motion.div
-                    className="mb-16 md:mb-20"
+                    className="mb-[clamp(3rem,6dvh,5rem)]"
                     variants={fadeUp(0.14)}
                     initial="hidden"
                     whileInView="visible"
                     viewport={{ once: true, margin: '-60px' }}
                 >
-                    <span className="text-micro text-[rgba(243,240,232,0.35)] block mb-6">Technical evidence</span>
-                    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-px bg-[rgba(243,240,232,0.08)]">
+                    <span className="text-micro text-[rgba(21,21,21,0.40)] block mb-6">Technical evidence</span>
+                    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-px bg-[rgba(21,21,21,0.10)]">
                         {CAPSULE_EVIDENCE.map((item) => (
                             <div
                                 key={item}
-                                className="bg-ink px-4 py-4 text-[0.75rem] font-medium text-[rgba(243,240,232,0.55)] leading-snug hover:text-paper hover:bg-[rgba(243,240,232,0.04)] transition-colors duration-200"
+                                className="bg-paper px-4 py-4 text-[0.75rem] font-medium text-[rgba(21,21,21,0.55)] leading-snug hover:text-ink hover:bg-[rgba(21,21,21,0.04)] transition-colors duration-200"
                             >
                                 {item}
                             </div>
@@ -104,13 +104,13 @@ export const FeaturedCapsule = () => {
 
                 {/* Architecture diagram */}
                 <motion.div
-                    className="mb-14 md:mb-16"
+                    className="mb-[clamp(2.5rem,5dvh,4rem)]"
                     variants={fadeUp(0.2)}
                     initial="hidden"
                     whileInView="visible"
                     viewport={{ once: true, margin: '-60px' }}
                 >
-                    <span className="text-micro text-[rgba(243,240,232,0.35)] block mb-6">System architecture</span>
+                    <span className="text-micro text-[rgba(21,21,21,0.40)] block mb-6">System architecture</span>
                     <CapsuleArchitectureDiagram />
                 </motion.div>
 
@@ -132,7 +132,7 @@ export const FeaturedCapsule = () => {
                         href="https://github.com/Topiia/Capsule"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="btn-ghost-ink"
+                        className="btn-ghost"
                     >
                         GitHub ↗
                     </a>
@@ -140,7 +140,7 @@ export const FeaturedCapsule = () => {
                         href="https://capsule.topiiaa.site"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[0.8125rem] font-semibold text-[rgba(243,240,232,0.42)] hover:text-paper transition-colors duration-200"
+                        className="text-[0.8125rem] font-semibold text-[rgba(21,21,21,0.42)] hover:text-ink transition-colors duration-200"
                     >
                         Live site ↗
                     </a>

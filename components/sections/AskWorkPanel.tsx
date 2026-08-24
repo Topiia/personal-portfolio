@@ -3,6 +3,8 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
+import Image from 'next/image';
+import { BackgroundVisual } from '@/components/ui/BackgroundVisual';
 
 const STARTER_PROMPTS = [
     'How did you build Capsule?',
@@ -23,14 +25,24 @@ const fadeUp = (delay = 0) => ({
 
 export const AskWorkPanel = () => {
     return (
-        <section id="ai" className="bg-ink section-pad-lg" aria-label="Ask about the work">
-            <div className="editorial-container">
+        <section id="ai" className="relative bg-ink section-pad-lg overflow-hidden" aria-label="Ask about the work">
+            {/* Background Image */}
+            <BackgroundVisual
+                src="/images/07-ai-chat-visual.webp"
+                alt="Atmospheric AI workspace"
+                theme="dark"
+                imageType="atmospheric"
+                contentAlignment="left"
+                focalPosition="object-[center_30%]"
+            />
 
-                <div className="grid grid-cols-1 lg:grid-cols-[1fr_420px] gap-14 lg:gap-20 items-start">
+            <div className="relative z-10 editorial-container">
+
+                <div className="grid grid-cols-1 lg:grid-cols-[1fr_420px] gap-[clamp(2rem,5dvh,5rem)] items-start">
                     {/* Left: invitation */}
                     <div>
                         <motion.span
-                            className="text-micro text-[rgba(200,255,56,0.60)] block mb-6"
+                            className="text-micro text-[rgba(200,255,56,0.60)] block mb-[clamp(1rem,2dvh,1.5rem)]"
                             variants={fadeUp(0)}
                             initial="hidden"
                             whileInView="visible"
@@ -40,8 +52,8 @@ export const AskWorkPanel = () => {
                         </motion.span>
 
                         <motion.h2
-                            className="text-paper font-bold tracking-[-0.04em] leading-[0.93] mb-8"
-                            style={{ fontSize: 'clamp(2.25rem, 6vw, 5.25rem)' }}
+                            className="text-paper font-bold tracking-[-0.04em] leading-[0.93] mb-[clamp(1.5rem,3dvh,2rem)]"
+                            style={{ fontSize: 'clamp(2.25rem, min(6vw, 8dvh), 5.25rem)' }}
                             variants={fadeUp(0.06)}
                             initial="hidden"
                             whileInView="visible"
@@ -53,7 +65,7 @@ export const AskWorkPanel = () => {
                         </motion.h2>
 
                         <motion.p
-                            className="text-[rgba(243,240,232,0.50)] text-lg leading-relaxed max-w-[440px] mb-10"
+                            className="text-[rgba(243,240,232,0.50)] text-lg leading-relaxed max-w-[440px] mb-[clamp(1.5rem,4dvh,2.5rem)]"
                             variants={fadeUp(0.12)}
                             initial="hidden"
                             whileInView="visible"
@@ -70,9 +82,9 @@ export const AskWorkPanel = () => {
                             whileInView="visible"
                             viewport={{ once: true, margin: '-80px' }}
                         >
-                            <Link href="/ai-chat" className="btn-acid" id="ai-panel-cta">
+                            <Link href="/ai-chat" className="btn-acid inline-flex" id="ai-panel-cta">
                                 Start a conversation
-                                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true" className="ml-2">
                                     <path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" />
                                 </svg>
                             </Link>
@@ -81,13 +93,13 @@ export const AskWorkPanel = () => {
 
                     {/* Right: starter prompts */}
                     <motion.div
-                        className="flex flex-col gap-3"
+                        className="flex flex-col gap-[clamp(0.5rem,1.5dvh,0.75rem)]"
                         variants={fadeUp(0.14)}
                         initial="hidden"
                         whileInView="visible"
                         viewport={{ once: true, margin: '-80px' }}
                     >
-                        <p className="text-micro text-[rgba(243,240,232,0.30)] mb-2">Suggested questions</p>
+                        <p className="text-micro text-[rgba(243,240,232,0.30)] mb-[clamp(0.25rem,1dvh,0.5rem)]">Suggested questions</p>
                         {STARTER_PROMPTS.map((prompt) => (
                             <Link
                                 key={prompt}

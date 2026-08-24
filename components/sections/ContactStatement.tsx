@@ -18,7 +18,7 @@ export const ContactStatement = () => {
             <div className="editorial-container">
                 {/* Label */}
                 <motion.span
-                    className="text-micro text-[rgba(200,255,56,0.60)] block mb-10 md:mb-16"
+                    className="text-micro text-[rgba(200,255,56,0.60)] block mb-[clamp(2.5rem,6dvh,4rem)]"
                     variants={fadeUp(0)}
                     initial="hidden"
                     whileInView="visible"
@@ -29,8 +29,8 @@ export const ContactStatement = () => {
 
                 {/* Large statement */}
                 <motion.h2
-                    className="text-paper font-bold tracking-[-0.04em] leading-[0.92] mb-10 md:mb-14"
-                    style={{ fontSize: 'clamp(2.5rem, 8vw, 7rem)' }}
+                    className="text-paper font-bold tracking-[-0.04em] leading-[0.92] mb-[clamp(2.5rem,8dvh,3.5rem)]"
+                    style={{ fontSize: 'clamp(2.5rem, min(8vw, 10dvh), 7rem)' }}
                     variants={fadeUp(0.06)}
                     initial="hidden"
                     whileInView="visible"
@@ -43,14 +43,14 @@ export const ContactStatement = () => {
 
                 {/* Supporting text + email */}
                 <motion.div
-                    className="grid grid-cols-1 md:grid-cols-[1fr_auto] gap-10 md:gap-16 items-end"
+                    className="grid grid-cols-1 md:grid-cols-[1fr_auto] gap-[clamp(2.5rem,6dvh,4rem)] items-end"
                     variants={fadeUp(0.14)}
                     initial="hidden"
                     whileInView="visible"
                     viewport={{ once: true, margin: '-60px' }}
                 >
                     <div>
-                        <p className="text-[rgba(243,240,232,0.52)] text-lg leading-relaxed max-w-[480px] mb-10">
+                        <p className="text-[rgba(243,240,232,0.52)] text-lg leading-relaxed max-w-[480px] mb-[clamp(1.5rem,4dvh,2.5rem)]">
                             I'm available for full-time engineering roles and
                             meaningful freelance projects — especially those involving
                             complex backend systems, real-time infrastructure, or
@@ -69,7 +69,7 @@ export const ContactStatement = () => {
                     </div>
 
                     {/* Secondary links */}
-                    <div className="flex flex-row md:flex-col gap-5 md:gap-4 md:items-end">
+                    <div className="flex flex-row md:flex-col gap-[clamp(1rem,2.5dvh,1.5rem)] md:items-end">
                         <a
                             href="https://github.com/Topiia"
                             target="_blank"

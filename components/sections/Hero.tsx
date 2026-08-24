@@ -3,9 +3,10 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
+import { BackgroundVisual } from '@/components/ui/BackgroundVisual';
 
 const fadeUp = (delay = 0) => ({
-    hidden: { opacity: 0, y: 32 },
+    hidden: { opacity: 0, y: 16 },
     visible: {
         opacity: 1,
         y: 0,
@@ -25,53 +26,64 @@ export const Hero = () => {
     return (
         <section
             id="hero"
-            className="relative bg-paper min-h-[90svh] flex flex-col justify-center overflow-hidden pt-[72px]"
+            className="relative bg-paper flex flex-col justify-center overflow-hidden"
+            style={{
+                minHeight: '100dvh',
+                paddingTop: 'calc(72px + clamp(1rem, 4dvh, 4rem))', // 72px nav + fluid padding
+                paddingBottom: 'clamp(1.5rem, 4dvh, 4rem)'
+            }}
         >
-            <div className="editorial-container relative z-10 w-full">
-                {/* Top meta row */}
+            {/* Background Atmosphere */}
+            <BackgroundVisual
+                src="/images/04-hero-atmosphere.webp"
+                theme="light"
+                imageType="atmospheric"
+                contentAlignment="left"
+                focalPosition="object-right-top"
+                priority
+            />
+
+            <div className="editorial-container relative z-10 w-full flex flex-col flex-1 justify-center">
+                {/* 01 / INTRO Label */}
                 <motion.div
-                    className="flex items-center justify-between mb-10 md:mb-16"
+                    className="mb-[clamp(1rem,3dvh,3rem)]"
                     variants={fadeIn(0.1)}
                     initial="hidden"
-                    animate="visible"
+                    whileInView="visible"
+                    viewport={{ once: true }}
                 >
                     <span className="text-micro text-[rgba(21,21,21,0.40)]">
-                        Full Stack Engineer
-                    </span>
-                    <span className="text-micro text-[rgba(21,21,21,0.40)]">
-                        India — {new Date().getFullYear()}
+                        01 / INTRO
                     </span>
                 </motion.div>
 
                 {/* Asymmetric two-column layout */}
-                <div className="grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-10 lg:gap-20 items-start">
-
+                <div className="grid grid-cols-1 lg:grid-cols-[1.2fr_1fr] gap-[clamp(2rem,5dvh,5rem)] items-center">
+                    
                     {/* Left: large editorial type */}
-                    <div>
+                    <div className="order-last lg:order-first">
                         <motion.h1
-                            className="text-ink leading-[0.88] tracking-[-0.045em] font-bold mb-8"
-                            style={{ fontSize: 'clamp(3.75rem, 11vw, 9rem)' }}
+                            className="text-display text-ink mb-[clamp(1.25rem,4dvh,2.5rem)]"
                             variants={fadeUp(0.12)}
                             initial="hidden"
-                            animate="visible"
+                            whileInView="visible"
+                            viewport={{ once: true }}
                         >
                             I build systems<br />
-                            <span className="font-serif-accent" style={{ fontSize: '0.88em' }}>
-                                that hold up
-                            </span><br />
-                            when the interface<br />ends.
+                            that hold up<br />
+                            when the interface ends.
                         </motion.h1>
 
                         {/* Supporting statement */}
                         <motion.p
-                            className="text-[rgba(21,21,21,0.56)] text-lg md:text-xl font-normal leading-relaxed max-w-[480px] mb-10"
+                            className="text-[rgba(21,21,21,0.64)] text-base md:text-lg lg:text-xl font-normal leading-relaxed max-w-[540px] mb-[clamp(1.5rem,5dvh,3rem)]"
                             variants={fadeUp(0.28)}
                             initial="hidden"
-                            animate="visible"
+                            whileInView="visible"
+                            viewport={{ once: true }}
                         >
-                            Full-stack engineering across backend architecture,
-                            real-time systems, distributed infrastructure, and
-                            AI-powered services.
+                            Full-stack engineer focused on real-time systems,
+                            distributed architecture, and thoughtful interfaces.
                         </motion.p>
 
                         {/* CTAs */}
@@ -79,7 +91,8 @@ export const Hero = () => {
                             className="flex flex-wrap items-center gap-4"
                             variants={fadeUp(0.4)}
                             initial="hidden"
-                            animate="visible"
+                            whileInView="visible"
+                            viewport={{ once: true }}
                         >
                             {/* Primary — ACID */}
                             <a
@@ -101,93 +114,63 @@ export const Hero = () => {
                             <a
                                 href="/ai-chat"
                                 id="hero-ask-work"
-                                className="inline-flex items-center gap-2 text-[0.8125rem] font-semibold text-ink hover:text-cobalt transition-colors duration-200 underline underline-offset-4 decoration-[rgba(21,21,21,0.25)] hover:decoration-cobalt"
+                                className="inline-flex items-center gap-2 text-[0.8125rem] font-bold uppercase tracking-wide text-ink hover:text-cobalt transition-colors duration-200"
                             >
                                 Ask about my work
                                 <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
                                     <path d="M2 10L10 2M10 2H4M10 2v6" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
                                 </svg>
                             </a>
-
-                            {/* Tertiary — resume */}
-                            <a
-                                href="/resume.pdf"
-                                download="Ankit_Singh_Resume.pdf"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="text-[0.6875rem] font-semibold tracking-[0.10em] uppercase text-[rgba(21,21,21,0.40)] hover:text-ink transition-colors duration-200 pl-1"
-                            >
-                                Resume ↗
-                            </a>
                         </motion.div>
                     </div>
 
-                    {/* Right: landscape image element */}
+                    {/* Right: profile image prominent */}
                     <motion.div
-                        className="hidden lg:block relative w-[340px] xl:w-[400px] flex-shrink-0 self-center"
-                        variants={fadeIn(0.55)}
+                        className="relative w-full max-w-[200px] sm:max-w-[280px] md:max-w-[340px] lg:max-w-[440px] aspect-square mr-auto lg:mr-0 lg:ml-auto flex-shrink-0 order-first lg:order-last"
+                        variants={fadeIn(0.15)}
                         initial="hidden"
-                        animate="visible"
+                        whileInView="visible"
+                        viewport={{ once: true }}
                     >
+                        {/* Primary: Real profile photo as a circle/rounded prominent element */}
                         <div
-                            className="relative overflow-hidden"
-                            style={{ borderRadius: '28px', aspectRatio: '3/4' }}
+                            className="relative overflow-hidden z-10 border-[6px] border-paper shadow-2xl rounded-full w-full h-full"
                         >
                             <Image
-                                src="/images/ChatGPT Image Aug 24, 2026, 12_51_46 PM.png"
-                                alt="Atmospheric landscape — visual counterweight"
+                                src="/images/01-profile.jpg"
+                                alt="Ankit Singh"
                                 fill
-                                sizes="(max-width: 1280px) 340px, 400px"
-                                className="object-cover object-center"
+                                sizes="(max-width: 1024px) 240px, 440px"
+                                className="object-cover object-top scale-105"
                                 priority
                             />
-                            {/* Subtle warm overlay to blend with PAPER */}
-                            <div
-                                className="absolute inset-0"
-                                style={{ background: 'linear-gradient(135deg, rgba(243,240,232,0.10) 0%, transparent 60%)' }}
-                            />
                         </div>
-                        {/* Small editorial label below image */}
-                        <p className="text-micro text-[rgba(21,21,21,0.36)] mt-3 text-right">
-                            Available for opportunities
-                        </p>
                     </motion.div>
                 </div>
 
                 {/* Bottom rule + metadata */}
                 <motion.div
-                    className="mt-14 md:mt-20 pt-7 border-t border-[rgba(21,21,21,0.10)] flex flex-wrap gap-x-10 gap-y-4"
-                    variants={fadeIn(0.55)}
+                    className="mt-[clamp(2rem,6dvh,5rem)] pt-[clamp(1rem,3dvh,2rem)] border-t border-[rgba(21,21,21,0.10)] flex flex-wrap gap-x-8 gap-y-3"
+                    variants={fadeIn(0.5)}
                     initial="hidden"
-                    animate="visible"
+                    whileInView="visible"
+                    viewport={{ once: true }}
                 >
                     {[
-                        { label: 'Focus', value: 'Full Stack + Data' },
-                        { label: 'Stack', value: 'Next.js · Node.js · Python' },
-                        { label: 'Status', value: 'Open to opportunities' },
-                    ].map(({ label, value }) => (
-                        <div key={label} className="flex flex-col gap-1">
-                            <span className="text-micro text-[rgba(21,21,21,0.36)]">{label}</span>
-                            <span className="text-sm font-medium text-ink">{value}</span>
+                        { label: 'Next.js', icon: true },
+                        { label: 'TypeScript', icon: true },
+                        { label: 'Node.js', icon: true },
+                        { label: 'Python', icon: true },
+                        { label: 'PostgreSQL', icon: true },
+                        { label: 'Redis', icon: true },
+                        { label: 'AWS', icon: true },
+                    ].map(({ label }) => (
+                        <div key={label} className="text-[0.8125rem] md:text-sm font-semibold text-[rgba(21,21,21,0.7)] flex items-center gap-2">
+                            {label}
                         </div>
                     ))}
                 </motion.div>
             </div>
-
-            {/* Scroll indicator */}
-            <motion.div
-                className="absolute bottom-8 left-[clamp(1.25rem,5vw,5rem)]"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 2.0, duration: 1 }}
-            >
-                <motion.div
-                    animate={{ y: [0, 6, 0] }}
-                    transition={{ repeat: Infinity, duration: 2.2, ease: 'easeInOut' }}
-                >
-                    <div className="w-px h-10 bg-gradient-to-b from-transparent to-[rgba(21,21,21,0.28)]" />
-                </motion.div>
-            </motion.div>
         </section>
     );
 };

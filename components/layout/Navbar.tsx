@@ -62,7 +62,7 @@ export const Navbar = () => {
                 transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
             >
                 <div className="editorial-container">
-                    <div className="flex items-center justify-between h-[72px]">
+                    <div className="flex items-center justify-between" style={{ height: 'var(--nav-height)' }}>
 
                         {/* Wordmark */}
                         <Link
@@ -164,7 +164,7 @@ export const Navbar = () => {
                             onClick={() => setMobileMenuOpen(false)}
                         />
                         <motion.nav
-                            className="relative z-10 flex flex-col px-6 pt-24 pb-8 gap-0"
+                            className="relative z-10 flex flex-col px-6 pt-[clamp(4rem,10dvh,6rem)] pb-[clamp(1.5rem,4dvh,2rem)] gap-0"
                             initial={{ y: -16, opacity: 0 }}
                             animate={{ y: 0, opacity: 1 }}
                             exit={{ y: -8, opacity: 0 }}
@@ -175,7 +175,7 @@ export const Navbar = () => {
                                 <motion.button
                                     key={item.label}
                                     onClick={() => handleMobileNavClick(item.href)}
-                                    className="w-full text-left py-5 border-b border-[rgba(21,21,21,0.10)] text-3xl font-bold text-ink hover:text-cobalt transition-colors duration-200 tracking-[-0.03em]"
+                                    className="w-full text-left py-[clamp(1rem,3dvh,1.25rem)] border-b border-[rgba(21,21,21,0.10)] text-3xl font-bold text-ink hover:text-cobalt transition-colors duration-200 tracking-[-0.03em]"
                                     initial={{ opacity: 0, y: 12 }}
                                     animate={{ opacity: 1, y: 0 }}
                                     transition={{ delay: 0.06 + i * 0.05 }}
@@ -185,7 +185,7 @@ export const Navbar = () => {
                             ))}
 
                             <motion.div
-                                className="mt-8 flex items-center justify-between"
+                                className="mt-[clamp(1.5rem,4dvh,2rem)] flex items-center justify-between"
                                 initial={{ opacity: 0 }}
                                 animate={{ opacity: 1 }}
                                 transition={{ delay: 0.06 + NAV_LINKS.length * 0.05 + 0.05 }}

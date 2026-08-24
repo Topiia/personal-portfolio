@@ -35,11 +35,11 @@ const config: Config = {
                 glow:        'var(--color-glow)',
             },
             fontFamily: {
-                sans:           ['var(--font-instrument-sans)', 'Instrument Sans', 'system-ui', 'sans-serif'],
-                serif:          ['var(--font-instrument-serif)', 'Instrument Serif', 'Georgia', 'serif'],
+                sans:           ['var(--font-inter)', 'Inter', 'system-ui', 'sans-serif'],
+                serif:          ['var(--font-inter)', 'Inter', 'system-ui', 'sans-serif'],
                 // Legacy aliases kept for existing components
-                outfit:         ['var(--font-instrument-sans)', 'Instrument Sans', 'system-ui', 'sans-serif'],
-                inter:          ['var(--font-instrument-sans)', 'Instrument Sans', 'system-ui', 'sans-serif'],
+                outfit:         ['var(--font-inter)', 'Inter', 'system-ui', 'sans-serif'],
+                inter:          ['var(--font-inter)', 'Inter', 'system-ui', 'sans-serif'],
                 mono:           ['ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'monospace'],
             },
             spacing: {

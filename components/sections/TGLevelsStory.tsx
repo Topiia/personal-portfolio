@@ -1,9 +1,10 @@
 'use client';
 
 import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import Image from 'next/image';
 import { useCallback } from 'react';
+import { BackgroundVisual } from '@/components/ui/BackgroundVisual';
 import dynamic from 'next/dynamic';
 import { getCertifications, getInternshipCertificates, getTimeline } from '@/lib/data-loader';
 
@@ -118,7 +119,6 @@ const InternshipCertCard: React.FC<InternshipCert & { onOpen: (src: string, alt:
 };
 
 export const TGLevelsStory = () => {
-    const [activeWorkstream, setActiveWorkstream] = useState<WorkstreamKey>('crm');
     const [modalImage, setModalImage] = useState<{ src: string; alt: string } | null>(null);
 
     const openModal = useCallback((src: string, alt: string) => setModalImage({ src, alt }), []);
@@ -126,8 +126,6 @@ export const TGLevelsStory = () => {
 
     const internshipCertsMap = getInternshipCertificates();
     const tgCerts = internshipCertsMap?.['tglevels'] || [];
-
-    const active = WORKSTREAMS.find((w) => w.key === activeWorkstream)!;
 
     return (
         <section id="experience" className="bg-paper section-pad-lg" aria-label="TG Levels engineering story">
@@ -138,189 +136,139 @@ export const TGLevelsStory = () => {
             <div className="editorial-container">
                 {/* Section header */}
                 <motion.div
-                    className="mb-14 md:mb-20"
+                    className="mb-[clamp(2.5rem,5dvh,5rem)]"
                     variants={fadeUp(0)}
                     initial="hidden"
                     whileInView="visible"
                     viewport={{ once: true, margin: '-60px' }}
                 >
-                    <span className="text-micro text-[rgba(21,21,21,0.38)] block mb-4">
+                    <span className="text-micro text-[rgba(21,21,21,0.38)] block mb-[clamp(0.75rem,2dvh,1rem)]">
                         05 / EXPERIENCE
                     </span>
-                    <h2
-                        className="text-ink font-bold tracking-[-0.04em] leading-[0.94] mb-5"
-                        style={{ fontSize: 'clamp(2.25rem, 5vw, 4.5rem)' }}
-                    >
-                        TG Levels
-                        <br />
-                        <span className="text-[rgba(21,21,21,0.40)] font-semibold" style={{ fontSize: '0.6em' }}>
-                            Software Developer Intern — May–Aug 2026
-                        </span>
-                    </h2>
-                    <p className="text-[rgba(21,21,21,0.52)] text-lg max-w-[600px] leading-relaxed">
-                        Three distinct engineering workstreams across frontend product,
-                        trading application integration, and Python research infrastructure.
-                    </p>
-                </motion.div>
-
-                {/* Workstream navigation */}
-                <motion.div
-                    className="flex gap-0 mb-10 md:mb-14 border-b border-[rgba(21,21,21,0.10)]"
-                    variants={fadeUp(0.08)}
-                    initial="hidden"
-                    whileInView="visible"
-                    viewport={{ once: true, margin: '-60px' }}
-                >
-                    {WORKSTREAMS.map((ws) => (
-                        <button
-                            key={ws.key}
-                            onClick={() => setActiveWorkstream(ws.key)}
-                            className={`relative px-6 py-4 text-[0.8125rem] font-semibold tracking-[0.06em] uppercase transition-colors duration-200 ${
-                                activeWorkstream === ws.key
-                                    ? 'text-ink'
-                                    : 'text-[rgba(21,21,21,0.36)] hover:text-[rgba(21,21,21,0.65)]'
-                            }`}
-                            aria-pressed={activeWorkstream === ws.key}
-                        >
-                            {ws.label}
-                            {activeWorkstream === ws.key && (
-                                <motion.div
-                                    layoutId="workstream-indicator"
-                                    className="absolute bottom-0 left-0 right-0 h-[2px] bg-acid"
-                                />
-                            )}
-                        </button>
-                    ))}
-                </motion.div>
-
-                {/* Workstream content */}
-                <AnimatePresence mode="wait">
-                    <motion.div
-                        key={activeWorkstream}
-                        initial={{ opacity: 0, y: 16 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -10 }}
-                        transition={{ duration: 0.35 }}
-                        className="grid grid-cols-1 lg:grid-cols-[1fr_400px] gap-10 lg:gap-16"
-                    >
-                        {/* Left: content */}
+                    
+                    <div className="grid grid-cols-1 lg:grid-cols-[1fr_400px] gap-[clamp(2rem,5dvh,4rem)] items-end">
                         <div>
-                            <span className="text-micro text-[rgba(21,21,21,0.35)] block mb-3">
-                                {active.role}
-                            </span>
-                            <h3
-                                className="text-ink font-bold tracking-[-0.03em] mb-5"
-                                style={{ fontSize: 'clamp(1.375rem, 3vw, 2.25rem)' }}
-                            >
-                                {active.full}
+                            <h3 className="text-ink font-semibold tracking-[-0.02em] block mb-[clamp(0.75rem,2dvh,1rem)] text-xl">
+                                TG Levels
                             </h3>
-                            <p className="text-[rgba(21,21,21,0.56)] text-base leading-relaxed mb-8 max-w-[520px]">
-                                {active.description}
-                            </p>
-
-                            <ul className="space-y-3 mb-8">
-                                {active.bullets.map((bullet) => (
-                                    <li key={bullet} className="flex items-start gap-3 text-[0.9375rem] text-[rgba(21,21,21,0.58)]">
-                                        <span className="mt-2 w-1 h-1 rounded-full bg-acid flex-shrink-0" aria-hidden="true" />
-                                        {bullet}
-                                    </li>
-                                ))}
-                            </ul>
-
-                            <div className="flex flex-wrap gap-1.5">
-                                {active.tech.map((t) => (
-                                    <span key={t} className="tech-tag">{t}</span>
-                                ))}
-                            </div>
+                            <h2
+                                className="text-ink font-bold tracking-[-0.04em] leading-[0.94]"
+                                style={{ fontSize: 'clamp(2.25rem, min(5vw, 7dvh), 4.5rem)' }}
+                            >
+                                Integration / Debugging /<br />Performance
+                            </h2>
                         </div>
+                        <div className="pb-1">
+                            <span className="text-micro text-[rgba(21,21,21,0.35)] block mb-1">Context</span>
+                            <span className="text-[rgba(21,21,21,0.52)] font-medium text-lg block mb-2">
+                                Trading Application
+                            </span>
+                            <span className="text-[rgba(21,21,21,0.40)] font-semibold text-sm">
+                                Software Developer Intern — May–Aug 2026
+                            </span>
+                        </div>
+                    </div>
+                </motion.div>
 
-                        {/* Right: internship photos or phase diagram */}
-                        <div className="flex flex-col gap-6">
-                            {/* Pipeline diagram for MW/DW */}
-                            {activeWorkstream === 'mwdw' && (
-                                <div className="bg-soft rounded-[20px] p-6">
-                                    <p className="text-micro text-[rgba(21,21,21,0.40)] mb-6">Research pipeline phases</p>
-                                    <div className="space-y-0">
-                                        {[
-                                            { n: '01', label: 'Data Quality', desc: 'Validation & audit' },
-                                            { n: '02', label: 'Wave Detection', desc: 'Algorithm implementation' },
-                                            { n: '03', label: 'MW/DW State', desc: 'State tracking & logging' },
-                                            { n: '04', label: 'Events / Excursions', desc: 'Analysis pipeline' },
-                                            { n: '05', label: 'Analytics / Heatmaps', desc: 'Visualization output' },
-                                        ].map((phase, i) => (
-                                            <div key={phase.n} className="flex gap-5 items-start">
-                                                <div className="flex flex-col items-center">
-                                                    <span className="text-micro text-acid w-6 text-center">{phase.n}</span>
-                                                    {i < 4 && <div className="w-px h-8 bg-[rgba(21,21,21,0.10)] mt-1" />}
-                                                </div>
-                                                <div className="pb-5">
-                                                    <p className="text-[0.9375rem] font-semibold text-ink">{phase.label}</p>
-                                                    <p className="text-[0.8125rem] text-[rgba(21,21,21,0.44)]">{phase.desc}</p>
+                {/* Workstream content - sequential editorial chapters */}
+                <div className="mt-[clamp(2rem,6dvh,4rem)]">
+                    {WORKSTREAMS.map((active, index) => {
+                        const isReversed = active.key === 'tggd';
+                        
+                        return (
+                            <motion.div
+                                key={active.key}
+                                initial={{ opacity: 0, y: 16 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true, margin: '-60px' }}
+                                transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                                className="relative border-t border-[rgba(21,21,21,0.12)] py-[clamp(4rem,10dvh,6rem)] overflow-hidden"
+                            >
+                                {/* Background Image Layer (only for crm and tggd) */}
+                                {(active.key === 'crm' || active.key === 'tggd') && (
+                                    <BackgroundVisual
+                                        src={active.key === 'crm' ? '/images/03-tg-levels-crm.png' : '/images/02-tg-levels-chart.png'}
+                                        theme="light"
+                                        imageType="technical"
+                                        contentAlignment={isReversed ? 'right' : 'left'}
+                                        focalPosition={isReversed ? 'object-left lg:object-left' : 'object-right'}
+                                    />
+                                )}
+
+                                <div className={`relative z-10 grid grid-cols-1 gap-[clamp(3rem,8dvh,6rem)] items-center ${
+                                    isReversed ? 'lg:grid-cols-[55%_1fr]' : 'lg:grid-cols-[1fr_45%]'
+                                }`}>
+                                    {/* Text Content Column */}
+                                    <div className={`flex flex-col ${isReversed ? 'order-1 lg:order-2 lg:pl-8' : 'order-1 lg:pr-8'}`}>
+                                        <span className="text-micro text-[rgba(21,21,21,0.40)] font-bold block mb-[clamp(0.75rem,2dvh,1rem)] tracking-wider uppercase">
+                                            0{index + 1} — {active.label}
+                                        </span>
+                                        <h3 className="text-ink font-bold tracking-[-0.03em] mb-[clamp(1.5rem,3dvh,2rem)] text-[clamp(1.5rem,min(3vw,4dvh),2.25rem)] leading-snug">
+                                            {active.role}
+                                        </h3>
+                                        <p className="text-[rgba(21,21,21,0.65)] text-[clamp(1rem,min(1.5vw,2.5dvh),1.125rem)] leading-relaxed mb-[clamp(1.5rem,3dvh,2rem)] max-w-[540px]">
+                                            {active.description}
+                                        </p>
+
+                                        <ul className="space-y-3 mb-[clamp(2rem,4dvh,3rem)]">
+                                            {active.bullets.map((bullet) => (
+                                                <li key={bullet} className="flex items-start gap-3 text-[0.9375rem] text-[rgba(21,21,21,0.60)]">
+                                                    <span className="mt-2 w-1.5 h-1.5 rounded-full bg-[rgba(21,21,21,0.2)] flex-shrink-0" aria-hidden="true" />
+                                                    {bullet}
+                                                </li>
+                                            ))}
+                                        </ul>
+
+                                        <div className="flex flex-wrap gap-1.5">
+                                            {active.tech.map((t) => (
+                                                <span key={t} className="tech-tag border-[rgba(21,21,21,0.1)] text-[rgba(21,21,21,0.6)] bg-paper/60 backdrop-blur-sm">{t}</span>
+                                            ))}
+                                        </div>
+                                    </div>
+
+                                    {/* Right/Left Spacer Column */}
+                                    <div className={`relative z-10 w-full h-full flex flex-col justify-center ${isReversed ? 'order-2 lg:order-1' : 'order-2'}`}>
+                                        {active.key === 'mwdw' ? (
+                                            /* MW/DW Pipeline structure */
+                                            <div className="pl-6 lg:pl-10 border-l border-[rgba(21,21,21,0.15)] py-4">
+                                                <div className="space-y-[clamp(1.5rem,3dvh,2rem)]">
+                                                    {[
+                                                        { n: '01', label: 'Data Quality', desc: 'Validation & audit' },
+                                                        { n: '02', label: 'Wave Detection', desc: 'Algorithm implementation' },
+                                                        { n: '03', label: 'MW/DW State', desc: 'State tracking & logging' },
+                                                        { n: '04', label: 'Events / Excursions', desc: 'Analysis pipeline' },
+                                                        { n: '05', label: 'Analytics / Heatmaps', desc: 'Visualization output' },
+                                                    ].map((phase, i) => (
+                                                        <div key={phase.n} className="flex gap-6 items-start group/phase">
+                                                            <span className="text-micro text-[rgba(21,21,21,0.3)] group-hover/phase:text-ink transition-colors font-bold w-6">{phase.n}</span>
+                                                            <div>
+                                                                <p className="text-[0.9375rem] font-semibold text-ink leading-tight">{phase.label}</p>
+                                                                <p className="text-[0.8125rem] text-[rgba(21,21,21,0.5)] mt-0.5">{phase.desc}</p>
+                                                            </div>
+                                                        </div>
+                                                    ))}
                                                 </div>
                                             </div>
-                                        ))}
+                                        ) : (
+                                            /* Empty spacer block to allow the background image to occupy meaningful space */
+                                            <div className="w-full h-[240px] lg:h-[480px] pointer-events-none" />
+                                        )}
                                     </div>
                                 </div>
-                            )}
-
-                            {/* Internship certs for CRM/TGGD */}
-                            {activeWorkstream !== 'mwdw' && tgCerts.length > 0 && (
-                                <div>
-                                    <p className="text-micro text-[rgba(21,21,21,0.38)] mb-4">Internship certificates</p>
-                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                                        {tgCerts.map((cert: InternshipCert, i: number) => (
-                                            <InternshipCertCard
-                                                key={i}
-                                                title={cert.title}
-                                                image={cert.image}
-                                                onOpen={openModal}
-                                            />
-                                        ))}
-                                    </div>
-                                </div>
-                            )}
-
-                            {/* Office photos — CRM only */}
-                            {activeWorkstream === 'crm' && (
-                                <div>
-                                    <p className="text-micro text-[rgba(21,21,21,0.38)] mb-4">@ Mentorchamp EdTech Pvt. Ltd. (TG Levels)</p>
-                                    <div className="grid grid-cols-3 gap-2">
-                                        {[
-                                            '/images/WhatsApp Image 2026-08-11 at 6.33.47 PM.jpeg',
-                                            '/images/WhatsApp Image 2026-08-12 at 3.00.01 PM.jpeg',
-                                            '/images/WhatsApp Image 2026-08-12 at 3.00.05 PM.jpeg',
-                                        ].map((src, i) => (
-                                            <div
-                                                key={i}
-                                                className="relative aspect-[3/4] overflow-hidden rounded-[12px]"
-                                                style={{ transform: i === 1 ? 'translateY(-8px)' : i === 2 ? 'translateY(4px)' : 'none' }}
-                                            >
-                                                <Image
-                                                    src={src}
-                                                    alt={`TG Levels internship — photo ${i + 1}`}
-                                                    fill
-                                                    sizes="(max-width:768px) 33vw, 120px"
-                                                    className="object-cover"
-                                                    loading="lazy"
-                                                />
-                                            </div>
-                                        ))}
-                                    </div>
-                                </div>
-                            )}
-                        </div>
-                    </motion.div>
-                </AnimatePresence>
+                            </motion.div>
+                        );
+                    })}
+                </div>
 
                 {/* MIRA Experience */}
                 <motion.div
-                    className="mt-20 md:mt-28 pt-10 border-t border-[rgba(21,21,21,0.10)]"
+                    className="mt-[clamp(4rem,8dvh,7rem)] pt-[clamp(2rem,5dvh,2.5rem)] border-t border-[rgba(21,21,21,0.10)]"
                     variants={fadeUp(0.1)}
                     initial="hidden"
                     whileInView="visible"
                     viewport={{ once: true, margin: '-60px' }}
                 >
-                    <div className="grid grid-cols-1 md:grid-cols-[280px_1fr_140px] gap-6 md:gap-12">
+                    <div className="grid grid-cols-1 md:grid-cols-[280px_1fr_140px] gap-[clamp(1.5rem,4dvh,3rem)]">
                         <div>
                             <span className="text-micro text-[rgba(21,21,21,0.30)] block mb-3">Previous</span>
                             <h3 className="text-ink font-bold text-xl tracking-[-0.025em] mb-1">
@@ -356,7 +304,7 @@ export const TGLevelsStory = () => {
 
                 {/* Certifications Carousel */}
                 <motion.div
-                    className="mt-20 md:mt-28"
+                    className="mt-[clamp(4rem,8dvh,7rem)]"
                     variants={fadeUp(0.12)}
                     initial="hidden"
                     whileInView="visible"

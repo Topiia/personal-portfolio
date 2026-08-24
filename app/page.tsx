@@ -3,8 +3,7 @@ import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
 import { Hero } from '@/components/sections/Hero';
 import { ManifestoSection } from '@/components/sections/ManifestoSection';
-import { VisualBreak } from '@/components/sections/VisualBreak';
-import { SelectedWork } from '@/components/sections/SelectedWork';
+
 import { FeaturedCapsule } from '@/components/sections/FeaturedCapsule';
 import { ProjectIndex } from '@/components/sections/ProjectIndex';
 import { EngineeringCapabilities } from '@/components/sections/EngineeringCapabilities';
@@ -30,12 +29,6 @@ export default function Home() {
 
             {/* 03 — Engineering Manifesto (INK) */}
             <ManifestoSection />
-
-            {/* 04 — Atmospheric Landscape (Visual break) */}
-            <VisualBreak />
-
-            {/* 05 — Selected Work (PAPER) */}
-            <SelectedWork />
 
             {/* 06 — Capsule Flagship (INK) */}
             <FeaturedCapsule />
