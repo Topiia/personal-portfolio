@@ -5,7 +5,6 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { getNavigation } from '@/lib/data-loader';
-import { Button } from '@/components/ui/Button';
 import { cn } from '@/lib/utils';
 import { ThemeToggle } from '@/components/ui/ThemeToggle';
 
@@ -21,7 +20,6 @@ export const Navbar = () => {
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
-    // Prevent body scroll when mobile menu is open
     useEffect(() => {
         document.body.style.overflow = mobileMenuOpen ? 'hidden' : '';
         return () => { document.body.style.overflow = ''; };
@@ -48,109 +46,132 @@ export const Navbar = () => {
 
     return (
         <>
-            <motion.nav
+            <motion.header
                 className={cn(
                     'fixed top-0 left-0 right-0 z-50 transition-all duration-500',
                     scrolled || mobileMenuOpen
-                        ? 'backdrop-blur-xl bg-surface/80 border-b border-border/10 shadow-lg shadow-black/5 py-4'
-                        : 'bg-transparent py-6'
+                        ? 'bg-[var(--color-background)]/95 backdrop-blur-md border-b border-[var(--color-rule)]'
+                        : 'bg-transparent'
                 )}
-                initial={{ y: -100 }}
-                animate={{ y: 0 }}
-                transition={{ duration: 0.8, ease: 'circOut' }}
+                initial={{ y: -100, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
             >
-                <div className="container mx-auto px-6 max-w-[1200px]">
-                    <div className="flex items-center justify-between">
-                        {/* Logo */}
+                {/* Top accent rule — only when not scrolled */}
+                <div
+                    className={cn(
+                        'h-[2px] w-full bg-[var(--color-accent)] transition-opacity duration-500',
+                        scrolled ? 'opacity-0' : 'opacity-100'
+                    )}
+                />
+
+                <div className="max-w-[1320px] mx-auto px-6 md:px-10">
+                    <div className="flex items-center justify-between h-14">
+
+                        {/* Logo — text monogram */}
                         <Link
                             href="/"
                             onClick={() => setMobileMenuOpen(false)}
-                            className="relative z-50 flex items-center"
+                            className="relative z-50 group"
+                            aria-label="Ankit Singh — home"
                         >
-                            <img
-                                src="/topiiaa_icon.ico"
-                                alt="Ankit Singh"
-                                className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 rounded-lg object-contain hover:scale-110 transition-transform duration-300"
-                            />
+                            <span
+                                className="font-mono text-sm font-bold tracking-[0.18em] text-[var(--color-textPrimary)] group-hover:text-[var(--color-accent)] transition-colors duration-200"
+                                style={{ fontFamily: 'var(--font-mono)' }}
+                            >
+                                AS
+                            </span>
                         </Link>
 
-                        {/* Desktop Menu */}
-                        <div className="hidden md:flex items-center space-x-8 min-w-0 overflow-hidden">
+                        {/* Desktop nav links */}
+                        <nav className="hidden md:flex items-center gap-8" aria-label="Primary navigation">
                             {navigation.mainMenu.map((item) => (
                                 <Link
                                     key={item.label}
                                     href={item.href}
                                     onClick={(e) => handleSmoothScroll(e, item.href)}
-                                    className="relative text-textMuted hover:text-textPrimary transition-colors font-medium group"
+                                    className={cn(
+                                        'relative mono-label text-[var(--color-textMuted)] hover:text-[var(--color-textPrimary)] transition-colors duration-200 nav-dot'
+                                    )}
                                 >
                                     {item.label}
-                                    <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-accent to-primary group-hover:w-full transition-all duration-300" />
                                 </Link>
                             ))}
-                            <div className="pl-4 border-l border-border/20">
-                                <ThemeToggle />
-                            </div>
-                        </div>
+                        </nav>
 
-                        {/* Desktop CTA */}
-                        <div className="hidden md:flex items-center space-x-3">
-                            {navigation.ctaButtons.map((btn) =>
-                                btn.variant === 'icon' ? (
-                                    <a key={btn.label} href={btn.href} target="_blank" rel="noopener noreferrer" className="text-textMuted hover:text-textHeading transition-all hover:scale-105">
-                                        <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" /></svg>
-                                    </a>
-                                ) : btn.type === 'download' ? (
-                                    <a
-                                        key={btn.label}
-                                        href="/resume.pdf"
-                                        download="Ankit_Singh_Resume.pdf"
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="inline-flex items-center justify-center px-4 py-2 text-sm rounded-lg border border-border/40 text-textPrimary hover:text-accent hover:border-accent/40 transition-all duration-300"
-                                    >
-                                        {btn.label}
-                                    </a>
-                                ) : null
-                            )}
-                            {/* AI Chat — solid button, always visible regardless of nav scroll state */}
+                        {/* Desktop right actions */}
+                        <div className="hidden md:flex items-center gap-4">
+                            {/* Resume link */}
+                            <a
+                                href="/resume.pdf"
+                                download="Ankit_Singh_Resume.pdf"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="mono-label text-[var(--color-textMuted)] hover:text-[var(--color-textPrimary)] transition-colors duration-200 flex items-center gap-1"
+                            >
+                                Resume
+                                <svg width="10" height="10" viewBox="0 0 10 10" fill="none" className="opacity-50">
+                                    <path d="M2 8L8 2M8 2H3M8 2V7" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/>
+                                </svg>
+                            </a>
+
+                            {/* GitHub icon */}
+                            <a
+                                href="https://github.com/Topiia"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-[var(--color-textMuted)] hover:text-[var(--color-textPrimary)] transition-colors duration-200"
+                                aria-label="GitHub profile"
+                            >
+                                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+                                </svg>
+                            </a>
+
+                            {/* Ask Ankit CTA pill */}
                             <a
                                 href="/ai-chat"
-                                className="hidden md:inline-flex items-center gap-2 px-3 py-2 rounded-full bg-accent text-white font-semibold whitespace-nowrap hover:opacity-90 hover:shadow-lg hover:shadow-accent/30 transition-all duration-300 text-xs lg:text-sm"
+                                className="inline-flex items-center gap-2 px-4 py-2 text-[0.6875rem] font-bold tracking-[0.12em] uppercase rounded-sm bg-[var(--color-accent)] text-[var(--color-button-text)] hover:opacity-90 transition-opacity duration-200"
+                                style={{ fontFamily: 'var(--font-mono)' }}
                             >
-                                <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg className="w-3 h-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
                                 </svg>
-                                <span className="hidden lg:inline">Talk With AI About Me</span>
-                                <span className="lg:hidden">Ask AI</span>
+                                Ask Ankit
                             </a>
                         </div>
 
-                        {/* Mobile Toggle — Logo | Ask AI | Hamburger (ThemeToggle moved into drawer) */}
-                        <div className="md:hidden flex items-center gap-2 relative z-50">
-                            {/* Ask AI pill: icon-only on <380px, icon+text on ≥380px */}
+                        {/* Mobile: Ask AI + Hamburger */}
+                        <div className="md:hidden flex items-center gap-3 relative z-50">
                             <a
                                 href="/ai-chat"
-                                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-accent text-white text-xs font-semibold whitespace-nowrap flex-shrink-0 hover:opacity-90 transition-all duration-300"
+                                className="inline-flex items-center gap-1.5 px-3 py-1.5 text-[0.625rem] font-bold tracking-[0.1em] uppercase rounded-sm bg-[var(--color-accent)] text-[var(--color-button-text)]"
+                                style={{ fontFamily: 'var(--font-mono)' }}
                             >
-                                <svg className="w-3.5 h-3.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
                                 </svg>
-                                <span className="hidden xs:inline">Ask AI</span>
+                                Ask
                             </a>
+
                             <button
                                 onClick={() => setMobileMenuOpen(prev => !prev)}
-                                className="text-textHeading p-2 focus:outline-none"
+                                className="flex flex-col gap-[5px] p-1 text-[var(--color-textPrimary)]"
                                 aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
                                 aria-expanded={mobileMenuOpen}
                             >
                                 <AnimatePresence mode="wait" initial={false}>
                                     {mobileMenuOpen ? (
-                                        <motion.svg key="close" className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" initial={{ rotate: -90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: 90, opacity: 0 }} transition={{ duration: 0.2 }}>
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                                        <motion.svg key="close" className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                            initial={{ rotate: -45, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: 45, opacity: 0 }}
+                                            transition={{ duration: 0.15 }}>
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M6 18L18 6M6 6l12 12" />
                                         </motion.svg>
                                     ) : (
-                                        <motion.svg key="open" className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" initial={{ rotate: 90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: -90, opacity: 0 }} transition={{ duration: 0.2 }}>
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                                        <motion.svg key="open" className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+                                            transition={{ duration: 0.15 }}>
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 6h16M4 12h16M4 18h7" />
                                         </motion.svg>
                                     )}
                                 </AnimatePresence>
@@ -158,14 +179,14 @@ export const Navbar = () => {
                         </div>
                     </div>
                 </div>
-            </motion.nav>
+            </motion.header>
 
-            {/* Mobile Drawer Overlay */}
+            {/* Mobile Drawer */}
             <AnimatePresence>
                 {mobileMenuOpen && (
                     <motion.div
-                        key="mobile-menu"
-                        className="fixed inset-0 z-40 md:hidden flex flex-col pt-[72px]"
+                        key="mobile-drawer"
+                        className="fixed inset-0 z-40 md:hidden flex flex-col"
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
@@ -173,53 +194,52 @@ export const Navbar = () => {
                     >
                         {/* Backdrop */}
                         <div
-                            className="absolute inset-0 bg-background/95 backdrop-blur-xl"
+                            className="absolute inset-0 bg-[var(--color-background)]/98 backdrop-blur-md"
                             onClick={() => setMobileMenuOpen(false)}
                         />
 
-                        {/* Link list */}
                         <motion.nav
-                            className="relative z-10 flex flex-col px-6 py-8 gap-2 overflow-y-auto"
-                            initial={{ y: -20, opacity: 0 }}
+                            className="relative z-10 flex flex-col px-6 pt-24 pb-8 gap-0"
+                            initial={{ y: -16, opacity: 0 }}
                             animate={{ y: 0, opacity: 1 }}
-                            exit={{ y: -20, opacity: 0 }}
-                            transition={{ duration: 0.25, delay: 0.05 }}
+                            exit={{ y: -8, opacity: 0 }}
+                            transition={{ duration: 0.22, delay: 0.05 }}
+                            aria-label="Mobile navigation"
                         >
-                            {/* Theme toggle row at top of drawer */}
-                            <div className="flex items-center justify-between px-4 py-2 mb-2">
-                                <span className="text-sm text-textMuted font-medium">Theme</span>
-                                <ThemeToggle />
-                            </div>
-                            <div className="h-px bg-border/20 mb-2" />
                             {navigation.mainMenu.map((item, i) => (
                                 <motion.button
                                     key={item.label}
                                     onClick={() => handleMobileNavClick(item.href)}
-                                    className="w-full text-left py-3 px-4 text-lg font-medium text-textPrimary hover:text-accent hover:bg-accent/5 rounded-xl transition-all"
-                                    initial={{ opacity: 0, x: -16 }}
-                                    animate={{ opacity: 1, x: 0 }}
-                                    transition={{ delay: 0.08 + i * 0.05 }}
+                                    className="w-full text-left py-5 border-b border-[var(--color-rule)] text-3xl font-bold font-outfit text-[var(--color-textPrimary)] hover:text-[var(--color-accent)] transition-colors duration-200 tracking-tight"
+                                    initial={{ opacity: 0, y: 12 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ delay: 0.06 + i * 0.05 }}
                                 >
                                     {item.label}
                                 </motion.button>
                             ))}
 
-                            {/* Divider */}
-                            <div className="my-3 h-px bg-border/20" />
-
-                            {/* AI Chat CTA */}
-                            <motion.button
-                                onClick={() => handleMobileNavClick('/ai-chat')}
-                                className="w-full text-left py-3 px-4 text-lg font-semibold text-accent hover:bg-accent/10 rounded-xl transition-all flex items-center gap-3"
-                                initial={{ opacity: 0, x: -16 }}
-                                animate={{ opacity: 1, x: 0 }}
-                                transition={{ delay: 0.08 + navigation.mainMenu.length * 0.05 }}
+                            <motion.div
+                                className="mt-8 flex items-center justify-between"
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                transition={{ delay: 0.06 + navigation.mainMenu.length * 0.05 + 0.05 }}
                             >
-                                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-                                </svg>
-                                Talk With AI About Me
-                            </motion.button>
+                                <a
+                                    href="/resume.pdf"
+                                    download="Ankit_Singh_Resume.pdf"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="mono-label text-[var(--color-textMuted)] hover:text-[var(--color-textPrimary)] transition-colors"
+                                    onClick={() => setMobileMenuOpen(false)}
+                                >
+                                    Resume ↗
+                                </a>
+                                <div className="flex items-center gap-3">
+                                    <span className="mono-label">Theme</span>
+                                    <ThemeToggle />
+                                </div>
+                            </motion.div>
                         </motion.nav>
                     </motion.div>
                 )}

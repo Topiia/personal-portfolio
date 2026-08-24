@@ -6,7 +6,7 @@ import { Skills } from '@/components/sections/Skills';
 import { ExperienceTimeline } from '@/components/sections/ExperienceTimeline';
 import { Services } from '@/components/sections/Services';
 import { Contact } from '@/components/sections/Contact';
-import { BackgroundLogos } from '@/components/background/BackgroundLogos';
+
 import { getFlagshipProjects, getNonFeaturedProjects } from '@/lib/data-loader';
 
 export default function Home() {
@@ -15,7 +15,7 @@ export default function Home() {
 
     return (
         <main className="min-h-screen">
-            <BackgroundLogos />
+
             <Navbar />
             <Hero />
             <ProjectsGrid flagshipProjects={flagshipProjects} projects={projects} />
