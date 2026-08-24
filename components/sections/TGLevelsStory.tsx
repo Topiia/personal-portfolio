@@ -145,11 +145,11 @@ export const TGLevelsStory = () => {
                     <span className="text-micro text-[rgba(21,21,21,0.38)] block mb-[clamp(0.75rem,2dvh,1rem)]">
                         05 / EXPERIENCE
                     </span>
-                    
+
                     <div className="grid grid-cols-1 lg:grid-cols-[1fr_400px] gap-[clamp(2rem,5dvh,4rem)] items-end">
                         <div>
                             <h3 className="text-ink font-semibold tracking-[-0.02em] block mb-[clamp(0.75rem,2dvh,1rem)] text-xl">
-                                TG Levels
+                                Software Developer Intern — May–Aug 2026
                             </h3>
                             <h2
                                 className="text-ink font-bold tracking-[-0.04em] leading-[0.94]"
@@ -163,8 +163,8 @@ export const TGLevelsStory = () => {
                             <span className="text-[rgba(21,21,21,0.52)] font-medium text-lg block mb-2">
                                 Trading Application
                             </span>
-                            <span className="text-[rgba(21,21,21,0.40)] font-semibold text-sm">
-                                Software Developer Intern — May–Aug 2026
+                            <span className="text-[rgba(21,21,21,0.40)] font-semibold text-lg">
+                                TG Levels
                             </span>
                         </div>
                     </div>
@@ -174,7 +174,7 @@ export const TGLevelsStory = () => {
                 <div className="mt-[clamp(2rem,6dvh,4rem)]">
                     {WORKSTREAMS.map((active, index) => {
                         const isReversed = active.key === 'tggd';
-                        
+
                         return (
                             <motion.div
                                 key={active.key}
@@ -195,9 +195,8 @@ export const TGLevelsStory = () => {
                                     />
                                 )}
 
-                                <div className={`relative z-10 grid grid-cols-1 gap-[clamp(3rem,8dvh,6rem)] items-center ${
-                                    isReversed ? 'lg:grid-cols-[55%_1fr]' : 'lg:grid-cols-[1fr_45%]'
-                                }`}>
+                                <div className={`relative z-10 grid grid-cols-1 gap-[clamp(3rem,8dvh,6rem)] items-center ${isReversed ? 'lg:grid-cols-[55%_1fr]' : 'lg:grid-cols-[1fr_45%]'
+                                    }`}>
                                     {/* Text Content Column */}
                                     <div className={`flex flex-col ${isReversed ? 'order-1 lg:order-2 lg:pl-8' : 'order-1 lg:pr-8'}`}>
                                         <span className="text-micro text-[rgba(21,21,21,0.40)] font-bold block mb-[clamp(0.75rem,2dvh,1rem)] tracking-wider uppercase">
